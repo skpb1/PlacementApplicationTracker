@@ -1,4 +1,4 @@
-package main.java.placementApplicationTracker;
+package main.java.placementApplicationTracker.menu;
 
 import main.java.placementApplicationTracker.model.Student;
 import main.java.placementApplicationTracker.service.StudentService;

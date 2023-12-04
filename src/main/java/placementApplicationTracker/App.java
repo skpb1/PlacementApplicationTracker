@@ -1,5 +1,6 @@
 package main.java.placementApplicationTracker;
 
+import main.java.placementApplicationTracker.menu.StudentMenu;
 import main.java.placementApplicationTracker.repo.PlacementRepository;
 import main.java.placementApplicationTracker.service.AuthenticationService;
 

@@ -125,4 +125,20 @@ public class ApplicationService {
 			}
 		}
 	}
+
+	public static boolean updateApplication(int applicationId, String resumeContent, String coverLetter) {
+		String query = "UPDATE Application SET Resume = ?, CoverLetter = ? WHERE ApplicationId = ?";
+
+		try (Connection connection = PlacementRepository.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setString(1, resumeContent);
+			statement.setString(2, coverLetter);
+			statement.setInt(3, applicationId);
+			int rowsAffected = statement.executeUpdate();
+			return rowsAffected > 0;
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "Error getting Application details", e);
+			return false;
+		}
+	}
 }

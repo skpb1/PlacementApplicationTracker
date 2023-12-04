@@ -1,4 +1,4 @@
-package main.java.placementApplicationTracker;
+package main.java.placementApplicationTracker.menu;
 
 import java.util.List;
 import java.util.Scanner;
@@ -25,6 +25,9 @@ public class StudentApplicationMenu {
 					System.out.println();
 					System.out.println("No applications to display. You have not applied to any opportunities");
 					System.out.println();
+					
+					System.out.println("Please press enter to continue");
+					System.out.println();
 
 				} else {
 					applications.forEach(item -> {
@@ -41,16 +44,15 @@ public class StudentApplicationMenu {
 				System.out.println();
 
 				System.out.println("Please Choose an option:");
-				System.out.println("1. View Application");
-				System.out.println("2. Withdraw an Application");
-				System.out.println("3. Go back");
+				System.out.println("1. Manage an Application");
+				System.out.println("2. Go back");
 				System.out.println();
 
 				int option = scanner.nextInt();
 
 				switch (option) {
 				case 1:
-					System.out.println("Selected: View Application");
+					System.out.println("Selected: Manage an Application");
 					System.out.println();
 					
 					System.out.println("Enter the Application ID:");
@@ -59,34 +61,6 @@ public class StudentApplicationMenu {
 					StudentApplicationDetailMenu.displayMenu(appId, scanner);
 					break;
 				case 2:
-					System.out.println("Selected: Withdraw an Application");
-					System.out.println();
-					
-					System.out.println("Enter the Application ID:");
-					int id = scanner.nextInt();
-					System.out.println();
-					System.out.println("Are you sure you want to withdraw this application (Y/N)");
-					
-					scanner.nextLine();
-					String choice = scanner.nextLine();
-					
-					if (choice.equals("Y") || choice.equals("y")) {
-						try {
-							boolean isUpdated = ApplicationService.withdrawApplicationByAppId(id);
-
-                            if (isUpdated) {
-                                System.out.println("Application has been withdrawn successfully.");
-                                System.out.println();
-                            } else {
-                                System.out.println("Failed to withdraw the application.");
-                                System.out.println();
-                            }
-						} catch (Exception e) {
-                            LOGGER.log(Level.SEVERE, "Error updating application details", e);
-                        }
-					}
-					break;
-				case 3:
 					System.out.println("Selected: Go back");
 					System.out.println();
 					isRunning = false;

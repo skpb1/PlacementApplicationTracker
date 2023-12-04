@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Assessment {
     private int assessmentId;
-    private int opportunityId;
+    private int applicationId;
     private Timestamp dateTime;
     private String status;
     private String details;
@@ -14,9 +14,9 @@ public class Assessment {
     public Assessment() {
     }
 
-    public Assessment(int assessmentId, int opportunityId, Timestamp dateTime, String status, String details) {
+    public Assessment(int assessmentId, int applicationId, Timestamp dateTime, String status, String details) {
         this.assessmentId = assessmentId;
-        this.opportunityId = opportunityId;
+        this.applicationId = applicationId;
         this.dateTime = dateTime;
         this.status = status;
         this.details = details;
@@ -32,12 +32,12 @@ public class Assessment {
         this.assessmentId = assessmentId;
     }
 
-    public int getOpportunityId() {
-        return opportunityId;
+    public int getApplicationId() {
+        return applicationId;
     }
 
-    public void setOpportunityId(int opportunityId) {
-        this.opportunityId = opportunityId;
+    public void setApplicationId(int applicationId) {
+        this.applicationId = applicationId;
     }
 
     public Timestamp getDateTime() {

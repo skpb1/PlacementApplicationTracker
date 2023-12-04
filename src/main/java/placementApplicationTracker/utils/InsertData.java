@@ -130,7 +130,7 @@ public class InsertData {
             }
         }
     }
-
+    
     public static void insertFeedbackData(Connection connection, int feedbackId, int applicationId, int adminId, String comments, String dateTime) throws SQLException {
         if (!isDataExists(connection, "Feedback", "FeedbackId", feedbackId)) {
             String insertDataSQL = "INSERT INTO Feedback (FeedbackId, ApplicationId, AdminId, Comments, DateTime) VALUES (?, ?, ?, ?, ?)";
@@ -140,6 +140,21 @@ public class InsertData {
                 statement.setInt(3, adminId);
                 statement.setString(4, comments);
                 statement.setTimestamp(5, Timestamp.valueOf(dateTime + " 00:00:00"));
+                statement.executeUpdate();
+            }
+        }
+    }
+
+    public static void insertInterviewData(Connection connection, int interviewId, int applicationId, int adminId, String status, String type, String dateTime) throws SQLException {
+        if (!isDataExists(connection, "Interview", "InterviewId", interviewId)) {
+            String insertDataSQL = "INSERT INTO Interview (InterviewId, ApplicationId, AdminId, Status, Type, DateTime) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
+                statement.setInt(1, interviewId);
+                statement.setInt(2, applicationId);
+                statement.setInt(3, adminId);
+                statement.setString(4, status);
+                statement.setString(5, type);
+                statement.setTimestamp(6, Timestamp.valueOf(dateTime + " 00:00:00"));
                 statement.executeUpdate();
             }
         }

@@ -1,4 +1,4 @@
-package main.java.placementApplicationTracker;
+package main.java.placementApplicationTracker.menu;
 
 import java.util.List;
 import java.util.Scanner;
