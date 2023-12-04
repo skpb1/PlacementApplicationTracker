@@ -29,23 +29,27 @@ public class PlacementRepository {
 	public static void createTables(Connection connection) {
 
 		try {
-//    		String dropStudent = "DROP TABLE Student";
-//    		String dropAdmin = "DROP TABLE Admin";
-//    		String dropOpp = "DROP TABLE Opportunity";
-//    		String dropApplication = "DROP TABLE Application";
-//    		String dropAssessment = "DROP TABLE Assessment";
-//    		String dropFeedback = "DROP TABLE Feedback";
-//            try (Statement statement = connection.createStatement()) {
-//                statement.execute(dropStudent);
-//                statement.execute(dropAdmin);
-//                statement.execute(dropOpp);
-//                statement.execute(dropApplication);
-//                statement.execute(dropAssessment);
-//                statement.execute(dropFeedback);
-//            } catch (SQLException e) {
-//                LOGGER.log(Level.SEVERE, "Error while deleting table", e);
-//                throw new RuntimeException("Error creating Admin table", e);
-//            }
+			String dropStudent = "DROP TABLE Student";
+			String dropAdmin = "DROP TABLE Admin";
+			String dropOpp = "DROP TABLE Opportunity";
+			String dropApplication = "DROP TABLE Application";
+			String dropAssessment = "DROP TABLE Assessment";
+			String dropFeedback = "DROP TABLE Feedback";
+			String dropVisit = "DROP TABLE Visit";
+			String dropInterview = "DROP TABLE Interview";
+			try (Statement statement = connection.createStatement()) {
+				statement.execute(dropStudent);
+				statement.execute(dropAdmin);
+				statement.execute(dropOpp);
+				statement.execute(dropApplication);
+				statement.execute(dropAssessment);
+				statement.execute(dropFeedback);
+				statement.execute(dropVisit);
+				statement.execute(dropInterview);
+			} catch (SQLException e) {
+				LOGGER.log(Level.SEVERE, "Error while deleting table", e);
+				throw new RuntimeException("Error deleting table", e);
+			}
 			List<String> tablesToCreate = new ArrayList<>();
 
 			if (!isTableCreated(connection, "Admin")) {
@@ -199,10 +203,9 @@ public class PlacementRepository {
 
 	private static void createAssessmentTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Assessment ("
-				+ "AssessmentId INTEGER PRIMARY KEY AUTOINCREMENT," + "AdminId INTEGER," + "ApplicationId INTEGER,"
-				+ "DateTime TIMESTAMP," + "Status TEXT," + "Details TEXT,"
-				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))"
-				+ "FOREIGN KEY (AdminId) REFERENCES Admin(AdminId))";
+				+ "AssessmentId INTEGER PRIMARY KEY AUTOINCREMENT," + "ApplicationId INTEGER," + "DateTime TIMESTAMP,"
+				+ "Status TEXT," + "Details TEXT,"
+				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
 			InsertData.insertAssessmentData(connection, 1, 1, "2023-02-25", "Scheduled",
@@ -217,9 +220,8 @@ public class PlacementRepository {
 
 	private static void createVisitTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Visit (" + "VisitId INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "AdminId INTEGER," + "ApplicationId INTEGER," + "DateTime TIMESTAMP," + "Status TEXT,"
-				+ "Details TEXT," + "FOREIGN KEY (ApplicationId) REFERENCES Opportunity(ApplicationId))"
-				+ "FOREIGN KEY (AdminId) REFERENCES Admin(AdminId))";
+				+ "ApplicationId INTEGER," + "DateTime TIMESTAMP," + "Status TEXT," + "Details TEXT,"
+				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
 			InsertData.insertVisitData(connection, 1, 1, "2023-03-05", "Scheduled",
@@ -234,14 +236,13 @@ public class PlacementRepository {
 
 	private static void createInterviewTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Interview ("
-				+ "InterviewId INTEGER PRIMARY KEY AUTOINCREMENT," + "ApplicationId INTEGER," + "AdminId INTEGER,"
-				+ "Status TEXT," + "Type TEXT," + "DateTime TIMESTAMP,"
-				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId),"
-				+ "FOREIGN KEY (AdminId) REFERENCES Admin(AdminId))";
+				+ "InterviewId INTEGER PRIMARY KEY AUTOINCREMENT," + "ApplicationId INTEGER," + "Status TEXT,"
+				+ "Type TEXT," + "DateTime TIMESTAMP,"
+				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
-			InsertData.insertInterviewData(connection, 1, 1, 1, "Scheduled", "Technical", "2023-03-10");
-			InsertData.insertInterviewData(connection, 2, 2, 1, "Scheduled", "HR", "2023-03-12");
+			InsertData.insertInterviewData(connection, 1, 1, "Scheduled", "Technical", "2023-03-10");
+			InsertData.insertInterviewData(connection, 2, 2, "Scheduled", "HR", "2023-03-12");
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE, "Error creating Interview table", e);
 			throw new RuntimeException("Error creating Interview table", e);
@@ -250,14 +251,12 @@ public class PlacementRepository {
 
 	private static void createFeedbackTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Feedback ("
-				+ "FeedbackId INTEGER PRIMARY KEY AUTOINCREMENT," + "ApplicationId INTEGER," + "AdminId INTEGER,"
-				+ "Comments TEXT," + "DateTime TIMESTAMP,"
-				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId),"
-				+ "FOREIGN KEY (AdminId) REFERENCES Admin(AdminId))";
+				+ "FeedbackId INTEGER PRIMARY KEY AUTOINCREMENT," + "ApplicationId INTEGER," + "Comments TEXT,"
+				+ "DateTime TIMESTAMP," + "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
-			InsertData.insertFeedbackData(connection, 1, 1, 1, "Good performance in the assessment", "2023-03-10");
-			InsertData.insertFeedbackData(connection, 2, 2, 1, "Further improvements needed", "2023-03-12");
+			InsertData.insertFeedbackData(connection, 1, 1, "Good performance in the assessment", "2023-03-10");
+			InsertData.insertFeedbackData(connection, 2, 2, "Further improvements needed", "2023-03-12");
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE, "Error creating Feedback table", e);
 			throw new RuntimeException("Error creating Feedback table", e);

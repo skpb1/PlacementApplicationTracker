@@ -41,5 +41,29 @@ public class InterviewService {
 		return interviews;
 
 	}
+	
+	public static Interview getInterviewByInterviewId(int interviewId) {
+		Interview interview = null;
+
+		String query = "SELECT * FROM Interview WHERE InterviewId=" + interviewId;
+
+		try (Connection connection = PlacementRepository.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					interview = new Interview();
+					interview.setInterviewId(resultSet.getInt("interviewId"));
+					interview.setApplicationId(resultSet.getInt("applicationId"));
+					interview.setDateTime(resultSet.getTimestamp("dateTime"));
+					interview.setType(resultSet.getString("type"));
+					interview.setStatus(resultSet.getString("status"));
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "Error getting Interview details", e);
+		}
+
+		return interview;
+	}
 
 }

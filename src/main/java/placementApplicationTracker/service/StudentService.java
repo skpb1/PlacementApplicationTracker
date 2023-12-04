@@ -40,12 +40,12 @@ public class StudentService {
     }
 
     public static boolean updateStudentPassword(int studentId, String currentPassword, String newPassword) {
-        String query = "UPDATE Student SET Password = ? WHERE StudentId = ? AND Password = ?";
+        String query = "UPDATE Student SET Password = ? WHERE StudentId = ?";
         try (Connection connection = PlacementRepository.connect();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, newPassword);
             statement.setInt(2, studentId);
-            statement.setString(3, currentPassword);
+//            statement.setString(3, currentPassword);
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
