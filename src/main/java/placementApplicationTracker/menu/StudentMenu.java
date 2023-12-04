@@ -1,4 +1,4 @@
-package main.java.placementApplicationTracker;
+package main.java.placementApplicationTracker.menu;
 
 import main.java.placementApplicationTracker.model.Student;
 import main.java.placementApplicationTracker.service.StudentService;
@@ -36,6 +36,7 @@ public class StudentMenu {
                 System.out.println("3. Manage Applications");
                 System.out.println("4. Update Password");
                 System.out.println("5. Logout");
+				System.out.println();
 
                 int option = scanner.nextInt();
 
@@ -91,13 +92,13 @@ public class StudentMenu {
                     case 2:
                         System.out.println("Selected: View Placement Opportunities");
                         System.out.println();
-                        // Implement view placement opportunities logic
+                        StudentPlacementMenu.displayPlacementOpportunities(studentId, scanner);
                         break;
 
                     case 3:
                         System.out.println("Selected: Manage Applications");
                         System.out.println();
-                        // Implement manage applications logic
+                        StudentApplicationMenu.displayApplicationMenu(studentId, scanner);
                         break;
 
                     case 4:
@@ -166,6 +167,5 @@ public class StudentMenu {
                 break;
             }
         }
-        System.out.println("Loged out from Student Menu.");
     }
 }

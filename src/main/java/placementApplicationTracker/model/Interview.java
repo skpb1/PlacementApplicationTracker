@@ -2,34 +2,34 @@ package main.java.placementApplicationTracker.model;
 
 import java.sql.Timestamp;
 
-public class Visit {
-    private int visitId;
+public class Interview {
+	private int interviewId;
     private int applicationId;
     private Timestamp dateTime;
     private String status;
-    private String details;
+    private String type;
 
     // Constructors
 
-    public Visit() {
+    public Interview() {
     }
 
-    public Visit(int visitId, int applicationId, Timestamp dateTime, String status, String details) {
-        this.visitId = visitId;
+    public Interview(int interviewId, int applicationId, Timestamp dateTime, String status, String type) {
+        this.interviewId = interviewId;
         this.applicationId = applicationId;
         this.dateTime = dateTime;
         this.status = status;
-        this.details = details;
+        this.type = type;
     }
 
     // Getters and Setters
 
-    public int getVisitId() {
-        return visitId;
+    public int getInterviewId() {
+        return interviewId;
     }
 
-    public void setVisitId(int visitId) {
-        this.visitId = visitId;
+    public void setInterviewId(int interviewId) {
+        this.interviewId = interviewId;
     }
 
     public int getApplicationId() {
@@ -56,11 +56,11 @@ public class Visit {
         this.status = status;
     }
 
-    public String getDetails() {
-        return details;
+    public String getType() {
+        return type;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setType(String type) {
+        this.type = type;
     }
 }
