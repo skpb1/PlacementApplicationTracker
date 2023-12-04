@@ -91,21 +91,21 @@ public class ApplicationService {
 	public static boolean createApplication(int opportunityId, int studentId, String resumeContent,
 			String coverLetterContent) {
 
-		boolean flag = false;
+		boolean isApplicationExists = false;
 		String query = "SELECT * FROM Application WHERE StudentId=" + studentId + " AND OpportunityId=" + opportunityId;
 
 		try (Connection connection = PlacementRepository.connect();
 				PreparedStatement statement = connection.prepareStatement(query)) {
 			try (ResultSet resultSet = statement.executeQuery()) {
-				if (resultSet.getFetchSize() != 0) {
-					flag = true;
+				if (resultSet.next()) {
+					isApplicationExists = true;
 				}
 			}
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE, "Error creating Application", e);
 		}
 
-		if (flag) {
+		if (isApplicationExists) {
 			System.out.println("An application already exists for this opportunity");
 			return false;
 		} else {

@@ -41,4 +41,28 @@ public class AssessmentService {
 
 	}
 
+	public static Assessment getAssessmentByAssessmentId(int assessmentId) {
+		Assessment assessment = null;
+
+		String query = "SELECT * FROM Assessment WHERE AssessmentId=" + assessmentId;
+
+		try (Connection connection = PlacementRepository.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					assessment = new Assessment();
+					assessment.setAssessmentId(resultSet.getInt("assessmentId"));
+					assessment.setApplicationId(resultSet.getInt("applicationId"));
+					assessment.setDateTime(resultSet.getTimestamp("dateTime"));
+					assessment.setDetails(resultSet.getString("details"));
+					assessment.setStatus(resultSet.getString("status"));
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "Error getting Assessment details", e);
+		}
+
+		return assessment;
+	}
+
 }

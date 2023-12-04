@@ -29,7 +29,6 @@ public class FeedbackService {
 					feedback.setFeedbackId(resultSet.getInt("feedbackId"));
 					feedback.setApplicationId(resultSet.getInt("applicationId"));
 					feedback.setDateTime(resultSet.getTimestamp("dateTime"));
-					feedback.setAdminId(resultSet.getInt("adminId"));
 					feedback.setComments(resultSet.getString("comments"));
 					feedbacks.add(feedback);
 				}
@@ -40,6 +39,30 @@ public class FeedbackService {
 
 		return feedbacks;
 
+	}
+	
+	
+	public static Feedback getFeedbackByFeedbackId(int feedbackId) {
+		Feedback feedback = null;
+
+		String query = "SELECT * FROM Feedback WHERE FeedbackId=" + feedbackId;
+
+		try (Connection connection = PlacementRepository.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					feedback = new Feedback();
+					feedback.setFeedbackId(resultSet.getInt("feedbackId"));
+					feedback.setApplicationId(resultSet.getInt("applicationId"));
+					feedback.setDateTime(resultSet.getTimestamp("dateTime"));
+					feedback.setComments(resultSet.getString("comments"));
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "Error getting Feedback details", e);
+		}
+
+		return feedback;
 	}
 
 }

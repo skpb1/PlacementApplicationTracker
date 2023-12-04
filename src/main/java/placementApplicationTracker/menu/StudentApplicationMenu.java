@@ -17,6 +17,10 @@ public class StudentApplicationMenu {
 		boolean isRunning = true;
 
 		while (isRunning) {
+			System.out.println();
+			System.out.println();
+			System.out.println();
+			System.out.println();
 			try {
 
 				List<Application> applications;
@@ -25,11 +29,15 @@ public class StudentApplicationMenu {
 					System.out.println();
 					System.out.println("No applications to display. You have not applied to any opportunities");
 					System.out.println();
-					
+
 					System.out.println("Please press enter to continue");
+					scanner.nextLine();
 					System.out.println();
 
 				} else {
+					System.out.println();
+					System.out.println("Applications List is shown below");
+					System.out.println();
 					applications.forEach(item -> {
 						System.out.println("------------------------------------");
 						System.out.println("Application ID: " + item.getApplicationId());
@@ -39,35 +47,49 @@ public class StudentApplicationMenu {
 					});
 				}
 
-				System.out.println();
-				System.out.println("Submitted applications are shown above");
-				System.out.println();
-
+				System.out.println("********************************************");
 				System.out.println("Please Choose an option:");
 				System.out.println("1. Manage an Application");
 				System.out.println("2. Go back");
+				System.out.println("********************************************");
 				System.out.println();
+				System.out.print("Enter your choice: ");
 
 				int option = scanner.nextInt();
-
+				System.out.println();
 				switch (option) {
 				case 1:
 					System.out.println("Selected: Manage an Application");
-					System.out.println();
-					
-					System.out.println("Enter the Application ID:");
-					int appId = scanner.nextInt();
-					// Show app details
-					StudentApplicationDetailMenu.displayMenu(appId, scanner);
+					System.out.println("============================================");
+					if (applications.size() == 0) {
+						System.out.println();
+						System.out.println("No applications available");
+						System.out.println();
+
+						System.out.println("Please press enter to continue");
+						scanner.nextLine();
+						System.out.println();
+
+					} else {
+						
+						System.out.println();
+
+						System.out.println("Enter the Application ID:");
+						int appId = scanner.nextInt();
+						// Show app details
+						StudentApplicationDetailMenu.displayMenu(appId, scanner);
+					}
 					break;
 				case 2:
 					System.out.println("Selected: Go back");
+					System.out.println("============================================");
 					System.out.println();
 					isRunning = false;
 					break;
 
 				default:
 					System.out.println("Invalid option. Please choose a valid option.");
+					System.out.println("============================================");
 					System.out.println();
 					break;
 				}

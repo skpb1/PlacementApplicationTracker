@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 public class Feedback {
     private int feedbackId;
     private int applicationId;
-    private int adminId;
     private String comments;
     private Timestamp dateTime;
 
@@ -14,10 +13,9 @@ public class Feedback {
     public Feedback() {
     }
 
-    public Feedback(int feedbackId, int applicationId, int adminId, String comments, Timestamp dateTime) {
+    public Feedback(int feedbackId, int applicationId, String comments, Timestamp dateTime) {
         this.feedbackId = feedbackId;
         this.applicationId = applicationId;
-        this.adminId = adminId;
         this.comments = comments;
         this.dateTime = dateTime;
     }
@@ -38,14 +36,6 @@ public class Feedback {
 
     public void setApplicationId(int applicationId) {
         this.applicationId = applicationId;
-    }
-
-    public int getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(int adminId) {
-        this.adminId = adminId;
     }
 
     public String getComments() {
