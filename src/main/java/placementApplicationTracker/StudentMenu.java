@@ -11,15 +11,13 @@ public class StudentMenu {
 
     private static final Logger LOGGER = Logger.getLogger(StudentMenu.class.getName());
 
-    public static void displayStudentMenu(int studentId) {
-
-        Scanner scanner = new Scanner(System.in);
+    public static void displayStudentMenu(int studentId, Scanner scanner) {
 
         boolean isRunning = true;
 
         while (isRunning) {
             try {
-            	// Retrieve student details for the welcome message
+                // Retrieve student details for the welcome message
                 Student student = null;
                 try {
                     student = StudentService.getStudentDetails(studentId);
@@ -30,7 +28,7 @@ public class StudentMenu {
                 String studentName = (student != null) ? student.getFullName() : "Unknown";
 
                 System.out.println("Welcome, " + studentName + "!");
-                System.out.println(); 
+                System.out.println();
 
                 System.out.println("Please Choose an option:");
                 System.out.println("1. Edit Personal Details");
@@ -54,7 +52,7 @@ public class StudentMenu {
                             System.out.println("Email: " + student.getEmail());
                             System.out.println("Course: " + student.getCourse());
                             System.out.println("Pass Out Year: " + student.getPassOutYear());
-                            System.out.println(); 
+                            System.out.println();
 
                             // Get updated details from the user
                             System.out.println("Please enter updated details below:");
@@ -131,13 +129,15 @@ public class StudentMenu {
 
                             // Update student password
                             try {
-                                boolean isPasswordUpdated = StudentService.updateStudentPassword(studentId, currentPassword, newPassword);
+                                boolean isPasswordUpdated = StudentService.updateStudentPassword(studentId,
+                                        currentPassword, newPassword);
 
                                 if (isPasswordUpdated) {
                                     System.out.println("Password updated successfully.");
                                     System.out.println();
                                 } else {
-                                    System.out.println("Failed to update password. Please check your current password.");
+                                    System.out
+                                            .println("Failed to update password. Please check your current password.");
                                     System.out.println();
                                 }
                             } catch (Exception e) {
@@ -166,8 +166,6 @@ public class StudentMenu {
                 break;
             }
         }
-
-        scanner.close();
         System.out.println("Loged out from Student Menu.");
     }
 }
