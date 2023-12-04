@@ -15,20 +15,19 @@ public class App {
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) {
-    	
+
         try (Connection connection = PlacementRepository.connect()) {
-        	
-        	// Create the tables in Database
+
+            // Create the tables in Database
             PlacementRepository.createTables(connection);
-            
-            System.out.println("Welcome to Placement Application Tracker !");
-            System.out.println();
-            
+
             Scanner scanner = new Scanner(System.in);
-            
+
             boolean isRunning = true;
             while (isRunning) {
-                try {    	
+                try {
+                    System.out.println("Welcome to Placement Application Tracker !");
+                    System.out.println();
                     System.out.println("Please Choose an option:");
                     System.out.println("1. Student Login");
                     System.out.println("2. Student Signup");
@@ -64,7 +63,7 @@ public class App {
 
                         case 2:
                             System.out.println("Selected: Student Signup");
-                            System.out.println(); 
+                            System.out.println();
                             System.out.println("Enter StudentId:");
                             int studentId = scanner.nextInt();
                             scanner.nextLine();
@@ -84,7 +83,8 @@ public class App {
                             System.out.println("Enter PassOutYear:");
                             int passOutYear = scanner.nextInt();
 
-                            boolean studentSignUpSuccess = AuthenticationService.studentSignup(studentId, sPassword, sFullName, sEmail, course, passOutYear);
+                            boolean studentSignUpSuccess = AuthenticationService.studentSignup(studentId, sPassword,
+                                    sFullName, sEmail, course, passOutYear);
 
                             if (studentSignUpSuccess) {
                                 System.out.println("Student sign up successful!");
@@ -135,7 +135,8 @@ public class App {
                             System.out.println("Enter Designation:");
                             String designation = scanner.nextLine();
 
-                            boolean adminSignUpSuccess = AuthenticationService.adminSignup(adminId, aPassword, aFullName, aEmail, designation);
+                            boolean adminSignUpSuccess = AuthenticationService.adminSignup(adminId, aPassword,
+                                    aFullName, aEmail, designation);
 
                             if (adminSignUpSuccess) {
                                 System.out.println("Admin sign up successful!");
