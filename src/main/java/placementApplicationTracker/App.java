@@ -53,7 +53,7 @@ public class App {
                             if (studentLoginSuccess) {
                                 System.out.println("Student login successful!");
                                 System.out.println();
-                                StudentMenu.displayStudentMenu(sId); // open student menu
+                                StudentMenu.displayStudentMenu(sId, scanner); // open student menu
                                 break;
                             } else {
                                 System.out.println("Invalid student credentials.");
