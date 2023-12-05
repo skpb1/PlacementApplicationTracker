@@ -1,8 +1,9 @@
 package main.java.placementApplicationTracker;
 
-import main.java.placementApplicationTracker.menu.StudentMenu;
 import main.java.placementApplicationTracker.repo.PlacementRepository;
 import main.java.placementApplicationTracker.service.AuthenticationService;
+import main.java.placementApplicationTracker.studentMenu.StudentMenu;
+import main.java.placementApplicationTracker.adminMenu.AdminMenu;
 
 import java.util.Scanner;
 import java.sql.Connection;
@@ -128,6 +129,7 @@ public class App {
                             if (adminLoginSuccess) {
                                 System.out.println("Admin login successful!");
                                 System.out.println();
+                                AdminMenu.displayAdminMenu(aId, scanner); // open admin menu
                             } else {
                                 System.out.println("Invalid Admin credentials.");
                                 System.out.println();

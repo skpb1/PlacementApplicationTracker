@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.Timestamp;
 
 import main.java.placementApplicationTracker.model.Feedback;
 import main.java.placementApplicationTracker.repo.PlacementRepository;
@@ -64,5 +65,22 @@ public class FeedbackService {
 
 		return feedback;
 	}
+	
+	public static boolean addFeedback(int applicationId, String comments) {
+        String query = "INSERT INTO Feedback (ApplicationId, Comments, DateTime) VALUES (?, ?, ?)";
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, applicationId);
+            statement.setString(2, comments);
+            statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error adding feedback", e);
+            return false;
+        }
+    }
 
 }

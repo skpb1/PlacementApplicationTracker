@@ -1,4 +1,4 @@
-package main.java.placementApplicationTracker.menu;
+package main.java.placementApplicationTracker.studentMenu;
 
 import java.util.Scanner;
 import java.util.logging.Level;
