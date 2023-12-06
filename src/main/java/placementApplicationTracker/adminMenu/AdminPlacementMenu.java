@@ -32,9 +32,9 @@ public class AdminPlacementMenu {
 			try {
 				System.out.println("\nAll Available opportunities are shown below\n");
 
-//				if (filteredOpportunities == null) {
+				if (filteredOpportunities == null) {
 					filteredOpportunities = placementService.getOpportunities();
-//				}
+				}
 
 				displayOpportunities(filteredOpportunities);
 
