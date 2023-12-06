@@ -9,13 +9,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Visit;
+import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.service.VisitService;
 
 public class AdminVisitMenu {
 
-    private static final Logger LOGGER = Logger.getLogger(AdminVisitMenu.class.getName());
-
-    public static void displayMenu(Scanner scanner) {
+    private final Logger LOGGER = Logger.getLogger(AdminVisitMenu.class.getName());
+//    private VisitRepo visitRepo;
+    private VisitService visitService;
+    
+    public AdminVisitMenu(VisitRepo visitRepo) {
+//    	this.visitRepo = visitRepo;
+    	this.visitService = new VisitService(visitRepo);
+    }
+    
+    public void displayMenu(Scanner scanner) {
         boolean isRunning = true;
 
         while (isRunning) {
@@ -24,10 +32,11 @@ public class AdminVisitMenu {
             try {
                 System.out.println("\nAll Available visits are shown below\n");
 
-                List<Visit> visits = VisitService.getVisits();
+//                VisitService visitService = new VisitService(visitRepo);
+                List<Visit> visits = visitService.getVisits();
 
                 if (!visits.isEmpty()) {
-                    visits.forEach(AdminVisitMenu::displayVisitDetails);
+                    visits.forEach(visit -> displayVisitDetails(visit));
                 } else {
                     System.out.println("\nNo Visits available\n");
                 }
@@ -73,7 +82,7 @@ public class AdminVisitMenu {
         }
     }
 
-    private static void displayVisitDetails(Visit visit) {
+    public void displayVisitDetails(Visit visit) {
         System.out.println("------------------------------------");
         System.out.println("Visit ID: " + visit.getVisitId());
         System.out.println("Application ID: " + visit.getApplicationId());
@@ -83,7 +92,7 @@ public class AdminVisitMenu {
         System.out.println("-----------------------------------------");
     }
 
-    private static LocalDateTime validateTimestampInput(Scanner scanner, String prompt) {
+    public LocalDateTime validateTimestampInput(Scanner scanner, String prompt) {
         LocalDateTime dateTime = null;
         boolean isValidInput = false;
 
@@ -101,7 +110,7 @@ public class AdminVisitMenu {
         return dateTime;
     }
 
-    private static void addVisit(Scanner scanner) {
+    public void addVisit(Scanner scanner) {
         try {
         	
         	System.out.print("Enter the Application ID related to the Visit: ");
@@ -117,7 +126,8 @@ public class AdminVisitMenu {
             String visitDetails = scanner.nextLine();
 
             Visit visit = new Visit(0, applicationId, visitTimestamp, visitStatus, visitDetails);
-            boolean isVisitAdded = VisitService.addVisit(visit);
+//            VisitService visitService = new VisitService(visitRepo);
+            boolean isVisitAdded = visitService.addVisit(visit);
 
             if (isVisitAdded) {
                 System.out.println("Visit added successfully.");
@@ -130,13 +140,14 @@ public class AdminVisitMenu {
         }
     }
 
-    private static void editVisit(Scanner scanner) {
+    public void editVisit(Scanner scanner) {
         try {
             System.out.print("Enter Visit ID to edit: ");
             int visitId = scanner.nextInt();
             scanner.nextLine();
 
-            Visit existingVisit = VisitService.getVisitById(visitId);
+//            VisitService visitService = new VisitService(visitRepo);
+            Visit existingVisit = visitService.getVisitById(visitId);
 
             if (existingVisit != null) {
                 System.out.println("Existing Visit Details:");
@@ -156,7 +167,8 @@ public class AdminVisitMenu {
 
                 Visit updatedVisit = new Visit(visitId, applicationId, updatedVisitTimestamp, updatedVisitStatus, updatedVisitDetails);
 
-                boolean isVisitUpdated = VisitService.updateVisit(visitId, updatedVisit);
+//                VisitService visitService1 = new VisitService(visitRepo);
+                boolean isVisitUpdated = visitService.updateVisit(visitId, updatedVisit);
 
                 if (isVisitUpdated) {
                     System.out.println("Visit updated successfully.");
@@ -172,13 +184,13 @@ public class AdminVisitMenu {
         }
     }
 
-    private static void deleteVisit(Scanner scanner) {
+    public void deleteVisit(Scanner scanner) {
         try {
             System.out.print("Enter Visit ID to delete: ");
             int visitId = scanner.nextInt();
             scanner.nextLine();
 
-            Visit existingVisit = VisitService.getVisitById(visitId);
+            Visit existingVisit = visitService.getVisitById(visitId);
 
             if (existingVisit != null) {
                 System.out.println("Existing Visit Details:");
@@ -188,7 +200,7 @@ public class AdminVisitMenu {
                 String choice = scanner.next();
 
                 if (choice.equalsIgnoreCase("Y")) {
-                    boolean isVisitDeleted = VisitService.deleteVisit(visitId);
+                    boolean isVisitDeleted = visitService.deleteVisit(visitId);
 
                     if (isVisitDeleted) {
                         System.out.println("Visit deleted successfully.");

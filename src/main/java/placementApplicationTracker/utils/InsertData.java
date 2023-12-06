@@ -3,13 +3,12 @@ package main.java.placementApplicationTracker.utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 //import java.util.Random;
 
 public class InsertData {
 
-//    public static void insertSampleData(Connection connection) throws SQLException {
+//    public static void insertSampleData(Connection connection) throws Exception {
 //    	// Insert sample data for the Admin table
 //        insertAdminData(connection, 1, "admin1_password", "Admin User", "admin@example.com", "Admin Designation");
 //        insertAdminData(connection, 2, "admin2_password", "Another Admin User", "another_admin@example.com", "Senior Admin");
@@ -39,7 +38,7 @@ public class InsertData {
 //        insertFeedbackData(connection, 2, 2, 1, "Further improvements needed", "2023-03-12");
 //    }
 
-    public static void insertAdminData(Connection connection, int adminId, String password, String fullName, String email, String designation) throws SQLException {
+    public static void insertAdminData(Connection connection, int adminId, String password, String fullName, String email, String designation) throws Exception {
         if (!isDataExists(connection, "Admin", "AdminId", adminId)) {
             String insertDataSQL = "INSERT INTO Admin (AdminId, Password, FullName, Email, Designation) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
@@ -53,7 +52,7 @@ public class InsertData {
         }
     }
 
-    public static void insertStudentData(Connection connection, int studentId, String password, String fullName, String email, String course, int passOutYear) throws SQLException {
+    public static void insertStudentData(Connection connection, int studentId, String password, String fullName, String email, String course, int passOutYear) throws Exception {
         if (!isDataExists(connection, "Student", "StudentId", studentId)) {
             String insertDataSQL = "INSERT INTO Student (StudentId, Password, FullName, Email, Course, PassOutYear) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
@@ -68,7 +67,7 @@ public class InsertData {
         }
     }
 
-    public static void insertOpportunityData(Connection connection, int opportunityId, String companyName, String role, String description, int salary, String location, String openDate, String closeDate, int adminId) throws SQLException {
+    public static void insertOpportunityData(Connection connection, int opportunityId, String companyName, String role, String description, int salary, String location, String openDate, String closeDate, int adminId) throws Exception {
         if (!isDataExists(connection, "Opportunity", "OpportunityId", opportunityId)) {
             String insertDataSQL = "INSERT INTO Opportunity (OpportunityId, CompanyName, Role, Description, Salary, Location, OpenDate, CloseDate, AdminId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
@@ -86,7 +85,7 @@ public class InsertData {
         }
     }
 
-    public static void insertApplicationData(Connection connection, int applicationId, int studentId, int opportunityId, String status, String submissionDate, int withdrawn, String coverLetter, String resume ) throws SQLException {
+    public static void insertApplicationData(Connection connection, int applicationId, int studentId, int opportunityId, String status, String submissionDate, int withdrawn, String coverLetter, String resume ) throws Exception {
         if (!isDataExists(connection, "Application", "ApplicationId", applicationId)) {
             String insertDataSQL = "INSERT INTO Application (ApplicationId, StudentId, OpportunityId, Status, SubmissionDate, Withdrawn, CoverLetter, Resume) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
@@ -103,7 +102,7 @@ public class InsertData {
         }
     }
 
-    public static void insertAssessmentData(Connection connection, int assessmentId, int applicationId, String dateTime, String status, String details) throws SQLException {
+    public static void insertAssessmentData(Connection connection, int assessmentId, int applicationId, String dateTime, String status, String details) throws Exception {
         if (!isDataExists(connection, "Assessment", "AssessmentId", assessmentId)) {
             String insertDataSQL = "INSERT INTO Assessment (AssessmentId, ApplicationId, DateTime, Status, Details) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
@@ -117,7 +116,7 @@ public class InsertData {
         }
     }
 
-    public static void insertVisitData(Connection connection, int visitId, int applicationId, String dateTime, String status, String details) throws SQLException {
+    public static void insertVisitData(Connection connection, int visitId, int applicationId, String dateTime, String status, String details) throws Exception {
         if (!isDataExists(connection, "Visit", "VisitId", visitId)) {
             String insertDataSQL = "INSERT INTO Visit (VisitId, ApplicationId, DateTime, Status, Details) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
@@ -131,7 +130,7 @@ public class InsertData {
         }
     }
     
-    public static void insertFeedbackData(Connection connection, int feedbackId, int applicationId, String comments, String dateTime) throws SQLException {
+    public static void insertFeedbackData(Connection connection, int feedbackId, int applicationId, String comments, String dateTime) throws Exception {
         if (!isDataExists(connection, "Feedback", "FeedbackId", feedbackId)) {
             String insertDataSQL = "INSERT INTO Feedback (FeedbackId, ApplicationId, Comments, DateTime) VALUES (?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
@@ -144,7 +143,7 @@ public class InsertData {
         }
     }
 
-    public static void insertInterviewData(Connection connection, int interviewId, int applicationId, String status, String type, String dateTime) throws SQLException {
+    public static void insertInterviewData(Connection connection, int interviewId, int applicationId, String status, String type, String dateTime) throws Exception {
         if (!isDataExists(connection, "Interview", "InterviewId", interviewId)) {
             String insertDataSQL = "INSERT INTO Interview (InterviewId, ApplicationId, Status, Type, DateTime) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
@@ -158,7 +157,7 @@ public class InsertData {
         }
     }
 
-    public static boolean isDataExists(Connection connection, String tableName, String columnName, int id) throws SQLException {
+    public static boolean isDataExists(Connection connection, String tableName, String columnName, int id) throws Exception {
         String checkDataSQL = "SELECT COUNT(*) FROM " + tableName + " WHERE " + columnName + " = ?";
         try (PreparedStatement statement = connection.prepareStatement(checkDataSQL)) {
             statement.setInt(1, id);

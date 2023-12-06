@@ -6,12 +6,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Visit;
+import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.service.VisitService;
 
 public class StudentVisitMenu {
-	private static final Logger LOGGER = Logger.getLogger(StudentVisitMenu.class.getName());
+	private final Logger LOGGER = Logger.getLogger(StudentVisitMenu.class.getName());
+	private VisitService visitService;
 
-	public static void displayVisitMenu(int applicationId, Scanner scanner) {
+	public StudentVisitMenu(VisitRepo visitRepo) {
+		this.visitService = new VisitService(visitRepo);
+	}
+
+	public void displayVisitMenu(int applicationId, Scanner scanner) {
 		boolean isRunning = true;
 
 		while (isRunning) {
@@ -23,7 +29,7 @@ public class StudentVisitMenu {
 				List<Visit> visits = null;
 
 				try {
-					visits = VisitService.getVisitsByApplicationId(applicationId);
+					visits = visitService.getVisitsByApplicationId(applicationId);
 				} catch (Exception e) {
 					LOGGER.log(Level.SEVERE, "Error retrieving visit details", e);
 				}
@@ -66,7 +72,7 @@ public class StudentVisitMenu {
 						System.out.println();
 						System.out.println("Enter the Visit Id:");
 						int visitId = scanner.nextInt();
-						Visit visit = VisitService.getVisitById(visitId);
+						Visit visit = visitService.getVisitById(visitId);
 						System.out.println();
 						System.out.println("Visit Details are shown below");
 						System.out.println();

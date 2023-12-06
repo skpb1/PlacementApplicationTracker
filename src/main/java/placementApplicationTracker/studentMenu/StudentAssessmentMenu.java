@@ -6,12 +6,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Assessment;
+import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
+import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
 import main.java.placementApplicationTracker.service.AssessmentService;
+import main.java.placementApplicationTracker.service.FeedbackService;
 
 public class StudentAssessmentMenu {
-	private static final Logger LOGGER = Logger.getLogger(StudentAssessmentMenu.class.getName());
+	private final Logger LOGGER = Logger.getLogger(StudentAssessmentMenu.class.getName());
+	private AssessmentService assessmentService;
 
-	public static void displayAssessmentMenu(int applicationId, Scanner scanner) {
+	public StudentAssessmentMenu(AssessmentRepo assessmentRepo) {
+		assessmentService = new AssessmentService(assessmentRepo);
+	}
+
+	public void displayAssessmentMenu(int applicationId, Scanner scanner) {
 		boolean isRunning = true;
 
 		while (isRunning) {
@@ -23,7 +31,7 @@ public class StudentAssessmentMenu {
 				List<Assessment> assessments = null;
 
 				try {
-					assessments = AssessmentService.getAssessmentsByApplicationId(applicationId);
+					assessments = assessmentService.getAssessmentsByApplicationId(applicationId);
 				} catch (Exception e) {
 					LOGGER.log(Level.SEVERE, "Error retrieving assessment details", e);
 				}
@@ -66,7 +74,7 @@ public class StudentAssessmentMenu {
 
 						System.out.println("Enter the Assessment Id:");
 						int assessmentId = scanner.nextInt();
-						Assessment assessment = AssessmentService.getAssessmentById(assessmentId);
+						Assessment assessment = assessmentService.getAssessmentById(assessmentId);
 						System.out.println();
 						System.out.println("Assessment Details are shown below");
 						System.out.println();

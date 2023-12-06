@@ -5,32 +5,38 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Student;
+import main.java.placementApplicationTracker.repo.intf.StudentRepo;
 import main.java.placementApplicationTracker.service.StudentService;
 
 public class StudentDetailsMenu {
 
-    private static final Logger LOGGER = Logger.getLogger(StudentDetailsMenu.class.getName());
+	private final Logger LOGGER = Logger.getLogger(StudentDetailsMenu.class.getName());
+	private StudentService studentService;
 
-    public static void displayEditDetailsMenu(Student student, Scanner scanner) {
-    	
-    	boolean isRunning = true;
-    	
+	public StudentDetailsMenu(StudentRepo studentRepo) {
+		studentService = new StudentService(studentRepo);
+	}
+
+	public void displayEditDetailsMenu(Student student, Scanner scanner) {
+
+		boolean isRunning = true;
+
 		while (isRunning) {
 			System.out.println();
 			System.out.println();
 			try {
-		        // Retrieve and display student details
-		        System.out.println("Current Student Details:");
-		        System.out.println();
-		        System.out.println("------------------------------------");
-		        System.out.println("Student ID: " + student.getStudentId());
-		        System.out.println("Full Name: " + student.getFullName());
-		        System.out.println("Email: " + student.getEmail());
-		        System.out.println("Course: " + student.getCourse());
-		        System.out.println("Pass Out Year: " + student.getPassOutYear());
-		        System.out.println("------------------------------------");
-			
-		        System.out.println();
+				// Retrieve and display student details
+				System.out.println("Current Student Details:");
+				System.out.println();
+				System.out.println("------------------------------------");
+				System.out.println("Student ID: " + student.getStudentId());
+				System.out.println("Full Name: " + student.getFullName());
+				System.out.println("Email: " + student.getEmail());
+				System.out.println("Course: " + student.getCourse());
+				System.out.println("Pass Out Year: " + student.getPassOutYear());
+				System.out.println("------------------------------------");
+
+				System.out.println();
 				System.out.println("********************************************");
 				System.out.println("Please Choose an option:");
 				System.out.println("1. Edit Details");
@@ -45,36 +51,36 @@ public class StudentDetailsMenu {
 				switch (option) {
 				case 1:
 					// Get updated details from the user
-			        System.out.println("Please enter updated details below:");
+					System.out.println("Please enter updated details below:");
 					System.out.println("============================================");
-			        System.out.println();
-			        System.out.print("Enter updated Full Name: ");
-			        String updatedFullName = scanner.nextLine();
-			        scanner.nextLine();
-			        System.out.print("Enter updated Email: ");
-			        String updatedEmail = scanner.nextLine();
-			        System.out.print("Enter updated Course: ");
-			        String updatedCourse = scanner.nextLine();
-			        System.out.print("Enter updated Pass Out Year: ");
-			        int updatedPassOutYear = scanner.nextInt();
-			
-			        // Update student details
-			        try {
-			            boolean isUpdated = StudentService.updateStudentDetails(
-			                    student.getStudentId(), updatedFullName, updatedEmail, updatedCourse, updatedPassOutYear);
-			
-			            if (isUpdated) {
-			                System.out.println("Student details updated successfully.");
-			                System.out.println();
-			            } else {
-			                System.out.println("Failed to update student details.");
-			                System.out.println();
-			            }
-			        } catch (Exception e) {
-			            LOGGER.log(Level.SEVERE, "Error updating student details", e);
-			        }
+					System.out.println();
+					System.out.print("Enter updated Full Name: ");
+					String updatedFullName = scanner.nextLine();
+					scanner.nextLine();
+					System.out.print("Enter updated Email: ");
+					String updatedEmail = scanner.nextLine();
+					System.out.print("Enter updated Course: ");
+					String updatedCourse = scanner.nextLine();
+					System.out.print("Enter updated Pass Out Year: ");
+					int updatedPassOutYear = scanner.nextInt();
+
+					// Update student details
+					try {
+						boolean isUpdated = studentService.updateStudentDetails(student.getStudentId(), updatedFullName,
+								updatedEmail, updatedCourse, updatedPassOutYear);
+
+						if (isUpdated) {
+							System.out.println("Student details updated successfully.");
+							System.out.println();
+						} else {
+							System.out.println("Failed to update student details.");
+							System.out.println();
+						}
+					} catch (Exception e) {
+						LOGGER.log(Level.SEVERE, "Error updating student details", e);
+					}
 					break;
-				
+
 				case 2:
 					System.out.println("Selected: Update Password");
 					System.out.println("============================================");
@@ -105,54 +111,53 @@ public class StudentDetailsMenu {
 
 	}
 
+	public void EditPasswordMenu(Student student, Scanner scanner) {
+		// Retrieve and update student password
+		String enteredCurrentPassword;
 
-    public static void EditPasswordMenu(Student student, Scanner scanner) {
-        // Retrieve and update student password	
-    	String enteredCurrentPassword;
-    	
-    	do {
-    		 System.out.print("Enter current password: ");
-             enteredCurrentPassword = scanner.nextLine();
-             scanner.nextLine();
+		do {
+			System.out.print("Enter current password: ");
+			enteredCurrentPassword = scanner.nextLine();
+			scanner.nextLine();
 
-            // Compare entered current password with the actual current password
-            if (!enteredCurrentPassword.equals(student.getPassword())) {
-                System.out.println("Entered current password is not correct. Please try again.");
-            }
-        } while (!enteredCurrentPassword.equals(student.getPassword()));
-    	
-        // Prompt for the new password
-        String newPassword;
-        String confirmNewPassword;
+			// Compare entered current password with the actual current password
+			if (!enteredCurrentPassword.equals(student.getPassword())) {
+				System.out.println("Entered current password is not correct. Please try again.");
+			}
+		} while (!enteredCurrentPassword.equals(student.getPassword()));
 
-        do {
-            System.out.print("Enter new password: ");
-            newPassword = scanner.nextLine();
+		// Prompt for the new password
+		String newPassword;
+		String confirmNewPassword;
 
-            // Prompt for confirmation of the new password
-            System.out.print("Confirm new password: ");
-            confirmNewPassword = scanner.nextLine();
+		do {
+			System.out.print("Enter new password: ");
+			newPassword = scanner.nextLine();
 
-            // Compare new password and confirmation
-            if (!newPassword.equals(confirmNewPassword)) {
-                System.out.println("New password and confirmation do not match. Please try again.");
-            }
-        } while (!newPassword.equals(confirmNewPassword));
+			// Prompt for confirmation of the new password
+			System.out.print("Confirm new password: ");
+			confirmNewPassword = scanner.nextLine();
 
-        // Update student password
-        try {
-            boolean isPasswordUpdated = StudentService.updateStudentPassword(
-                    student.getStudentId(), enteredCurrentPassword, newPassword);
+			// Compare new password and confirmation
+			if (!newPassword.equals(confirmNewPassword)) {
+				System.out.println("New password and confirmation do not match. Please try again.");
+			}
+		} while (!newPassword.equals(confirmNewPassword));
 
-            if (isPasswordUpdated) {
-                System.out.println("Password updated successfully.");
-                System.out.println();
-            } else {
-                System.out.println("Failed to update password. Please check your current password.");
-                System.out.println();
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error updating student password", e);
-        }
-    }
+		// Update student password
+		try {
+			boolean isPasswordUpdated = studentService.updateStudentPassword(student.getStudentId(),
+					enteredCurrentPassword, newPassword);
+
+			if (isPasswordUpdated) {
+				System.out.println("Password updated successfully.");
+				System.out.println();
+			} else {
+				System.out.println("Failed to update password. Please check your current password.");
+				System.out.println();
+			}
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "Error updating student password", e);
+		}
+	}
 }
