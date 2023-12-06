@@ -43,6 +43,34 @@ public class AuthenticationService {
         }
     }
 
+    public static boolean doesAdminIdExist(int adminId) {
+        String query = "SELECT * FROM Admin WHERE AdminId = ?";
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, adminId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error checking admin ID existence", e);
+            return false;
+        }
+    }
+
+    public static boolean doesStudentIdExist(int studentId) {
+        String query = "SELECT * FROM Student WHERE StudentId = ?";
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, studentId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error checking student ID existence", e);
+            return false;
+        }
+    }
+
     public static boolean studentSignup(int studentId, String password, String fullName, String email, String course, int passOutYear) {
         try {
             String insertStudentQuery = "INSERT INTO Student (StudentId, Password, FullName, Email, Course, PassOutYear) VALUES (?, ?, ?, ?, ?, ?)";

@@ -1,17 +1,17 @@
-package main.java.placementApplicationTracker.menu;
+package main.java.placementApplicationTracker.studentMenu;
 
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import main.java.placementApplicationTracker.model.Interview;
-import main.java.placementApplicationTracker.service.InterviewService;
+import main.java.placementApplicationTracker.model.Visit;
+import main.java.placementApplicationTracker.service.VisitService;
 
-public class StudentInterviewMenu {
-	private static final Logger LOGGER = Logger.getLogger(StudentInterviewMenu.class.getName());
+public class StudentVisitMenu {
+	private static final Logger LOGGER = Logger.getLogger(StudentVisitMenu.class.getName());
 
-	public static void displayInterviewMenu(int applicationId, Scanner scanner) {
+	public static void displayVisitMenu(int applicationId, Scanner scanner) {
 		boolean isRunning = true;
 
 		while (isRunning) {
@@ -20,34 +20,34 @@ public class StudentInterviewMenu {
 			System.out.println();
 			System.out.println();
 			try {
-				List<Interview> interviews = null;
+				List<Visit> visits = null;
 
 				try {
-					interviews = InterviewService.getInterviewsByApplicationId(applicationId);
+					visits = VisitService.getVisitsByApplicationId(applicationId);
 				} catch (Exception e) {
-					LOGGER.log(Level.SEVERE, "Error retrieving interview details", e);
+					LOGGER.log(Level.SEVERE, "Error retrieving visit details", e);
 				}
 
-				if (interviews.size() != 0) {
+				if (visits.size() != 0) {
 					System.out.println();
-					System.out.println("Interviews List is shown below");
+					System.out.println("Visits List is shown below");
 					System.out.println();
 
-					interviews.forEach(interview -> {
+					visits.forEach(visit -> {
 						System.out.println("------------------------------------------");
-						System.out.println("Interview Id: " + interview.getInterviewId());
-						System.out.println("DateTime: " + interview.getDateTime());
+						System.out.println("Visit Id: " + visit.getVisitId());
+						System.out.println("DateTime: " + visit.getDateTime());
 						System.out.println("------------------------------------------");
 					});
 				} else {
 					System.out.println();
-					System.out.println("No Interviews found");
+					System.out.println("No Visits found");
 					System.out.println();
 				}
 
 				System.out.println();
 				System.out.println("********************************************");
-				System.out.println("1. Show Details of an Interview");
+				System.out.println("1. Show Details of a Visit");
 				System.out.println("2. Go back");
 				System.out.println("********************************************");
 				System.out.println();
@@ -58,23 +58,23 @@ public class StudentInterviewMenu {
 				System.out.println();
 				switch (option) {
 				case 1:
-					System.out.println("Selected: Show Details of an Interview");
+					System.out.println("Selected: Show Details of a Visit");
 					System.out.println("============================================");
 					System.out.println();
 
-					if (interviews.size() != 0) {
+					if (visits.size() != 0) {
 						System.out.println();
-						System.out.println("Enter the Interview Id:");
-						int interviewId = scanner.nextInt();
-						Interview interview = InterviewService.getInterviewByInterviewId(interviewId);
+						System.out.println("Enter the Visit Id:");
+						int visitId = scanner.nextInt();
+						Visit visit = VisitService.getVisitById(visitId);
 						System.out.println();
-						System.out.println("Interview Details are shown below");
+						System.out.println("Visit Details are shown below");
 						System.out.println();
 						System.out.println("------------------------------------------");
-						System.out.println("Interview Id: " + interview.getInterviewId());
-						System.out.println("DateTime: " + interview.getDateTime());
-						System.out.println("Status: " + interview.getStatus());
-						System.out.println("Type: " + interview.getType());
+						System.out.println("Visit Id: " + visit.getVisitId());
+						System.out.println("DateTime: " + visit.getDateTime());
+						System.out.println("Status: " + visit.getStatus());
+						System.out.println("Details: " + visit.getDetails());
 						System.out.println("------------------------------------------");
 						System.out.println();
 						System.out.println();
@@ -86,7 +86,7 @@ public class StudentInterviewMenu {
 						System.out.println();
 					} else {
 						System.out.println();
-						System.out.println("No Interviews found");
+						System.out.println("No Visits found");
 						System.out.println();
 					}
 					break;

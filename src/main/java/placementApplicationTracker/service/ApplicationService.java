@@ -14,12 +14,70 @@ import main.java.placementApplicationTracker.repo.PlacementRepository;
 
 public class ApplicationService {
 	private static final Logger LOGGER = Logger.getLogger(ApplicationService.class.getName());
+	
+    public static List<Application> getAllApplications() {
+		
+        List<Application> applications = new ArrayList<Application>();
+        
+        String query = "SELECT * FROM Application";
+
+        try (Connection connection = PlacementRepository.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					Application application = new Application();
+					application.setApplicationId(resultSet.getInt("applicationId"));
+					application.setCoverLetter(resultSet.getString("coverLetter"));
+					application.setOpportunityId(resultSet.getInt("opportunityId"));
+					application.setStudentId(resultSet.getInt("studentId"));
+					application.setWithdrawn(resultSet.getInt("withdrawn"));
+					application.setSubmissionDate(resultSet.getTimestamp("submissionDate"));
+					application.setResume(resultSet.getString("resume"));
+					application.setStatus(resultSet.getString("status"));
+					applications.add(application);
+				}
+			}
+		} catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting applications", e);
+        }
+
+        return applications;
+    }
 
 	public static List<Application> getApplicationsByStudent(int studentId) {
 
 		List<Application> applications = new ArrayList<Application>();
 
 		String query = "SELECT * FROM Application WHERE StudentId=" + studentId;
+
+		try (Connection connection = PlacementRepository.connect();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					Application application = new Application();
+					application.setApplicationId(resultSet.getInt("applicationId"));
+					application.setCoverLetter(resultSet.getString("coverLetter"));
+					application.setOpportunityId(resultSet.getInt("opportunityId"));
+					application.setStudentId(resultSet.getInt("studentId"));
+					application.setWithdrawn(resultSet.getInt("withdrawn"));
+					application.setSubmissionDate(resultSet.getTimestamp("submissionDate"));
+					application.setResume(resultSet.getString("resume"));
+					application.setStatus(resultSet.getString("status"));
+					applications.add(application);
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "Error getting Application details", e);
+		}
+
+		return applications;
+	}
+	
+	public static List<Application> getApplicationsByOpportunity(int opportunityId) {
+
+		List<Application> applications = new ArrayList<Application>();
+
+		String query = "SELECT * FROM Application WHERE OpportunityId=" + opportunityId;
 
 		try (Connection connection = PlacementRepository.connect();
 				PreparedStatement statement = connection.prepareStatement(query)) {
@@ -141,4 +199,28 @@ public class ApplicationService {
 			return false;
 		}
 	}
+	
+	public static boolean updateApplicationStatus(int applicationId, String action) {
+		
+		String status = null;
+		if(action.equals("a")){
+			status = "Approved";
+		} else { if(action.equals("r")){
+			         status = "Rejected";
+			     }
+		  }
+		
+        String query = "UPDATE Application SET Status = ? WHERE ApplicationId = ?";
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, status);
+            statement.setInt(2, applicationId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error updating application status", e);
+            return false;
+        }
+    }
 }

@@ -29,27 +29,28 @@ public class PlacementRepository {
 	public static void createTables(Connection connection) {
 
 		try {
-			String dropStudent = "DROP TABLE Student";
-			String dropAdmin = "DROP TABLE Admin";
-			String dropOpp = "DROP TABLE Opportunity";
-			String dropApplication = "DROP TABLE Application";
-			String dropAssessment = "DROP TABLE Assessment";
-			String dropFeedback = "DROP TABLE Feedback";
-			String dropVisit = "DROP TABLE Visit";
-			String dropInterview = "DROP TABLE Interview";
-			try (Statement statement = connection.createStatement()) {
-				statement.execute(dropStudent);
-				statement.execute(dropAdmin);
-				statement.execute(dropOpp);
-				statement.execute(dropApplication);
-				statement.execute(dropAssessment);
-				statement.execute(dropFeedback);
-				statement.execute(dropVisit);
-				statement.execute(dropInterview);
-			} catch (SQLException e) {
-				LOGGER.log(Level.SEVERE, "Error while deleting table", e);
-				throw new RuntimeException("Error deleting table", e);
-			}
+//			String dropStudent = "DROP TABLE Student";
+//			String dropAdmin = "DROP TABLE Admin";
+//			String dropOpp = "DROP TABLE Opportunity";
+//			String dropApplication = "DROP TABLE Application";
+//			String dropAssessment = "DROP TABLE Assessment";
+//			String dropFeedback = "DROP TABLE Feedback";
+//			String dropVisit = "DROP TABLE Visit";
+//			String dropInterview = "DROP TABLE Interview";
+//			try (Statement statement = connection.createStatement()) {
+//				statement.execute(dropStudent);
+//				statement.execute(dropAdmin);
+//				statement.execute(dropOpp);
+//				statement.execute(dropApplication);
+//				statement.execute(dropAssessment);
+//				statement.execute(dropFeedback);
+//				statement.execute(dropVisit);
+//				statement.execute(dropInterview);
+//			} catch (SQLException e) {
+//				LOGGER.log(Level.SEVERE, "Error while deleting table", e);
+//				throw new RuntimeException("Error deleting table", e);
+//			}
+			
 			List<String> tablesToCreate = new ArrayList<>();
 
 			if (!isTableCreated(connection, "Admin")) {

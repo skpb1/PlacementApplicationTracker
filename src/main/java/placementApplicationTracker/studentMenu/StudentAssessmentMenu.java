@@ -1,4 +1,4 @@
-package main.java.placementApplicationTracker.menu;
+package main.java.placementApplicationTracker.studentMenu;
 
 import java.util.List;
 import java.util.Scanner;
@@ -66,7 +66,7 @@ public class StudentAssessmentMenu {
 
 						System.out.println("Enter the Assessment Id:");
 						int assessmentId = scanner.nextInt();
-						Assessment assessment = AssessmentService.getAssessmentByAssessmentId(assessmentId);
+						Assessment assessment = AssessmentService.getAssessmentById(assessmentId);
 						System.out.println();
 						System.out.println("Assessment Details are shown below");
 						System.out.println();

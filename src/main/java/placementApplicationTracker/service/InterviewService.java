@@ -42,28 +42,112 @@ public class InterviewService {
 
 	}
 	
-	public static Interview getInterviewByInterviewId(int interviewId) {
-		Interview interview = null;
+	public static Interview getInterviewById(int interviewId) {
+        Interview interview = null;
 
-		String query = "SELECT * FROM Interview WHERE InterviewId=" + interviewId;
+        String query = "SELECT * FROM Interview WHERE InterviewId=" + interviewId;
 
-		try (Connection connection = PlacementRepository.connect();
-				PreparedStatement statement = connection.prepareStatement(query)) {
-			try (ResultSet resultSet = statement.executeQuery()) {
-				if (resultSet.next()) {
-					interview = new Interview();
-					interview.setInterviewId(resultSet.getInt("interviewId"));
-					interview.setApplicationId(resultSet.getInt("applicationId"));
-					interview.setDateTime(resultSet.getTimestamp("dateTime"));
-					interview.setType(resultSet.getString("type"));
-					interview.setStatus(resultSet.getString("status"));
-				}
-			}
-		} catch (SQLException e) {
-			LOGGER.log(Level.SEVERE, "Error getting Interview details", e);
-		}
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    interview = new Interview();
+                    interview.setInterviewId(resultSet.getInt("interviewId"));
+                    interview.setApplicationId(resultSet.getInt("applicationId"));
+                    interview.setDateTime(resultSet.getTimestamp("dateTime"));
+                    interview.setType(resultSet.getString("type"));
+                    interview.setStatus(resultSet.getString("status"));
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting Interview details", e);
+        }
 
-		return interview;
-	}
+        return interview;
+    }
+	
+	public static List<Interview> getInterviews() {
+        List<Interview> interviews = new ArrayList<>();
+
+        String query = "SELECT * FROM Interview";
+
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Interview interview = new Interview();
+                    interview.setInterviewId(resultSet.getInt("interviewId"));
+                    interview.setApplicationId(resultSet.getInt("applicationId"));
+                    interview.setDateTime(resultSet.getTimestamp("dateTime"));
+                    interview.setType(resultSet.getString("type"));
+                    interview.setStatus(resultSet.getString("status"));
+                    interviews.add(interview);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting Interview details", e);
+        }
+
+        return interviews;
+    }
+
+    public static boolean addInterview(Interview interview) {
+        String query = "INSERT INTO Interview (ApplicationId, Status, Type, DateTime) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, interview.getApplicationId());
+            statement.setString(2, interview.getStatus());
+            statement.setString(3, interview.getType());
+            statement.setTimestamp(4, interview.getDateTime());
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error adding interview", e);
+            return false;
+        }
+    }
+
+    public static boolean updateInterview(int interviewId, Interview updatedInterview) {
+        String query = "UPDATE Interview SET ApplicationId=?, Status=?, Type=?, DateTime=? WHERE InterviewId=?";
+
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, updatedInterview.getApplicationId());
+            statement.setString(2, updatedInterview.getStatus());
+            statement.setString(3, updatedInterview.getType());
+            statement.setTimestamp(4, updatedInterview.getDateTime());
+            statement.setInt(5, interviewId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error updating interview", e);
+            return false;
+        }
+    }
+
+    public static boolean deleteInterview(int interviewId) {
+        String query = "DELETE FROM Interview WHERE InterviewId=?";
+
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, interviewId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error deleting interview", e);
+            return false;
+        }
+    }
+
 
 }
