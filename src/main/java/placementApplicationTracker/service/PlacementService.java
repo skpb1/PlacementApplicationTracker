@@ -141,4 +141,123 @@ public class PlacementService {
 
         return opportunity;
     }
+    
+    public static List<Opportunity> getOpportunitiesByCompanyName(String companyName) {
+        List<Opportunity> opportunities = new ArrayList<>();
+        String query = "SELECT * FROM Opportunity WHERE CompanyName LIKE ?";
+
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, "%" + companyName + "%");
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Opportunity opportunity = mapResultSetToOpportunity(resultSet);
+                    opportunities.add(opportunity);
+                }
+            }
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting opportunities by CompanyName", e);
+        }
+
+        return opportunities;
+    }
+    
+    public static List<Opportunity> getOpportunitiesByRole(String role) {
+        List<Opportunity> opportunities = new ArrayList<>();
+        String query = "SELECT * FROM Opportunity WHERE Role LIKE ?";
+
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, "%" + role + "%");
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Opportunity opportunity = mapResultSetToOpportunity(resultSet);
+                    opportunities.add(opportunity);
+                }
+            }
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting opportunities by Role", e);
+        }
+
+        return opportunities;
+    }
+    
+    public static List<Opportunity> getOpportunitiesByLocation(String location) {
+        List<Opportunity> opportunities = new ArrayList<>();
+        String query = "SELECT * FROM Opportunity WHERE Location LIKE ?";
+
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, "%" + location + "%");
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Opportunity opportunity = mapResultSetToOpportunity(resultSet);
+                    opportunities.add(opportunity);
+                }
+            }
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting opportunities by Location", e);
+        }
+
+        return opportunities;
+    }
+    
+    public static List<Opportunity> getOpportunitiesBySalaryRange(int minSalary, int maxSalary) {
+        List<Opportunity> opportunities = new ArrayList<>();
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Opportunity WHERE Salary BETWEEN ? AND ");
+        
+        if (maxSalary > 0) {
+            queryBuilder.append("?");
+        } else {
+            queryBuilder.append("Salary");
+        }
+
+        String query = queryBuilder.toString();
+
+        try (Connection connection = PlacementRepository.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, minSalary);
+
+            if (maxSalary > 0) {
+                statement.setInt(2, maxSalary);
+            }
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Opportunity opportunity = mapResultSetToOpportunity(resultSet);
+                    opportunities.add(opportunity);
+                }
+            }
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting opportunities by Salary Range", e);
+        }
+
+        return opportunities;
+    }
+
+    
+    private static Opportunity mapResultSetToOpportunity(ResultSet resultSet) throws SQLException {
+        Opportunity opportunity = new Opportunity();
+        opportunity.setOpportunityId(resultSet.getInt("OpportunityId"));
+        opportunity.setCompanyName(resultSet.getString("CompanyName"));
+        opportunity.setRole(resultSet.getString("Role"));
+        opportunity.setDescription(resultSet.getString("Description"));
+        opportunity.setSalary(resultSet.getInt("Salary"));
+        opportunity.setLocation(resultSet.getString("Location"));
+        opportunity.setOpenDate(resultSet.getTimestamp("OpenDate"));
+        opportunity.setCloseDate(resultSet.getTimestamp("CloseDate"));
+        opportunity.setAdminId(resultSet.getInt("AdminId"));
+        return opportunity;
+    }
 }

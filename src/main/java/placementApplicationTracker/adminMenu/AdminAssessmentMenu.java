@@ -110,7 +110,6 @@ public class AdminAssessmentMenu {
             
             LocalDateTime assessmentDateTime = validateTimestampInput(scanner, "Enter assessment date and time (YYYY-MM-DD HH:mm:ss): ");
             Timestamp assessmentTimestamp = Timestamp.valueOf(assessmentDateTime);
-            scanner.nextLine();            
            
             System.out.print("Enter assessment status: ");
             String assessmentStatus = scanner.nextLine();

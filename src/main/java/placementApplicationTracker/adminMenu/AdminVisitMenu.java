@@ -110,7 +110,6 @@ public class AdminVisitMenu {
 
             LocalDateTime visitDateTime = validateTimestampInput(scanner, "Enter visit date and time (YYYY-MM-DD HH:mm:ss): ");
             Timestamp visitTimestamp = Timestamp.valueOf(visitDateTime);
-            scanner.nextLine();           
            
             System.out.print("Enter visit status: ");
             String visitStatus = scanner.nextLine();

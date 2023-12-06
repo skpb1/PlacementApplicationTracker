@@ -14,6 +14,7 @@ import main.java.placementApplicationTracker.service.PlacementService;
 public class AdminPlacementMenu {
 
     private static final Logger LOGGER = Logger.getLogger(AdminPlacementMenu.class.getName());
+    private static List<Opportunity> filteredOpportunities;
 
     public static void displayMenu(int adminId, Scanner scanner) {
 
@@ -24,21 +25,20 @@ public class AdminPlacementMenu {
 
             try {
                 System.out.println("\nAll Available opportunities are shown below\n");
-
-                List<Opportunity> opportunities = PlacementService.getOpportunities();
-
-                if (!opportunities.isEmpty()) {
-                    opportunities.forEach(item -> displayOpportunityDetails(item));
-                } else {
-                    System.out.println("\nNo Placement Opportunities available\n");
+                
+                if (filteredOpportunities == null) {
+                    filteredOpportunities = PlacementService.getOpportunities();
                 }
+
+                displayOpportunities(filteredOpportunities);
 
                 System.out.println("\n********************************************");
                 System.out.println("Please Choose an option:");
                 System.out.println("1. Add new opportunity");
                 System.out.println("2. Edit opportunity");
                 System.out.println("3. Delete opportunity");
-                System.out.println("4. Go back");
+                System.out.println("4. Filter Opportunities");
+                System.out.println("5. Go back");
                 System.out.println("********************************************");
                 System.out.print("Enter your choice: ");
 
@@ -56,8 +56,12 @@ public class AdminPlacementMenu {
                     case 3:
                         deleteOpportunity(adminId, scanner);
                         break;
-
+                        
                     case 4:
+                        filterOpportunities(scanner);
+                        break;
+
+                    case 5:
                         System.out.println("Selected: Go back");
                         isRunning = false;
                         break;
@@ -71,6 +75,14 @@ public class AdminPlacementMenu {
                 System.out.println("An unexpected error occurred. Please try again.");
                 isRunning = false;
             }
+        }
+    }
+    
+    private static void displayOpportunities(List<Opportunity> opportunities) {
+        if (!opportunities.isEmpty()) {
+            opportunities.forEach(AdminPlacementMenu::displayOpportunityDetails);
+        } else {
+            System.out.println("\nNo Placement Opportunities available\n");
         }
     }
 
@@ -215,6 +227,75 @@ public class AdminPlacementMenu {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error deleting opportunity", e);
             System.out.println("An error occurred while deleting the opportunity. Please try again.");
+        }
+    }
+    
+    private static void filterOpportunities(Scanner scanner) {
+        System.out.println("Options to filter the Opportunities");
+        System.out.println("1. Filter by Company Name");
+        System.out.println("2. Filter by Role");
+        System.out.println("3. Filter by Location");
+        System.out.println("4. Filter by Salary Range");
+        System.out.println("5. Go back");
+        System.out.print("Enter your choice: ");
+
+        int filterOption = scanner.nextInt();
+        handleFilterOption(filterOption, scanner);
+    }
+
+    private static void handleFilterOption(int filterOption, Scanner scanner) {
+    	scanner.nextLine();
+ 
+        switch (filterOption) {
+            case 1:
+            	System.out.println();
+                System.out.println("Selected: Filter by Company Name");
+                System.out.print("Enter Company Name: ");
+                String companyName = scanner.nextLine();
+                filteredOpportunities = PlacementService.getOpportunitiesByCompanyName(companyName);
+                break;
+
+            case 2:
+            	System.out.println();
+                System.out.println("Selected: Filter by Role");
+                System.out.print("Enter Role: ");
+                String role = scanner.nextLine();
+                filteredOpportunities = PlacementService.getOpportunitiesByRole(role);
+                break;
+
+            case 3:
+            	System.out.println();
+                System.out.println("Selected: Filter by Location");
+                System.out.print("Enter Location: ");
+                String location = scanner.nextLine();
+                filteredOpportunities = PlacementService.getOpportunitiesByLocation(location);
+                break;
+
+            case 4:
+            	System.out.println();
+                System.out.println("Selected: Filter by Salary Range");
+                
+                // Get minimum salary
+                System.out.print("Enter Minimum Salary (press Enter for default 0): ");
+                String minSalaryInput = scanner.nextLine();
+                int minSalary = minSalaryInput.isEmpty() ? 0 : Integer.parseInt(minSalaryInput);
+
+                // Get maximum salary
+                System.out.print("Enter Maximum Salary : ");
+                String maxSalaryInput = scanner.nextLine();
+                int maxSalary = maxSalaryInput.isEmpty() ? 0 : Integer.parseInt(maxSalaryInput);
+
+                filteredOpportunities = PlacementService.getOpportunitiesBySalaryRange(minSalary, maxSalary);
+                break;
+
+            case 5:
+                System.out.println();
+                break;
+
+            default:
+                System.out.println("Invalid option. Please choose a valid option.");
+                System.out.println();
+                break;
         }
     }
     
