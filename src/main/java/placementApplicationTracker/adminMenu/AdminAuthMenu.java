@@ -2,11 +2,40 @@ package main.java.placementApplicationTracker.adminMenu;
 
 import java.util.Scanner;
 
+import main.java.placementApplicationTracker.repo.intf.AdminRepo;
+import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
+import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
+import main.java.placementApplicationTracker.repo.intf.AuthenticationRepo;
+import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
+import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
+import main.java.placementApplicationTracker.repo.intf.PlacementRepo;
+import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.service.AuthenticationService;
 
 public class AdminAuthMenu {
 	
-	public static void adminLogin(Scanner scanner) {
+	private ApplicationRepo applicationRepo;
+	private PlacementRepo placementRepo;
+	private AssessmentRepo assessmentRepo;
+	private InterviewRepo interviewRepo;
+	private AdminRepo adminRepo;
+	private VisitRepo visitRepo;
+	private AuthenticationService authenticationService;
+	private FeedbackRepo feedbackRepo;
+	
+	public AdminAuthMenu(VisitRepo repo, AuthenticationRepo authenticationRepo, ApplicationRepo applicationRepo, PlacementRepo placementRepo,
+			AssessmentRepo assessmentRepo, InterviewRepo interviewRepo, AdminRepo adminRepo, FeedbackRepo feedbackRepo) {
+		this.visitRepo = repo;
+		this.authenticationService = new AuthenticationService(authenticationRepo);
+		this.applicationRepo = applicationRepo;
+		this.placementRepo = placementRepo;
+		this.assessmentRepo = assessmentRepo;
+		this.interviewRepo = interviewRepo;
+		this.adminRepo = adminRepo;
+		this.feedbackRepo = feedbackRepo;
+	}
+	
+	public void adminLogin(Scanner scanner) {
         System.out.println("Selected: Admin Login");
         System.out.println("============================================");
 
@@ -19,19 +48,20 @@ public class AdminAuthMenu {
 
         System.out.println();
         System.out.println();
-        boolean adminLoginSuccess = AuthenticationService.adminLogin(aId, aPass);
+        boolean adminLoginSuccess = authenticationService.adminLogin(aId, aPass);
 
         if (adminLoginSuccess) {
             System.out.println("Admin login successful!");
             System.out.println();
-            AdminMenu.displayAdminMenu(aId, scanner); // open admin menu
+            AdminMenu adminMenu = new AdminMenu(visitRepo, applicationRepo, placementRepo, assessmentRepo, interviewRepo, adminRepo, feedbackRepo);
+            adminMenu.displayAdminMenu(aId, scanner); // open admin menu
         } else {
             System.out.println("Invalid Admin credentials.");
             System.out.println();
         }
     }
 
-	public static void adminSignup(Scanner scanner) {
+	public void adminSignup(Scanner scanner) {
 	    System.out.println("Selected: Admin Signup");
 	    System.out.println("=============================================");
 	    
@@ -41,7 +71,7 @@ public class AdminAuthMenu {
 	    scanner.nextLine();
 
 	    // Check if the admin ID already exists
-	    if (AuthenticationService.doesAdminIdExist(adminId)) {
+	    if (authenticationService.doesAdminIdExist(adminId)) {
 	        System.out.println("Admin ID already exists. Please go to the login tab");
 	        return;
 	    }
@@ -62,7 +92,7 @@ public class AdminAuthMenu {
 	    System.out.println();
 
 	    // Attempt to sign up the admin
-	    boolean adminSignUpSuccess = AuthenticationService.adminSignup(adminId, aPassword, aFullName, aEmail, designation);
+	    boolean adminSignUpSuccess = authenticationService.adminSignup(adminId, aPassword, aFullName, aEmail, designation);
 
 	    if (adminSignUpSuccess) {
 	        System.out.println("Admin sign up successful!");

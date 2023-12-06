@@ -2,7 +2,6 @@ package main.java.placementApplicationTracker.repo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class PlacementRepository {
 	public static Connection connect() {
 		try {
 			return DriverManager.getConnection(JDBC_URL);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error connecting to the database", e);
 			throw new RuntimeException("Error connecting to the database", e);
 		}
@@ -46,7 +45,7 @@ public class PlacementRepository {
 //				statement.execute(dropFeedback);
 //				statement.execute(dropVisit);
 //				statement.execute(dropInterview);
-//			} catch (SQLException e) {
+//			} catch (Exception e) {
 //				LOGGER.log(Level.SEVERE, "Error while deleting table", e);
 //				throw new RuntimeException("Error deleting table", e);
 //			}
@@ -98,7 +97,7 @@ public class PlacementRepository {
 				ResultSet resultSet = statement.executeQuery(checkTableSQL)) {
 
 			return resultSet.next();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error checking if table exists: " + tableName, e);
 			throw new RuntimeException("Error checking if table exists: " + tableName, e);
 		}
@@ -144,7 +143,7 @@ public class PlacementRepository {
 					"Admin Designation");
 			InsertData.insertAdminData(connection, 2, "another_admin_password", "Another Admin User",
 					"another_admin@example.com", "Senior Admin");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error creating Admin table", e);
 			throw new RuntimeException("Error creating Admin table", e);
 		}
@@ -160,7 +159,7 @@ public class PlacementRepository {
 					2023);
 			InsertData.insertStudentData(connection, 2, "123", "User Two", "user2@example.com",
 					"Electrical Engineering", 2022);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error creating Student table", e);
 			throw new RuntimeException("Error creating Student table", e);
 		}
@@ -178,7 +177,7 @@ public class PlacementRepository {
 					"Internship for software development", 35000, "CityA", "2023-01-01", "2023-03-01", 1);
 			InsertData.insertOpportunityData(connection, 2, "def ltd", "Data Scientist",
 					"Full-time position for data science", 30000, "CityB", "2023-02-01", "2023-04-01", 2);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error creating Opportunity table", e);
 			throw new RuntimeException("Error creating Opportunity table", e);
 		}
@@ -196,7 +195,7 @@ public class PlacementRepository {
 					"Cover letter for User 1, Application 1", "Resume for User 1, Application 1");
 			InsertData.insertApplicationData(connection, 2, 2, 2, "Pending", "2023-02-20", 0,
 					"Cover letter for User 2, Application 2", "Resume for User 2, Application 2");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error creating Application table", e);
 			throw new RuntimeException("Error creating Application table", e);
 		}
@@ -213,7 +212,7 @@ public class PlacementRepository {
 					"Assessment Details for User 1, Application 1");
 			InsertData.insertAssessmentData(connection, 2, 2, "2023-02-28", "Pending",
 					"Assessment Details for User 2, Application 2");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error creating Assessment table", e);
 			throw new RuntimeException("Error creating Assessment table", e);
 		}
@@ -229,7 +228,7 @@ public class PlacementRepository {
 					"Visit Details for User 1, Application 1");
 			InsertData.insertVisitData(connection, 2, 2, "2023-03-08", "Confirmed",
 					"Visit Details for User 2, Application 2");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error creating Visit table", e);
 			throw new RuntimeException("Error creating Visit table", e);
 		}
@@ -244,7 +243,7 @@ public class PlacementRepository {
 			statement.execute(createTableSQL);
 			InsertData.insertInterviewData(connection, 1, 1, "Scheduled", "Technical", "2023-03-10");
 			InsertData.insertInterviewData(connection, 2, 2, "Scheduled", "HR", "2023-03-12");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error creating Interview table", e);
 			throw new RuntimeException("Error creating Interview table", e);
 		}
@@ -258,7 +257,7 @@ public class PlacementRepository {
 			statement.execute(createTableSQL);
 			InsertData.insertFeedbackData(connection, 1, 1, "Good performance in the assessment", "2023-03-10");
 			InsertData.insertFeedbackData(connection, 2, 2, "Further improvements needed", "2023-03-12");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error creating Feedback table", e);
 			throw new RuntimeException("Error creating Feedback table", e);
 		}

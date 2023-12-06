@@ -6,13 +6,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Application;
+import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
+import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
+import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
+import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
+import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.service.ApplicationService;
 
 public class StudentApplicationMenu {
 
-	private static final Logger LOGGER = Logger.getLogger(StudentApplicationMenu.class.getName());
+	private final Logger LOGGER = Logger.getLogger(StudentApplicationMenu.class.getName());
+	private VisitRepo visitRepo;
+	private FeedbackRepo feedbackRepo;
+	private ApplicationRepo applicationRepo;
+    private AssessmentRepo assessmentRepo;
+    private InterviewRepo interviewRepo;
+    private ApplicationService applicationService;
+	
+	public StudentApplicationMenu(VisitRepo visitRepo, ApplicationRepo applicationRepo, FeedbackRepo feedbackRepo, AssessmentRepo assessmentRepo, InterviewRepo interviewRepo) {
+		this.visitRepo = visitRepo;
+		this.assessmentRepo = assessmentRepo;
+		this.feedbackRepo = feedbackRepo;
+		this.interviewRepo = interviewRepo;
+		this.applicationRepo = applicationRepo;
+		applicationService = new ApplicationService(applicationRepo);
+	}
 
-	public static void displayApplicationMenu(int studentId, Scanner scanner) {
+	public void displayApplicationMenu(int studentId, Scanner scanner) {
 
 		boolean isRunning = true;
 
@@ -24,7 +44,7 @@ public class StudentApplicationMenu {
 			try {
 
 				List<Application> applications;
-				applications = ApplicationService.getApplicationsByStudent(studentId);
+				applications = applicationService.getApplicationsByStudent(studentId);
 				if (applications.size() == 0) {
 					System.out.println();
 					System.out.println("No applications to display. You have not applied to any opportunities");
@@ -71,13 +91,15 @@ public class StudentApplicationMenu {
 						System.out.println();
 
 					} else {
-						
+
 						System.out.println();
 
 						System.out.println("Enter the Application ID:");
 						int appId = scanner.nextInt();
 						// Show app details
-						StudentApplicationDetailMenu.displayMenu(appId, scanner);
+						StudentApplicationDetailMenu studentApplicationDetailMenu = new StudentApplicationDetailMenu(
+								visitRepo, applicationRepo, feedbackRepo, assessmentRepo, interviewRepo);
+						studentApplicationDetailMenu.displayMenu(appId, scanner);
 					}
 					break;
 				case 2:

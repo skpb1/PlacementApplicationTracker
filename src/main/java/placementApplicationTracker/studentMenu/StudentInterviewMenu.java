@@ -6,12 +6,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Interview;
+import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
+import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
+import main.java.placementApplicationTracker.service.AssessmentService;
 import main.java.placementApplicationTracker.service.InterviewService;
 
 public class StudentInterviewMenu {
-	private static final Logger LOGGER = Logger.getLogger(StudentInterviewMenu.class.getName());
+	private final Logger LOGGER = Logger.getLogger(StudentInterviewMenu.class.getName());
+	private InterviewService interviewService;
 
-	public static void displayInterviewMenu(int applicationId, Scanner scanner) {
+	public StudentInterviewMenu(InterviewRepo interviewRepo) {
+		interviewService = new InterviewService(interviewRepo);
+	}
+
+	public void displayInterviewMenu(int applicationId, Scanner scanner) {
 		boolean isRunning = true;
 
 		while (isRunning) {
@@ -23,7 +31,7 @@ public class StudentInterviewMenu {
 				List<Interview> interviews = null;
 
 				try {
-					interviews = InterviewService.getInterviewsByApplicationId(applicationId);
+					interviews = interviewService.getInterviewsByApplicationId(applicationId);
 				} catch (Exception e) {
 					LOGGER.log(Level.SEVERE, "Error retrieving interview details", e);
 				}
@@ -66,7 +74,7 @@ public class StudentInterviewMenu {
 						System.out.println();
 						System.out.println("Enter the Interview Id:");
 						int interviewId = scanner.nextInt();
-						Interview interview = InterviewService.getInterviewById(interviewId);
+						Interview interview = interviewService.getInterviewById(interviewId);
 						System.out.println();
 						System.out.println("Interview Details are shown below");
 						System.out.println();

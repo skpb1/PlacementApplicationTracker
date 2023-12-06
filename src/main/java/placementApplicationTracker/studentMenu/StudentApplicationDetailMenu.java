@@ -5,12 +5,31 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Application;
+import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
+import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
+import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
+import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
+import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.service.ApplicationService;
 
 public class StudentApplicationDetailMenu {
-	private static final Logger LOGGER = Logger.getLogger(StudentApplicationDetailMenu.class.getName());
+	private final Logger LOGGER = Logger.getLogger(StudentApplicationDetailMenu.class.getName());
+	private VisitRepo visitRepo;
+    private FeedbackRepo feedbackRepo;
+    private AssessmentRepo assessmentRepo;
+    private InterviewRepo interviewRepo;
+    private ApplicationService applicationService;
 
-	public static void displayMenu(int applicationId, Scanner scanner) {
+	public StudentApplicationDetailMenu(VisitRepo visitRepo, ApplicationRepo applicationRepo, FeedbackRepo feedbackRepo, AssessmentRepo assessmentRepo, InterviewRepo interviewRepo) {
+		this.visitRepo = visitRepo;
+		this.assessmentRepo = assessmentRepo;
+		this.feedbackRepo = feedbackRepo;
+		this.interviewRepo = interviewRepo;
+		applicationService = new ApplicationService(applicationRepo);
+		
+	}
+
+	public void displayMenu(int applicationId, Scanner scanner) {
 		boolean isRunning = true;
 
 		while (isRunning) {
@@ -20,7 +39,7 @@ public class StudentApplicationDetailMenu {
 			System.out.println();
 			try {
 
-				Application application = ApplicationService.getApplicationByAppId(applicationId);
+				Application application = applicationService.getApplicationByAppId(applicationId);
 
 				if (application != null) {
 					System.out.println();
@@ -74,7 +93,7 @@ public class StudentApplicationDetailMenu {
 						String updatedCoverLetter = scanner.nextLine();
 
 						try {
-							boolean isUpdated = ApplicationService.updateApplication(applicationId, updatedResume,
+							boolean isUpdated = applicationService.updateApplication(applicationId, updatedResume,
 									updatedCoverLetter);
 							System.out.println();
 							if (isUpdated) {
@@ -106,7 +125,7 @@ public class StudentApplicationDetailMenu {
 
 						if (choice.equals("Y") || choice.equals("y")) {
 							try {
-								boolean isUpdated = ApplicationService.withdrawApplicationByAppId(applicationId);
+								boolean isUpdated = applicationService.withdrawApplicationByAppId(applicationId);
 
 								System.out.println();
 								if (isUpdated) {
@@ -132,7 +151,8 @@ public class StudentApplicationDetailMenu {
 					System.out.println();
 					// Display Assessments
 					if (application != null) {
-						StudentAssessmentMenu.displayAssessmentMenu(applicationId, scanner);
+						StudentAssessmentMenu assessmentMenu = new StudentAssessmentMenu(assessmentRepo);
+						assessmentMenu.displayAssessmentMenu(applicationId, scanner);
 					} else {
 						System.out.println();
 						System.out.println("Application details not found.");
@@ -145,7 +165,8 @@ public class StudentApplicationDetailMenu {
 					System.out.println();
 					// Display Visits
 					if (application != null) {
-						StudentVisitMenu.displayVisitMenu(applicationId, scanner);
+						StudentVisitMenu studentVisitMenu = new StudentVisitMenu(visitRepo);
+						studentVisitMenu.displayVisitMenu(applicationId, scanner);
 					} else {
 						System.out.println();
 						System.out.println("Application details not found.");
@@ -158,7 +179,8 @@ public class StudentApplicationDetailMenu {
 					System.out.println();
 					// Display Interviews
 					if (application != null) {
-						StudentInterviewMenu.displayInterviewMenu(applicationId, scanner);
+						StudentInterviewMenu interviewMenu = new StudentInterviewMenu(interviewRepo);
+						interviewMenu.displayInterviewMenu(applicationId, scanner);
 					} else {
 						System.out.println();
 						System.out.println("Application details not found.");
@@ -171,7 +193,8 @@ public class StudentApplicationDetailMenu {
 					System.out.println();
 					// Display Feedbacks
 					if (application != null) {
-						StudentFeedbackMenu.displayFeedbackMenu(applicationId, scanner);
+						StudentFeedbackMenu feedbackMenu = new StudentFeedbackMenu(feedbackRepo);
+						feedbackMenu.displayFeedbackMenu(applicationId, scanner);
 					} else {
 						System.out.println();
 						System.out.println("Application details not found.");

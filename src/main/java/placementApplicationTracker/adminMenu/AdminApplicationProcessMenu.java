@@ -12,6 +12,11 @@ import main.java.placementApplicationTracker.model.Application;
 import main.java.placementApplicationTracker.model.Assessment;
 import main.java.placementApplicationTracker.model.Interview;
 import main.java.placementApplicationTracker.model.Visit;
+import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
+import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
+import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
+import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
+import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.service.ApplicationService;
 import main.java.placementApplicationTracker.service.FeedbackService;
 import main.java.placementApplicationTracker.service.VisitService;
@@ -19,9 +24,23 @@ import main.java.placementApplicationTracker.service.AssessmentService;
 import main.java.placementApplicationTracker.service.InterviewService;
 
 public class AdminApplicationProcessMenu {
-	private static final Logger LOGGER = Logger.getLogger(AdminApplicationProcessMenu.class.getName());
+	private final Logger LOGGER = Logger.getLogger(AdminApplicationProcessMenu.class.getName());
 
-	public static void displayMenu(int applicationId, Scanner scanner) {
+	private VisitService visitService;
+	private ApplicationService applicationService;
+	private FeedbackService feedbackService;
+	private AssessmentService assessmentService;
+	private InterviewService interviewService;
+	
+	public AdminApplicationProcessMenu(VisitRepo repo, ApplicationRepo applicationRepo, FeedbackRepo feedbackRepo, AssessmentRepo assessmentRepo, InterviewRepo interviewRepo) {
+		this.visitService = new VisitService(repo);
+		this.applicationService = new ApplicationService(applicationRepo);
+		this.assessmentService = new AssessmentService(assessmentRepo);
+		this.feedbackService = new FeedbackService(feedbackRepo);
+		this.interviewService = new InterviewService(interviewRepo);
+	}
+	
+	public void displayMenu(int applicationId, Scanner scanner) {
 		boolean isRunning = true;
 
 		while (isRunning) {
@@ -31,7 +50,7 @@ public class AdminApplicationProcessMenu {
 			System.out.println();
 			try {
 
-				Application application = ApplicationService.getApplicationByAppId(applicationId);
+				Application application = applicationService.getApplicationByAppId(applicationId);
 
 				if (application != null) {
 					System.out.println();
@@ -94,7 +113,7 @@ public class AdminApplicationProcessMenu {
 	                            System.out.println("Invalid action. Please enter either 'a' for Approve or 'r' for Reject.");
 	                        }
 	                    }
-	                    boolean isStatusUpdated = ApplicationService.updateApplicationStatus(applicationId, action);
+	                    boolean isStatusUpdated = applicationService.updateApplicationStatus(applicationId, action);
 
 	                    if (isStatusUpdated) {
 	                        System.out.println("Application status updated successfully.");
@@ -119,7 +138,7 @@ public class AdminApplicationProcessMenu {
 				        System.out.print("Enter your feedback: ");
 				        String feedbackText = scanner.nextLine();
 
-				        boolean isFeedbackAdded = FeedbackService.addFeedback(applicationId, feedbackText);
+				        boolean isFeedbackAdded = feedbackService.addFeedback(applicationId, feedbackText);
 
 				        if (isFeedbackAdded) {
 				            System.out.println("Feedback added successfully.");
@@ -163,7 +182,7 @@ public class AdminApplicationProcessMenu {
 				        Timestamp visitTimestamp = Timestamp.valueOf(visitDateTime);
 
 				        Visit visit = new Visit(0, applicationId, visitTimestamp, visitStatus, visitDetails);
-			            boolean isVisitAdded = VisitService.addVisit(visit);
+			            boolean isVisitAdded = visitService.addVisit(visit);
 			            
 				        if (isVisitAdded) {
 				            System.out.println("Visit scheduled successfully.");
@@ -207,7 +226,7 @@ public class AdminApplicationProcessMenu {
 				        Timestamp assessmentTimestamp = Timestamp.valueOf(assessmentDateTime);
 
 				        Assessment assessment = new Assessment(0, applicationId, assessmentTimestamp, assessmentStatus, assessmentDetails);
-			            boolean isAssessmentAdded = AssessmentService.addAssessment(assessment);
+			            boolean isAssessmentAdded = assessmentService.addAssessment(assessment);
 			            
 				        if (isAssessmentAdded) {
 				            System.out.println("Assessment scheduled successfully.");
@@ -251,7 +270,7 @@ public class AdminApplicationProcessMenu {
 				        Timestamp interviewTimestamp = Timestamp.valueOf(interviewDateTime);
 
 				        Interview interview = new Interview(0, applicationId, interviewTimestamp, interviewStatus, interviewType);
-			            boolean isInterviewScheduled = InterviewService.addInterview(interview);
+			            boolean isInterviewScheduled = interviewService.addInterview(interview);
 			            
 				        if (isInterviewScheduled) {
 				            System.out.println("Interview scheduled successfully.");

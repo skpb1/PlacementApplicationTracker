@@ -5,13 +5,43 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Admin;
+import main.java.placementApplicationTracker.repo.intf.AdminRepo;
+import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
+import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
+import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
+import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
+import main.java.placementApplicationTracker.repo.intf.PlacementRepo;
+import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.service.AdminService;
 
 public class AdminMenu {
 	
-	private static final Logger LOGGER = Logger.getLogger(AdminMenu.class.getName());
+	private final Logger LOGGER = Logger.getLogger(AdminMenu.class.getName());
 
-    public static void displayAdminMenu(int adminId, Scanner scanner) {
+	private VisitRepo visitRepo;
+	private ApplicationRepo applicationRepo;
+	private PlacementRepo placementRepo;
+	private AssessmentRepo assessmentRepo;
+	private InterviewRepo interviewRepo;
+	private AdminRepo adminRepo;
+	private AdminService adminService;
+	private FeedbackRepo feedbackRepo;
+	
+	public AdminMenu(VisitRepo visitRepo, ApplicationRepo applicationRepo, PlacementRepo placementRepo,
+			AssessmentRepo assessmentRepo, InterviewRepo interviewRepo, AdminRepo adminRepo, FeedbackRepo feedbackRepo) {
+		this.visitRepo = visitRepo;
+		this.applicationRepo = applicationRepo;
+		this.placementRepo = placementRepo;
+		this.assessmentRepo = assessmentRepo;
+		this.interviewRepo = interviewRepo;
+		this.adminRepo = adminRepo;
+		this.feedbackRepo = feedbackRepo;
+		adminService = new AdminService(adminRepo);
+	}
+
+	
+	
+    public void displayAdminMenu(int adminId, Scanner scanner) {
 
         boolean isRunning = true;
 
@@ -20,7 +50,7 @@ public class AdminMenu {
                 // Retrieve student details for the welcome message
                 Admin admin = null;
                 try {
-                    admin = AdminService.getAdminDetails(adminId);
+                    admin = adminService.getAdminDetails(adminId);
                 } catch (Exception e) {
                     LOGGER.log(Level.SEVERE, "Error retrieving student details", e);
                 }
@@ -51,35 +81,40 @@ public class AdminMenu {
 	                	System.out.println("Selected: Manage Placement Opportunities");
     					System.out.println("===========================================");
                         System.out.println();
-                        AdminPlacementMenu.displayMenu(adminId, scanner);
+                        AdminPlacementMenu adminPlacementMenu = new AdminPlacementMenu(placementRepo);
+                        adminPlacementMenu.displayMenu(adminId, scanner);
                         break;
 	                    
                     case 2:
                     	System.out.println("Selected: Manage Placement Applications");
 						System.out.println("===========================================");
 	                    System.out.println();
-	                    AdminApplicationMenu.displayMenu(adminId, scanner);
+	                    AdminApplicationMenu adminApplicationMenu = new AdminApplicationMenu(visitRepo, applicationRepo, feedbackRepo, assessmentRepo, interviewRepo);
+	                    adminApplicationMenu.displayMenu(adminId, scanner);
 	                    break;
 
                     case 3:
                         System.out.println("Selected: Manage Visits");
     					System.out.println("===========================================");
                         System.out.println();
-                        AdminVisitMenu.displayMenu(scanner);
+                        AdminVisitMenu adminVisitMenu = new AdminVisitMenu(visitRepo);
+                        adminVisitMenu.displayMenu(scanner);
                         break;
                         
                     case 4:
                         System.out.println("Selected: Manage Assessments");
     					System.out.println("===========================================");
                         System.out.println();
-                        AdminAssessmentMenu.displayMenu(scanner);
+                        AdminAssessmentMenu adminAssessmentMenu = new AdminAssessmentMenu(assessmentRepo);
+                        adminAssessmentMenu.displayMenu(scanner);
                         break;
                         
                     case 5:
                         System.out.println("Selected: Manage Interviews");
     					System.out.println("===========================================");
                         System.out.println();
-                        AdminInterviewMenu.displayMenu(scanner);
+                        AdminInterviewMenu adminInterviewMenu = new AdminInterviewMenu(interviewRepo);
+                        adminInterviewMenu.displayMenu(scanner);
                         break;
                         
                     case 6:
@@ -87,7 +122,8 @@ public class AdminMenu {
                         System.out.println("===========================================");
                         System.out.println();
                         if (admin != null) {
-                        	AdminDetailsMenu.displayEditDetailsMenu(admin, scanner);
+                        	AdminDetailsMenu adminDetailsMenu = new AdminDetailsMenu(adminRepo);
+                        	adminDetailsMenu.displayEditDetailsMenu(admin, scanner);
                         } else {
     						System.out.println("Admin details not found.");
     						System.out.println();

@@ -6,14 +6,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Opportunity;
+import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
+import main.java.placementApplicationTracker.repo.intf.PlacementRepo;
 import main.java.placementApplicationTracker.service.ApplicationService;
 import main.java.placementApplicationTracker.service.PlacementService;
 
 public class StudentPlacementMenu {
-    private static final Logger LOGGER = Logger.getLogger(StudentPlacementMenu.class.getName());
-    private static List<Opportunity> filteredOpportunities;
+    private  final Logger LOGGER = Logger.getLogger(StudentPlacementMenu.class.getName());
+    private  List<Opportunity> filteredOpportunities;
+    private PlacementService placementService;
+    private ApplicationService applicationService;
+    
+    
 
-    public static void displayPlacementOpportunities(int studentId, Scanner scanner) {
+    public StudentPlacementMenu(PlacementRepo placementRepo, ApplicationRepo applicationRepo) {
+		this.placementService = new PlacementService(placementRepo);
+		this.applicationService = new ApplicationService(applicationRepo);
+	}
+
+	public  void displayPlacementOpportunities(int studentId, Scanner scanner) {
 
         boolean isRunning = true;
 
@@ -24,7 +35,7 @@ public class StudentPlacementMenu {
                 System.out.println("Available opportunities are shown below\n");
 
                 if (filteredOpportunities == null) {
-                    filteredOpportunities = PlacementService.getOpportunities();
+                    filteredOpportunities = placementService.getOpportunities();
                 }
 
                 displayOpportunities(filteredOpportunities);
@@ -66,15 +77,15 @@ public class StudentPlacementMenu {
         }
     }
 
-    private static void displayOpportunities(List<Opportunity> opportunities) {
+    private  void displayOpportunities(List<Opportunity> opportunities) {
         if (!opportunities.isEmpty()) {
-            opportunities.forEach(StudentPlacementMenu::displayOpportunityDetails);
+            opportunities.forEach(opp -> displayOpportunityDetails(opp));
         } else {
             System.out.println("\nNo Placement Opportunities available\n");
         }
     }
 
-    private static void displayOpportunityDetails(Opportunity opportunity) {
+    private  void displayOpportunityDetails(Opportunity opportunity) {
         System.out.println("------------------------------------");
         System.out.println("Placement ID: " + opportunity.getOpportunityId());
         System.out.println("Company Name: " + opportunity.getCompanyName());
@@ -87,12 +98,12 @@ public class StudentPlacementMenu {
         System.out.println("-----------------------------------------");
     }
 
-    private static void applyForOpportunity(int studentId, Scanner scanner) {
+    private  void applyForOpportunity(int studentId, Scanner scanner) {
     	try {
             System.out.print("Enter the ID of opportunity you want to apply: ");
             int oppId = scanner.nextInt();
             
-            Opportunity existingOpportunity = PlacementService.getOpportunityById(oppId);
+            Opportunity existingOpportunity = placementService.getOpportunityById(oppId);
 
             if (existingOpportunity != null) {
             	System.out.println();
@@ -111,7 +122,7 @@ public class StudentPlacementMenu {
 	            
 	            // Apply for the opportunity
 	            
-                boolean isCreated = ApplicationService.createApplication(oppId, studentId, resumeContent,
+                boolean isCreated = applicationService.createApplication(oppId, studentId, resumeContent,
                         coverLetterContent);
                 if (isCreated) {
                     System.out.println("Application has been created successfully.");
@@ -134,7 +145,7 @@ public class StudentPlacementMenu {
         }
     }
 
-    private static void filterOpportunities(Scanner scanner) {
+    private  void filterOpportunities(Scanner scanner) {
         System.out.println("Options to filter the Opportunities");
         System.out.println("1. Filter by Company Name");
         System.out.println("2. Filter by Role");
@@ -147,7 +158,7 @@ public class StudentPlacementMenu {
         handleFilterOption(filterOption, scanner);
     }
 
-    private static void handleFilterOption(int filterOption, Scanner scanner) {
+    private  void handleFilterOption(int filterOption, Scanner scanner) {
     	scanner.nextLine();
         switch (filterOption) {
             case 1:
@@ -155,7 +166,7 @@ public class StudentPlacementMenu {
                 System.out.println("Selected: Filter by Company Name");
                 System.out.print("Enter Company Name: ");
                 String companyName = scanner.nextLine();
-                filteredOpportunities = PlacementService.getOpportunitiesByCompanyName(companyName);
+                filteredOpportunities = placementService.getOpportunitiesByCompanyName(companyName);
                 break;
 
             case 2:
@@ -163,7 +174,7 @@ public class StudentPlacementMenu {
                 System.out.println("Selected: Filter by Role");
                 System.out.print("Enter Role: ");
                 String role = scanner.nextLine();
-                filteredOpportunities = PlacementService.getOpportunitiesByRole(role);
+                filteredOpportunities = placementService.getOpportunitiesByRole(role);
                 break;
 
             case 3:
@@ -171,7 +182,7 @@ public class StudentPlacementMenu {
                 System.out.println("Selected: Filter by Location");
                 System.out.print("Enter Location: ");
                 String location = scanner.nextLine();
-                filteredOpportunities = PlacementService.getOpportunitiesByLocation(location);
+                filteredOpportunities = placementService.getOpportunitiesByLocation(location);
                 break;
 
             case 4:
@@ -188,7 +199,7 @@ public class StudentPlacementMenu {
                 String maxSalaryInput = scanner.nextLine();
                 int maxSalary = maxSalaryInput.isEmpty() ? 0 : Integer.parseInt(maxSalaryInput);
 
-                filteredOpportunities = PlacementService.getOpportunitiesBySalaryRange(minSalary, maxSalary);
+                filteredOpportunities = placementService.getOpportunitiesBySalaryRange(minSalary, maxSalary);
                 break;
 
             case 5:

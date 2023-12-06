@@ -6,21 +6,42 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Application;
+import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
+import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
+import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
+import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
+import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.service.ApplicationService;
 
 public class AdminApplicationMenu {
 
-    private static final Logger LOGGER = Logger.getLogger(AdminApplicationMenu.class.getName());
-    private static List<Application> filteredApplications;
+    private final Logger LOGGER = Logger.getLogger(AdminApplicationMenu.class.getName());
+    private List<Application> filteredApplications;
+    
+    private VisitRepo visitRepo;
+    private ApplicationRepo applicationRepo;
+    private FeedbackRepo feedbackRepo;
+    private AssessmentRepo assessmentRepo;
+    private InterviewRepo interviewRepo;
+    private ApplicationService applicationService;
+	
+	public AdminApplicationMenu(VisitRepo repo, ApplicationRepo applicationRepo, FeedbackRepo feedbackRepo, AssessmentRepo assessmentRepo, InterviewRepo interviewRepo) {
+		this.visitRepo = repo;
+		this.applicationRepo = applicationRepo;
+		this.assessmentRepo = assessmentRepo;
+		this.feedbackRepo = feedbackRepo;
+		this.interviewRepo = interviewRepo;
+		applicationService = new ApplicationService(applicationRepo);
+	}
 
-    public static void displayMenu(int adminId, Scanner scanner) {
+    public void displayMenu(int adminId, Scanner scanner) {
 
         boolean isRunning = true;
 
         while (isRunning) {
             try {
                 if (filteredApplications == null) {
-                    filteredApplications = ApplicationService.getAllApplications();
+                    filteredApplications = applicationService.getAllApplications();
                 }
 
                 displayApplications(filteredApplications, scanner);
@@ -58,7 +79,8 @@ public class AdminApplicationMenu {
                         System.out.println();
                         System.out.println("Please Enter the Application ID:");
                         int appId = scanner.nextInt();
-                        AdminApplicationProcessMenu.displayMenu(appId, scanner);
+                        AdminApplicationProcessMenu adminApplicationMenu = new AdminApplicationProcessMenu(visitRepo, applicationRepo, feedbackRepo, assessmentRepo, interviewRepo);
+                        adminApplicationMenu.displayMenu(appId, scanner);
                         break;
 
                     case 3:
@@ -81,20 +103,20 @@ public class AdminApplicationMenu {
         }
     }
 
-    private static void handleFilterOption(int filterOption, Scanner scanner) {
+    private void handleFilterOption(int filterOption, Scanner scanner) {
         switch (filterOption) {
             case 1:
                 System.out.println("Selected: Filter by Opportunity ID");
                 System.out.print("Enter Opportunity ID: ");
                 int opportunityId = scanner.nextInt();
-                filteredApplications = ApplicationService.getApplicationsByOpportunity(opportunityId);
+                filteredApplications = applicationService.getApplicationsByOpportunity(opportunityId);
                 break;
 
             case 2:
                 System.out.println("Selected: Filter by Student ID");
                 System.out.print("Enter Student ID: ");
                 int studentId = scanner.nextInt();
-                filteredApplications = ApplicationService.getApplicationsByStudent(studentId);
+                filteredApplications = applicationService.getApplicationsByStudent(studentId);
                 break;
 
             case 3:
@@ -108,7 +130,7 @@ public class AdminApplicationMenu {
         }
     }
 
-    public static void displayApplications(List<Application> applications, Scanner scanner) {
+    public void displayApplications(List<Application> applications, Scanner scanner) {
 
         scanner.nextLine();
 
