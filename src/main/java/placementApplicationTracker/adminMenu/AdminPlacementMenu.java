@@ -9,9 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Opportunity;
-import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
 import main.java.placementApplicationTracker.repo.intf.PlacementRepo;
-import main.java.placementApplicationTracker.service.ApplicationService;
 import main.java.placementApplicationTracker.service.PlacementService;
 
 public class AdminPlacementMenu {
