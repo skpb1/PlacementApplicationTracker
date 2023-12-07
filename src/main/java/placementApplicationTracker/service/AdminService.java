@@ -6,11 +6,13 @@ import main.java.placementApplicationTracker.repo.intf.AdminRepo;
 public class AdminService {
 
 	private AdminRepo adminRepo;
-	
-	
 
 	public AdminService(AdminRepo adminRepo) {
 		this.adminRepo = adminRepo;
+	}
+
+	public AdminRepo getAdminRepo() {
+		return adminRepo;
 	}
 
 	public Admin getAdminDetails(int adminId) {
