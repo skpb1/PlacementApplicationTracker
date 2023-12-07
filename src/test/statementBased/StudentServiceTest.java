@@ -25,7 +25,7 @@ public class StudentServiceTest {
     @Test
     public void testGetStudentDetails() {
         Student mockStudent = new Student(1, "pass123", "John Doe", "john@example.com", "Computer Science", 2022);
-        ((MockStudentRepoImpl) studentService.getStudentRepo()).addMockStudent(mockStudent);
+        ((MockStudentRepoImpl) studentService.getStudentRepo()).addStudent(mockStudent);
 
         Student retrievedStudent = studentService.getStudentDetails(1);
         assertNotNull(retrievedStudent);
@@ -38,7 +38,7 @@ public class StudentServiceTest {
     @Test
     public void testUpdateStudentPassword() {
         Student mockStudent = new Student(1, "pass123", "John Doe", "john@example.com", "Computer Science", 2022);
-        ((MockStudentRepoImpl) studentService.getStudentRepo()).addMockStudent(mockStudent);
+        ((MockStudentRepoImpl) studentService.getStudentRepo()).addStudent(mockStudent);
 
         boolean isUpdated = studentService.updateStudentPassword(1, "pass123", "newPass456");
         assertTrue(isUpdated);
@@ -50,7 +50,7 @@ public class StudentServiceTest {
     @Test
     public void testUpdateStudentDetails() {
         Student mockStudent = new Student(1, "pass123", "John Doe", "john@example.com", "Computer Science", 2022);
-        ((MockStudentRepoImpl) studentService.getStudentRepo()).addMockStudent(mockStudent);
+        ((MockStudentRepoImpl) studentService.getStudentRepo()).addStudent(mockStudent);
 
         boolean isUpdated = studentService.updateStudentDetails(1, "Jane Doe", "jane@example.com", "Electrical Engineering", 2023);
         assertTrue(isUpdated);

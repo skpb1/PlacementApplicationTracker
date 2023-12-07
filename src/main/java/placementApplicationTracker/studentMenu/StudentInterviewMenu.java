@@ -28,11 +28,8 @@ public class StudentInterviewMenu {
 			try {
 				List<Interview> interviews = null;
 
-				try {
-					interviews = interviewService.getInterviewsByApplicationId(applicationId);
-				} catch (Exception e) {
-					LOGGER.log(Level.SEVERE, "Error retrieving interview details", e);
-				}
+				interviews = interviewService.getInterviewsByApplicationId(applicationId);
+				
 
 				if (interviews.size() != 0) {
 					System.out.println();

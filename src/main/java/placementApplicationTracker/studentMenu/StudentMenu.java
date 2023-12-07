@@ -49,11 +49,7 @@ public class StudentMenu {
 			try {
 				// Retrieve student details for the welcome message
 				Student student = null;
-				try {
-					student = studentService.getStudentDetails(studentId);
-				} catch (Exception e) {
-					LOGGER.log(Level.SEVERE, "Error retrieving student details", e);
-				}
+				student = studentService.getStudentDetails(studentId);
 
 				String studentName = (student != null) ? student.getFullName() : "Unknown";
 

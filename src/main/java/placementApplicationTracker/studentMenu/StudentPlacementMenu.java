@@ -53,6 +53,7 @@ public class StudentPlacementMenu {
                 switch (option) {
                     case 1:
                         applyForOpportunity(studentId, scanner);
+                        filteredOpportunities = null;
                         break;
 
                     case 2:

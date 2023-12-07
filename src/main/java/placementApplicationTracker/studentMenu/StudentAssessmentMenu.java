@@ -28,11 +28,8 @@ public class StudentAssessmentMenu {
 			try {
 				List<Assessment> assessments = null;
 
-				try {
-					assessments = assessmentService.getAssessmentsByApplicationId(applicationId);
-				} catch (Exception e) {
-					LOGGER.log(Level.SEVERE, "Error retrieving assessment details", e);
-				}
+				assessments = assessmentService.getAssessmentsByApplicationId(applicationId);
+				
 
 				if (assessments.size() != 0) {
 					System.out.println();

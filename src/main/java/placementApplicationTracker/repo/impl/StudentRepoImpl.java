@@ -77,4 +77,9 @@ public class StudentRepoImpl implements StudentRepo {
         }
     }
 
+	@Override
+	public void addStudent(Student student) {
+		
+	}
+
 }

@@ -28,11 +28,8 @@ public class StudentVisitMenu {
 			try {
 				List<Visit> visits = null;
 
-				try {
-					visits = visitService.getVisitsByApplicationId(applicationId);
-				} catch (Exception e) {
-					LOGGER.log(Level.SEVERE, "Error retrieving visit details", e);
-				}
+				visits = visitService.getVisitsByApplicationId(applicationId);
+				
 
 				if (visits.size() != 0) {
 					System.out.println();
