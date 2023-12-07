@@ -25,28 +25,22 @@ public class AdminDetailsMenu {
 			System.out.println();
 			System.out.println();
 			try {
-				// Retrieve and display admin details
-				System.out.println("Current Admin Details:");
-				System.out.println();
-				System.out.println("------------------------------------");
-				System.out.println("Admin ID: " + admin.getAdminId());
-				System.out.println("Full Name: " + admin.getFullName());
-				System.out.println("Email: " + admin.getEmail());
-				System.out.println("Designation: " + admin.getDesignation());
-				System.out.println("------------------------------------");
-
-				System.out.println();
-				System.out.println("********************************************");
+				// Fetch and display admin details
+                admin = adminService.getAdminDetails(admin.getAdminId());
+                displayAdminDetails(admin);
+                
+				System.out.println("\n********************************************");
 				System.out.println("Please Choose an option:");
 				System.out.println("1. Edit Details");
 				System.out.println("2. Update Password");
 				System.out.println("3. Go back");
 				System.out.println("********************************************");
-				System.out.println();
 				System.out.print("Enter your choice: ");
 
 				int option = scanner.nextInt();
 				System.out.println();
+				scanner.nextLine();
+				
 				switch (option) {
 				case 1:
 					// Get updated details from the user
@@ -106,6 +100,17 @@ public class AdminDetailsMenu {
 			}
 		}
 	}
+	
+	// Display admin details
+    private void displayAdminDetails(Admin admin) {
+        System.out.println("Current Admin Details:");
+        System.out.println("------------------------------------");
+        System.out.println("Admin ID: " + admin.getAdminId());
+        System.out.println("Full Name: " + admin.getFullName());
+        System.out.println("Email: " + admin.getEmail());
+        System.out.println("Designation: " + admin.getDesignation());
+        System.out.println("------------------------------------");
+    }
 
 	public void editPasswordMenu(Admin admin, Scanner scanner) {
 		// Retrieve and update admin password
@@ -114,7 +119,6 @@ public class AdminDetailsMenu {
 		do {
 			System.out.print("Enter current password: ");
 			enteredCurrentPassword = scanner.nextLine();
-			scanner.nextLine();
 
 			// Compare entered current password with the actual current password
 			if (!enteredCurrentPassword.equals(admin.getPassword())) {

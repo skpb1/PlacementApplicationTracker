@@ -25,29 +25,22 @@ public class StudentDetailsMenu {
 			System.out.println();
 			System.out.println();
 			try {
-				// Retrieve and display student details
-				System.out.println("Current Student Details:");
-				System.out.println();
-				System.out.println("------------------------------------");
-				System.out.println("Student ID: " + student.getStudentId());
-				System.out.println("Full Name: " + student.getFullName());
-				System.out.println("Email: " + student.getEmail());
-				System.out.println("Course: " + student.getCourse());
-				System.out.println("Pass Out Year: " + student.getPassOutYear());
-				System.out.println("------------------------------------");
+				// Fetch and display student details
+                student = studentService.getStudentDetails(student.getStudentId());
+                displayStudentDetails(student);
 
-				System.out.println();
-				System.out.println("********************************************");
+				System.out.println("\n********************************************");
 				System.out.println("Please Choose an option:");
 				System.out.println("1. Edit Details");
 				System.out.println("2. Update Password");
 				System.out.println("3. Go back");
 				System.out.println("********************************************");
-				System.out.println();
 				System.out.print("Enter your choice: ");
 
 				int option = scanner.nextInt();
 				System.out.println();
+				scanner.nextLine();
+
 				switch (option) {
 				case 1:
 					// Get updated details from the user
@@ -110,6 +103,18 @@ public class StudentDetailsMenu {
 		}
 
 	}
+	
+	// Display student details
+    private void displayStudentDetails(Student student) {
+		System.out.println("Current Student Details:");
+		System.out.println("------------------------------------");
+		System.out.println("Student ID: " + student.getStudentId());
+		System.out.println("Full Name: " + student.getFullName());
+		System.out.println("Email: " + student.getEmail());
+		System.out.println("Course: " + student.getCourse());
+		System.out.println("Pass Out Year: " + student.getPassOutYear());
+		System.out.println("------------------------------------");
+    }
 
 	public void EditPasswordMenu(Student student, Scanner scanner) {
 		// Retrieve and update student password
@@ -118,7 +123,7 @@ public class StudentDetailsMenu {
 		do {
 			System.out.print("Enter current password: ");
 			enteredCurrentPassword = scanner.nextLine();
-			scanner.nextLine();
+
 			// Compare entered current password with the actual current password
 			if (!enteredCurrentPassword.equals(student.getPassword())) {
 				System.out.println("Entered current password is not correct. Please try again.");

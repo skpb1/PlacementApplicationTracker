@@ -42,8 +42,9 @@ public class MockAdminRepoImpl implements AdminRepo {
         return false;
     }
 
-    public void addMockAdmin(Admin admin) {
-        admins.put(admin.getAdminId(), admin);
+    @Override
+    public void addAdmin(Admin admin) {
+    	admins.put(admin.getAdminId(), admin);
     }
 
 }

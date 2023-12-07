@@ -20,7 +20,6 @@ import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
 import main.java.placementApplicationTracker.repo.intf.PlacementRepo;
 import main.java.placementApplicationTracker.repo.intf.StudentRepo;
 import main.java.placementApplicationTracker.repo.intf.VisitRepo;
-import main.java.placementApplicationTracker.studentMenu.StudentApplicationMenu;
 import main.java.placementApplicationTracker.studentMenu.StudentAuthMenu;
 
 public class StudentAuthMenuTest {

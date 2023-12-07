@@ -69,4 +69,9 @@ public class AdminRepoImpl implements AdminRepo {
 			return false;
 		}
 	}
+	
+	@Override
+	public void addAdmin(Admin admin) {
+		
+	}
 }
