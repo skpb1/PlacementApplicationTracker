@@ -13,6 +13,10 @@ public class AdminService {
 		this.adminRepo = adminRepo;
 	}
 
+	public AdminRepo getAdminRepo() {
+		return adminRepo;
+	}
+
 	public Admin getAdminDetails(int adminId) {
 		return adminRepo.getAdminDetails(adminId);
 	}

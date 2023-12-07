@@ -43,7 +43,8 @@ public class MockStudentRepoImpl implements StudentRepo {
         return false;
     }
 
-    public void addMockStudent(Student student) {
+    @Override
+    public void addStudent(Student student) {
         students.put(student.getStudentId(), student);
     }
 

@@ -28,11 +28,8 @@ public class StudentFeedbackMenu {
 			try {
 				List<Feedback> feedbacks = null;
 
-				try {
-					feedbacks = feedbackService.getFeedbacksByApplicationId(applicationId);
-				} catch (Exception e) {
-					LOGGER.log(Level.SEVERE, "Error retrieving feedback details", e);
-				}
+				feedbacks = feedbackService.getFeedbacksByApplicationId(applicationId);
+				
 
 				if (feedbacks.size() != 0) {
 					System.out.println();

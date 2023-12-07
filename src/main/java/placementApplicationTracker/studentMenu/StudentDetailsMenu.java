@@ -119,7 +119,6 @@ public class StudentDetailsMenu {
 			System.out.print("Enter current password: ");
 			enteredCurrentPassword = scanner.nextLine();
 			scanner.nextLine();
-
 			// Compare entered current password with the actual current password
 			if (!enteredCurrentPassword.equals(student.getPassword())) {
 				System.out.println("Entered current password is not correct. Please try again.");
