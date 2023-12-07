@@ -9,9 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Opportunity;
-import main.java.placementApplicationTracker.repo.intf.ApplicationRepo;
 import main.java.placementApplicationTracker.repo.intf.PlacementRepo;
-import main.java.placementApplicationTracker.service.ApplicationService;
 import main.java.placementApplicationTracker.service.PlacementService;
 
 public class AdminPlacementMenu {
@@ -34,9 +32,9 @@ public class AdminPlacementMenu {
 			try {
 				System.out.println("\nAll Available opportunities are shown below\n");
 
-//				if (filteredOpportunities == null) {
+				if (filteredOpportunities == null) {
 					filteredOpportunities = placementService.getOpportunities();
-//				}
+				}
 
 				displayOpportunities(filteredOpportunities);
 

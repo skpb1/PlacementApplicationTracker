@@ -6,9 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Interview;
-import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
 import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
-import main.java.placementApplicationTracker.service.AssessmentService;
 import main.java.placementApplicationTracker.service.InterviewService;
 
 public class StudentInterviewMenu {

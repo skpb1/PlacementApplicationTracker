@@ -7,9 +7,7 @@ import java.util.logging.Logger;
 
 import main.java.placementApplicationTracker.model.Assessment;
 import main.java.placementApplicationTracker.repo.intf.AssessmentRepo;
-import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
 import main.java.placementApplicationTracker.service.AssessmentService;
-import main.java.placementApplicationTracker.service.FeedbackService;
 
 public class StudentAssessmentMenu {
 	private final Logger LOGGER = Logger.getLogger(StudentAssessmentMenu.class.getName());
