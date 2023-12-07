@@ -107,9 +107,6 @@ public class StudentAuthMenu {
 			if (studentSignUpSuccess) {
 				System.out.println("Student sign up successful!");
 				System.out.println();
-			} else {
-				System.out.println("Error occurred while signing up as Student");
-				System.out.println();
 			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "An Error occured", e);
