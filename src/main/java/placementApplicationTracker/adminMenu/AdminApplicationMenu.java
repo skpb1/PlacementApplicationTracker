@@ -81,6 +81,7 @@ public class AdminApplicationMenu {
                         int appId = scanner.nextInt();
                         AdminApplicationProcessMenu adminApplicationMenu = new AdminApplicationProcessMenu(visitRepo, applicationRepo, feedbackRepo, assessmentRepo, interviewRepo);
                         adminApplicationMenu.displayMenu(appId, scanner);
+                        filteredApplications = null;
                         break;
 
                     case 3:
@@ -136,7 +137,7 @@ public class AdminApplicationMenu {
 
         if (applications.size() == 0) {
             System.out.println();
-            System.out.println("No applications to display!!!. Cannot find any Placement applications in Database.");
+            System.out.println("No applications to display!!! Cannot find any Placement applications.");
             System.out.println();
             System.out.println("------------------------------------");
 
@@ -149,7 +150,7 @@ public class AdminApplicationMenu {
             System.out.println("Applications List is shown below");
             System.out.println();
             applications.forEach(item -> {
-                System.out.println("------------------------------------");
+                System.out.println("-----------------------------------------");
                 System.out.println("Application ID: " + item.getApplicationId());
                 System.out.println("Opportunity ID: " + item.getOpportunityId());
                 System.out.println("Submitted By (Student ID): " + item.getStudentId());

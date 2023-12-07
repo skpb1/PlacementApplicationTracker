@@ -45,7 +45,6 @@ public class VisitRepoImpl implements VisitRepo {
 		try (Connection connection = PlacementRepository.connect();
 				PreparedStatement statement = connection.prepareStatement(query)) {
 			try (ResultSet resultSet = statement.executeQuery()) {
-				System.out.println("Result" + resultSet);
 				while (resultSet.next()) {
 					Visit visit = new Visit();
 					visit.setVisitId(resultSet.getInt("visitId"));

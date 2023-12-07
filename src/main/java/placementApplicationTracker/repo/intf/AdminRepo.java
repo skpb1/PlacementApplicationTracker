@@ -9,5 +9,7 @@ public interface AdminRepo {
 	boolean updateAdminPassword(int adminId, String currentPassword, String newPassword);
 
 	Admin getAdminDetails(int adminId);
+	
+	public void addAdmin(Admin admin);
 
 }

@@ -15,35 +15,27 @@ import main.java.placementApplicationTracker.service.VisitService;
 public class AdminVisitMenu {
 
     private final Logger LOGGER = Logger.getLogger(AdminVisitMenu.class.getName());
-//    private VisitRepo visitRepo;
     private VisitService visitService;
-    
+
     public AdminVisitMenu(VisitRepo visitRepo) {
-//    	this.visitRepo = visitRepo;
-    	this.visitService = new VisitService(visitRepo);
+        this.visitService = new VisitService(visitRepo);
     }
-    
+
     public void displayMenu(Scanner scanner) {
         boolean isRunning = true;
 
         while (isRunning) {
-            System.out.println("\n\n\n\n");
+            System.out.println("\n\n");
 
             try {
                 System.out.println("\nAll Available visits are shown below\n");
 
-//                VisitService visitService = new VisitService(visitRepo);
                 List<Visit> visits = visitService.getVisits();
-
-                if (!visits.isEmpty()) {
-                    visits.forEach(visit -> displayVisitDetails(visit));
-                } else {
-                    System.out.println("\nNo Visits available\n");
-                }
+                displayAllVisits(visits);
 
                 System.out.println("\n********************************************");
                 System.out.println("Please Choose an option:");
-                System.out.println("1. Add new visit");
+                System.out.println("1. Manage visit for an application");
                 System.out.println("2. Edit visit");
                 System.out.println("3. Delete visit");
                 System.out.println("4. Go back");
@@ -54,15 +46,24 @@ public class AdminVisitMenu {
                 System.out.println();
                 switch (option) {
                     case 1:
-                        addVisit(scanner);
+                        System.out.println("Selected: Manage visit for an application");
+                        System.out.println("============================================");
+                        System.out.println();
+                        manageVisitForApplication(scanner, null);
                         break;
 
                     case 2:
-                        editVisit(scanner);
+                        System.out.println("Selected: Edit Visit");
+                        System.out.println("============================================");
+                        System.out.println();
+                        editVisitOption(scanner);
                         break;
 
                     case 3:
-                        deleteVisit(scanner);
+                        System.out.println("Selected: Delete Visit");
+                        System.out.println("============================================");
+                        System.out.println();
+                        deleteVisitOption(scanner);
                         break;
 
                     case 4:
@@ -75,15 +76,27 @@ public class AdminVisitMenu {
                         break;
                 }
             } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "Error in menu option processing", e);
-                System.out.println("An unexpected error occurred. Please try again.");
+                handleException("Error in menu option processing", e);
                 isRunning = false;
             }
         }
     }
 
+    private void displayAllVisits(List<Visit> visits) {
+        if (!visits.isEmpty()) {
+            visits.forEach(this::displayVisitDetails);
+        } else {
+            System.out.println("\nNo Visits available\n");
+        }
+    }
+
+    private void handleException(String message, Exception e) {
+        LOGGER.log(Level.SEVERE, message, e);
+        System.out.println("An unexpected error occurred. Please try again.");
+    }
+
     public void displayVisitDetails(Visit visit) {
-        System.out.println("------------------------------------");
+        System.out.println("-----------------------------------------");
         System.out.println("Visit ID: " + visit.getVisitId());
         System.out.println("Application ID: " + visit.getApplicationId());
         System.out.println("Date and Time: " + visit.getDateTime());
@@ -110,23 +123,112 @@ public class AdminVisitMenu {
         return dateTime;
     }
 
-    public void addVisit(Scanner scanner) {
+    public void manageVisitForApplication(Scanner scanner, Integer applicationId) {
         try {
-        	
-        	System.out.print("Enter the Application ID related to the Visit: ");
-            int applicationId = scanner.nextInt();
-            scanner.nextLine();           
+            if (applicationId == null) {
+                System.out.print("Enter the Application ID: ");
+                applicationId = scanner.nextInt();
+                scanner.nextLine();
+            }
 
-            LocalDateTime visitDateTime = validateTimestampInput(scanner, "Enter visit date and time (YYYY-MM-DD HH:mm:ss): ");
-            Timestamp visitTimestamp = Timestamp.valueOf(visitDateTime);
-           
-            System.out.print("Enter visit status: ");
-            String visitStatus = scanner.nextLine();
+            List<Visit> existingVisitList = visitService.getVisitsByApplicationId(applicationId);
+
+            if (!existingVisitList.isEmpty()) {
+                handleExistingVisit(existingVisitList, applicationId, scanner);
+            } else {
+                handleNoVisit(applicationId, scanner);
+            }
+        } catch (Exception e) {
+            handleException("Error managing visit for application", e);
+        }
+    }
+
+    public void handleExistingVisit(List<Visit> visitList, int applicationId, Scanner scanner) {
+        System.out.println();
+        System.out.println("Found Visit details for the application");
+        System.out.println();
+        displayAllVisits(visitList);
+
+        System.out.println("\n********************************************");
+        System.out.println("Please Choose an option:");
+        System.out.println("1. Edit Visit");
+        System.out.println("2. Delete Visit");
+        System.out.println("3. Add new Visit");
+        System.out.println("4. Go back");
+        System.out.println("********************************************");
+        System.out.print("Enter your choice: ");
+
+        int visitOption = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (visitOption) {
+            case 1:
+                System.out.println("\nSelected: Edit Visit");
+                System.out.println("============================================");
+                editVisitOption(scanner);
+                break;
+
+            case 2:
+                System.out.println("\nSelected: Delete Visit");
+                System.out.println("============================================");
+                deleteVisitOption(scanner);
+                break;
+                
+            case 3:
+                System.out.println("\nSelected: Add new Visit");
+                System.out.println("============================================");
+                addVisitForApplication(applicationId, scanner);
+                break;
+
+            case 4:
+                System.out.println("Selected: Go back");
+                break;
+
+            default:
+                System.out.println("Invalid option. Please choose a valid option.");
+        }
+    }
+    
+    public void handleNoVisit(int applicationId, Scanner scanner) {
+        System.out.println();
+        System.out.println("No Visit found for this application");
+        System.out.println();
+        System.out.println("------------------------------------");
+        System.out.println();
+
+        System.out.println("Please choose an option:");
+        System.out.println("1. Schedule Visit");
+        System.out.println("2. Go back");
+        System.out.print("Enter your choice: ");
+
+        int visitOption = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (visitOption) {
+            case 1:
+                System.out.println("\nSelected: Schedule Visit");
+                System.out.println("============================================");
+                addVisitForApplication(applicationId, scanner);
+                break;
+
+            case 2:
+                System.out.println("Selected: Go back");
+                break;
+
+            default:
+                System.out.println("Invalid option. Please choose a valid option.");
+        }
+    }
+    
+    public void addVisitForApplication(int applicationId, Scanner scanner) {
+        try {
             System.out.print("Enter visit details: ");
             String visitDetails = scanner.nextLine();
+            
+            LocalDateTime visitDateTime = validateTimestampInput(scanner, "Enter visit date and time (YYYY-MM-DD HH:mm:ss): ");
+            Timestamp visitTimestamp = Timestamp.valueOf(visitDateTime);
 
-            Visit visit = new Visit(0, applicationId, visitTimestamp, visitStatus, visitDetails);
-//            VisitService visitService = new VisitService(visitRepo);
+            Visit visit = new Visit(0, applicationId, visitTimestamp, "Scheduled", visitDetails);
             boolean isVisitAdded = visitService.addVisit(visit);
 
             if (isVisitAdded) {
@@ -135,56 +237,70 @@ public class AdminVisitMenu {
                 System.out.println("Failed to add visit.");
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error adding new visit", e);
-            System.out.println("An error occurred while adding a new visit. Please try again.");
+            handleException("Error adding new visit for application", e);
         }
     }
 
-    public void editVisit(Scanner scanner) {
+
+    public void editVisit(Visit existingVisit, Scanner scanner) {
+        LocalDateTime updatedVisitDateTime = validateTimestampInput(scanner, "Enter updated visit date and time (YYYY-MM-DD HH:mm:ss): ");
+        Timestamp updatedVisitTimestamp = Timestamp.valueOf(updatedVisitDateTime);
+
+        System.out.print("Enter updated visit status: ");
+        String updatedVisitStatus = scanner.nextLine();
+        System.out.print("Enter updated visit details: ");
+        String updatedVisitDetails = scanner.nextLine();
+
+        int applicationId = existingVisit.getApplicationId();
+        Visit updatedVisit = new Visit(existingVisit.getVisitId(), applicationId, updatedVisitTimestamp, updatedVisitStatus, updatedVisitDetails);
+
+        boolean isVisitUpdated = visitService.updateVisit(existingVisit.getVisitId(), updatedVisit);
+
+        if (isVisitUpdated) {
+            System.out.println("Visit updated successfully.");
+        } else {
+            System.out.println("Failed to update visit.");
+        }
+    }
+
+    public void deleteVisit(Visit existingVisit, Scanner scanner) {
+        System.out.print("Are you sure you want to delete this visit (Y/N): ");
+        String choice = scanner.next();
+
+        if (choice.equalsIgnoreCase("Y")) {
+            boolean isVisitDeleted = visitService.deleteVisit(existingVisit.getVisitId());
+            if (isVisitDeleted) {
+                System.out.println("Visit deleted successfully.");
+            } else {
+                System.out.println("Failed to delete visit.");
+            }
+        } else {
+            System.out.println("Deletion canceled.");
+        }
+    }
+
+    public void editVisitOption(Scanner scanner) {
         try {
             System.out.print("Enter Visit ID to edit: ");
             int visitId = scanner.nextInt();
             scanner.nextLine();
 
-//            VisitService visitService = new VisitService(visitRepo);
             Visit existingVisit = visitService.getVisitById(visitId);
 
             if (existingVisit != null) {
-                System.out.println("Existing Visit Details:");
+                System.out.println("\nExisting Visit Details:");
                 displayVisitDetails(existingVisit);
 
-                LocalDateTime updatedVisitDateTime = validateTimestampInput(scanner, "Enter updated visit date and time (YYYY-MM-DD HH:mm:ss): ");
-                Timestamp updatedVisitTimestamp = Timestamp.valueOf(updatedVisitDateTime);
-                scanner.nextLine();
-                
-                System.out.print("Enter updated visit status: ");
-                String updatedVisitStatus = scanner.nextLine();
-                System.out.print("Enter updated visit details: ");
-                String updatedVisitDetails = scanner.nextLine();
-
-                // Use the existing application ID
-                int applicationId = existingVisit.getApplicationId();
-
-                Visit updatedVisit = new Visit(visitId, applicationId, updatedVisitTimestamp, updatedVisitStatus, updatedVisitDetails);
-
-//                VisitService visitService1 = new VisitService(visitRepo);
-                boolean isVisitUpdated = visitService.updateVisit(visitId, updatedVisit);
-
-                if (isVisitUpdated) {
-                    System.out.println("Visit updated successfully.");
-                } else {
-                    System.out.println("Failed to update visit.");
-                }
+                editVisit(existingVisit, scanner);
             } else {
                 System.out.println("Visit not found.");
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error editing visit", e);
-            System.out.println("An error occurred while editing the visit. Please try again.");
+            handleException("Error editing visit", e);
         }
     }
 
-    public void deleteVisit(Scanner scanner) {
+    public void deleteVisitOption(Scanner scanner) {
         try {
             System.out.print("Enter Visit ID to delete: ");
             int visitId = scanner.nextInt();
@@ -193,29 +309,15 @@ public class AdminVisitMenu {
             Visit existingVisit = visitService.getVisitById(visitId);
 
             if (existingVisit != null) {
-                System.out.println("Existing Visit Details:");
+                System.out.println("\nExisting Visit Details:");
                 displayVisitDetails(existingVisit);
 
-                System.out.print("Are you sure you want to delete this visit (Y/N): ");
-                String choice = scanner.next();
-
-                if (choice.equalsIgnoreCase("Y")) {
-                    boolean isVisitDeleted = visitService.deleteVisit(visitId);
-
-                    if (isVisitDeleted) {
-                        System.out.println("Visit deleted successfully.");
-                    } else {
-                        System.out.println("Failed to delete visit.");
-                    }
-                } else {
-                    System.out.println("Deletion canceled.");
-                }
+                deleteVisit(existingVisit, scanner);
             } else {
                 System.out.println("Visit not found.");
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error deleting visit", e);
-            System.out.println("An error occurred while deleting the visit. Please try again.");
+            handleException("Error deleting visit", e);
         }
     }
 }

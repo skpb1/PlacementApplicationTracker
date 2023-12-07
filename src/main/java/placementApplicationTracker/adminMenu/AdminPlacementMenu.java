@@ -53,14 +53,17 @@ public class AdminPlacementMenu {
 				switch (option) {
 				case 1:
 					addNewOpportunity(adminId, scanner);
+					filteredOpportunities = null;
 					break;
 
 				case 2:
 					editOpportunity(adminId, scanner);
+					filteredOpportunities = null;
 					break;
 
 				case 3:
 					deleteOpportunity(adminId, scanner);
+					filteredOpportunities = null;
 					break;
 
 				case 4:
@@ -105,7 +108,7 @@ public class AdminPlacementMenu {
 		System.out.println("-----------------------------------------");
 	}
 
-	private void addNewOpportunity(int adminId, Scanner scanner) {
+	public void addNewOpportunity(int adminId, Scanner scanner) {
 		try {
 			scanner.nextLine();
 
@@ -147,7 +150,7 @@ public class AdminPlacementMenu {
 		}
 	}
 
-	private void editOpportunity(int adminId, Scanner scanner) {
+	public void editOpportunity(int adminId, Scanner scanner) {
 		try {
 			System.out.print("Enter Opportunity ID to edit: ");
 			int opportunityId = scanner.nextInt();
@@ -203,7 +206,7 @@ public class AdminPlacementMenu {
 		}
 	}
 
-	private void deleteOpportunity(int adminId, Scanner scanner) {
+	public void deleteOpportunity(int adminId, Scanner scanner) {
 		try {
 			System.out.print("Enter Opportunity ID to delete: ");
 			int opportunityId = scanner.nextInt();
@@ -238,7 +241,7 @@ public class AdminPlacementMenu {
 		}
 	}
 
-	private void filterOpportunities(Scanner scanner) {
+	public void filterOpportunities(Scanner scanner) {
 		System.out.println("Options to filter the Opportunities");
 		System.out.println("1. Filter by Company Name");
 		System.out.println("2. Filter by Role");
@@ -251,7 +254,7 @@ public class AdminPlacementMenu {
 		handleFilterOption(filterOption, scanner);
 	}
 
-	private void handleFilterOption(int filterOption, Scanner scanner) {
+	public void handleFilterOption(int filterOption, Scanner scanner) {
 		scanner.nextLine();
 
 		switch (filterOption) {
@@ -307,7 +310,7 @@ public class AdminPlacementMenu {
 		}
 	}
 
-	private LocalDateTime validateTimestampInput(Scanner scanner, String prompt) {
+	public LocalDateTime validateTimestampInput(Scanner scanner, String prompt) {
 		LocalDateTime dateTime = null;
 		boolean isValidInput = false;
 

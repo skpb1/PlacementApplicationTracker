@@ -25,7 +25,7 @@ public class AdminServiceTest {
     @Test
     public void testGetAdminDetails() {
         Admin mockAdmin = new Admin(1, "adminPass123", "Admin User", "admin@example.com", "Administrator");
-        ((MockAdminRepoImpl) adminService.getAdminRepo()).addMockAdmin(mockAdmin);
+        ((MockAdminRepoImpl) adminService.getAdminRepo()).addAdmin(mockAdmin);
 
         Admin retrievedAdmin = adminService.getAdminDetails(1);
         assertNotNull(retrievedAdmin);
@@ -37,7 +37,7 @@ public class AdminServiceTest {
     @Test
     public void testUpdateAdminPassword() {
         Admin mockAdmin = new Admin(1, "adminPass123", "Admin User", "admin@example.com", "Administrator");
-        ((MockAdminRepoImpl) adminService.getAdminRepo()).addMockAdmin(mockAdmin);
+        ((MockAdminRepoImpl) adminService.getAdminRepo()).addAdmin(mockAdmin);
 
         boolean isUpdated = adminService.updateAdminPassword(1, "adminPass123", "newAdminPass456");
         assertTrue(isUpdated);
@@ -49,7 +49,7 @@ public class AdminServiceTest {
     @Test
     public void testUpdateAdminDetails() {
         Admin mockAdmin = new Admin(1, "adminPass123", "Admin User", "admin@example.com", "Administrator");
-        ((MockAdminRepoImpl) adminService.getAdminRepo()).addMockAdmin(mockAdmin);
+        ((MockAdminRepoImpl) adminService.getAdminRepo()).addAdmin(mockAdmin);
 
         boolean isUpdated = adminService.updateAdminDetails(1, "New Admin User", "newadmin@example.com", "Manager");
         assertTrue(isUpdated);
