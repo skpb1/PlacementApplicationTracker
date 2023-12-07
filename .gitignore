@@ -3,3 +3,6 @@
 .project
 placementApplicationTracker.db
 bin/
+jacoco.exec
+report/
+classes/

@@ -128,9 +128,6 @@ public class StudentPlacementMenu {
                 if (isCreated) {
                     System.out.println("Application has been created successfully.");
                     System.out.println();
-                } else {
-                    System.out.println("Failed to create the application.");
-                    System.out.println();
                 }
 	            
 	            System.out.println("Please press enter to continue");
