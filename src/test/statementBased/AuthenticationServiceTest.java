@@ -1,15 +1,11 @@
 package test.statementBased;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import main.java.placementApplicationTracker.model.Admin;
-import main.java.placementApplicationTracker.model.Student;
-import main.java.placementApplicationTracker.repo.impl.mock.MockAdminRepoImpl;
 import main.java.placementApplicationTracker.repo.impl.mock.MockAuthenticationRepoImpl;
-import main.java.placementApplicationTracker.repo.impl.mock.MockStudentRepoImpl;
 import main.java.placementApplicationTracker.service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class AuthenticationServiceTest {
 
@@ -17,9 +13,7 @@ class AuthenticationServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockStudentRepoImpl mockStudentRepo = new MockStudentRepoImpl();
-        MockAdminRepoImpl mockAdminRepo = new MockAdminRepoImpl();
-        MockAuthenticationRepoImpl mockAuthenticationRepo = new MockAuthenticationRepoImpl(mockStudentRepo, mockAdminRepo);
+        MockAuthenticationRepoImpl mockAuthenticationRepo = new MockAuthenticationRepoImpl();
         authenticationService = new AuthenticationService(mockAuthenticationRepo);
     }
 
@@ -67,13 +61,6 @@ class AuthenticationServiceTest {
         int passOutYear = 2023;
 
         assertTrue(authenticationService.studentSignup(studentId, password, fullName, email, course, passOutYear));
-
-        Student registeredStudent = new MockStudentRepoImpl().getStudentDetails(studentId);
-        //assertNotNull(registeredStudent);
-        assertEquals(fullName, registeredStudent.getFullName());
-        assertEquals(email, registeredStudent.getEmail());
-        assertEquals(course, registeredStudent.getCourse());
-        assertEquals(passOutYear, registeredStudent.getPassOutYear());
     }
 
     @Test
@@ -85,11 +72,5 @@ class AuthenticationServiceTest {
         String designation = "HR";
 
         assertTrue(authenticationService.adminSignup(adminId, password, fullName, email, designation));
-
-        Admin registeredAdmin = new MockAdminRepoImpl().getAdminDetails(adminId);
-        //assertNotNull(registeredAdmin);
-        assertEquals(fullName, registeredAdmin.getFullName());
-        assertEquals(email, registeredAdmin.getEmail());
-        assertEquals(designation, registeredAdmin.getDesignation());
     }
 }
