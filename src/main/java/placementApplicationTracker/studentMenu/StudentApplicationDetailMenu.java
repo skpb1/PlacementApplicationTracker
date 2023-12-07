@@ -99,9 +99,6 @@ public class StudentApplicationDetailMenu {
 							if (isUpdated) {
 								System.out.println("Application has been updated successfully.");
 								System.out.println();
-							} else {
-								System.out.println("Failed to update the application.");
-								System.out.println();
 							}
 						} catch (Exception e) {
 							LOGGER.log(Level.SEVERE, "Error updating application details", e);
@@ -130,9 +127,6 @@ public class StudentApplicationDetailMenu {
 								System.out.println();
 								if (isUpdated) {
 									System.out.println("Application has been withdrawn successfully.");
-									System.out.println();
-								} else {
-									System.out.println("Failed to withdraw the application.");
 									System.out.println();
 								}
 							} catch (Exception e) {

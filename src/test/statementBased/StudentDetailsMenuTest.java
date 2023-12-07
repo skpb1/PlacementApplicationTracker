@@ -21,6 +21,14 @@ public class StudentDetailsMenuTest {
         new StudentService(studentRepo);
         detailsMenu = new StudentDetailsMenu(studentRepo);
     }
+    
+    @Test
+    void testGoBack() {
+    	Scanner scanner = new Scanner("3\n");
+    	Student student = new Student(1, "password", "Full Name", "email@example.com", "Course", 2022);
+        studentRepo.addStudent(student);
+    	detailsMenu.displayEditDetailsMenu(student, scanner);
+    }
 
     @Test
     void testDisplayEditDetailsMenu() {
@@ -81,6 +89,14 @@ public class StudentDetailsMenuTest {
     @Test
     void testDisplayEditDetailsMenuOption1Pass() {
         Scanner scanner = new Scanner("1\nUpdated Name\nemail@example.com\nUpdated Course\n2025\n3");
+        Student student = new Student(1, "password", "Full Name", "email@example.com", "Course", 2022);
+        studentRepo.addStudent(student);
+        detailsMenu.displayEditDetailsMenu(student, scanner);
+    }
+    
+    @Test
+    void testDisplayEditDetailsMenuOption2() {
+        Scanner scanner = new Scanner("2\n\n3");
         Student student = new Student(1, "password", "Full Name", "email@example.com", "Course", 2022);
         studentRepo.addStudent(student);
         detailsMenu.displayEditDetailsMenu(student, scanner);
