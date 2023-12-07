@@ -233,8 +233,6 @@ public class AdminVisitMenu {
 
             if (isVisitAdded) {
                 System.out.println("Visit added successfully.");
-            } else {
-                System.out.println("Failed to add visit.");
             }
         } catch (Exception e) {
             handleException("Error adding new visit for application", e);
@@ -258,8 +256,6 @@ public class AdminVisitMenu {
 
         if (isVisitUpdated) {
             System.out.println("Visit updated successfully.");
-        } else {
-            System.out.println("Failed to update visit.");
         }
     }
 
@@ -271,8 +267,6 @@ public class AdminVisitMenu {
             boolean isVisitDeleted = visitService.deleteVisit(existingVisit.getVisitId());
             if (isVisitDeleted) {
                 System.out.println("Visit deleted successfully.");
-            } else {
-                System.out.println("Failed to delete visit.");
             }
         } else {
             System.out.println("Deletion canceled.");
