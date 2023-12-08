@@ -21,7 +21,11 @@ private final List<Interview> interviews;
 
 	@Override
 	public boolean addInterview(Interview interview) {
-		return interviews.add(interview);
+		if (interview != null) {
+			return interviews.add(interview);			
+		} else {
+			return false;
+		}
 	}
 
 	@Override

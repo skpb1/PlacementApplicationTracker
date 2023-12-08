@@ -9,11 +9,11 @@ import main.java.placementApplicationTracker.repo.intf.PlacementRepo;
 public class MockPlacementRepoImpl implements PlacementRepo {
 
 	private final List<Opportunity> opportunities;
-	
+
 	public MockPlacementRepoImpl() {
 		opportunities = new ArrayList<>();
 	}
-	
+
 	@Override
 	public List<Opportunity> getOpportunities() {
 		return opportunities;
@@ -21,38 +21,42 @@ public class MockPlacementRepoImpl implements PlacementRepo {
 
 	@Override
 	public boolean addOpportunity(Opportunity opportunity) {
-		return opportunities.add(opportunity);
+		if (opportunity != null) {
+			return opportunities.add(opportunity);
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean updateOpportunity(int opportunityId, Opportunity updatedOpportunity) {
 		for (int i = 0; i < opportunities.size(); i++) {
-            if (opportunities.get(i).getOpportunityId() == opportunityId) {
-                opportunities.set(i, updatedOpportunity);
-                return true;
-            }
-        }
-        return false;
+			if (opportunities.get(i).getOpportunityId() == opportunityId) {
+				opportunities.set(i, updatedOpportunity);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public boolean deleteOpportunity(int opportunityId) {
 		for (Opportunity opportunity : opportunities) {
-            if (opportunity.getOpportunityId() == opportunityId) {
-                return opportunities.remove(opportunity);
-            }
-        }
-        return false;
+			if (opportunity.getOpportunityId() == opportunityId) {
+				return opportunities.remove(opportunity);
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public Opportunity getOpportunityById(int opportunityId) {
 		for (Opportunity opportunity : opportunities) {
-            if (opportunity.getOpportunityId() == opportunityId) {
-                return opportunity;
-            }
-        }
-        return null;
+			if (opportunity.getOpportunityId() == opportunityId) {
+				return opportunity;
+			}
+		}
+		return null;
 	}
 
 	@Override

@@ -1,8 +1,7 @@
-package test.statementBased;
+package test.mutationBased;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.sql.Timestamp;
@@ -79,13 +78,6 @@ class VisitServiceTest {
     }
     
     @Test
-    public void testAddVisit1() {
-    	
-    	boolean isAdded = visitService.addVisit(null);
-    	assertFalse(isAdded);
-    }
-    
-    @Test
     public void testUpdateVisit() {
     	Visit visit1 = new Visit(1, 1, timestamp, "Scheduled", "Details");
     	
@@ -98,23 +90,11 @@ class VisitServiceTest {
     }
     
     @Test
-    public void testUpdateVisit1() {
-    	boolean isUpdated = visitService.updateVisit(1, null);
-    	assertFalse(isUpdated);
-    }
-    
-    @Test
     public void testDeleteVisit() {
     	Visit visit1 = new Visit(1, 1, timestamp, "Scheduled", "Details");
     	
     	visitRepository.addVisit(visit1);
     	boolean isDeleted= visitService.deleteVisit(1);
     	assertTrue(isDeleted);
-    }
-    
-    @Test
-    public void testDeleteVisit1() {
-    	boolean isDeleted= visitService.deleteVisit(1);
-    	assertFalse(isDeleted);
     }
 }
