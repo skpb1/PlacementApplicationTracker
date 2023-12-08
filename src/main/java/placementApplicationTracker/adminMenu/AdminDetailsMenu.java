@@ -26,9 +26,9 @@ public class AdminDetailsMenu {
 			System.out.println();
 			try {
 				// Fetch and display admin details
-                admin = adminService.getAdminDetails(admin.getAdminId());
-                displayAdminDetails(admin);
-                
+				admin = adminService.getAdminDetails(admin.getAdminId());
+				displayAdminDetails(admin);
+
 				System.out.println("\n********************************************");
 				System.out.println("Please Choose an option:");
 				System.out.println("1. Edit Details");
@@ -40,7 +40,7 @@ public class AdminDetailsMenu {
 				int option = scanner.nextInt();
 				System.out.println();
 				scanner.nextLine();
-				
+
 				switch (option) {
 				case 1:
 					// Get updated details from the user
@@ -56,19 +56,12 @@ public class AdminDetailsMenu {
 					String updatedDesignation = scanner.nextLine();
 
 					// Update admin details
-					try {
-						boolean isUpdated = adminService.updateAdminDetails(admin.getAdminId(), updatedFullName,
-								updatedEmail, updatedDesignation);
+					boolean isUpdated = adminService.updateAdminDetails(admin.getAdminId(), updatedFullName,
+							updatedEmail, updatedDesignation);
 
-						if (isUpdated) {
-							System.out.println("Admin details updated successfully.");
-							System.out.println();
-						} else {
-							System.out.println("Failed to update admin details.");
-							System.out.println();
-						}
-					} catch (Exception e) {
-						LOGGER.log(Level.SEVERE, "Error updating admin details", e);
+					if (isUpdated) {
+						System.out.println("Admin details updated successfully.");
+						System.out.println();
 					}
 					break;
 
@@ -100,17 +93,17 @@ public class AdminDetailsMenu {
 			}
 		}
 	}
-	
+
 	// Display admin details
-    private void displayAdminDetails(Admin admin) {
-        System.out.println("Current Admin Details:");
-        System.out.println("------------------------------------");
-        System.out.println("Admin ID: " + admin.getAdminId());
-        System.out.println("Full Name: " + admin.getFullName());
-        System.out.println("Email: " + admin.getEmail());
-        System.out.println("Designation: " + admin.getDesignation());
-        System.out.println("------------------------------------");
-    }
+	private void displayAdminDetails(Admin admin) {
+		System.out.println("Current Admin Details:");
+		System.out.println("------------------------------------");
+		System.out.println("Admin ID: " + admin.getAdminId());
+		System.out.println("Full Name: " + admin.getFullName());
+		System.out.println("Email: " + admin.getEmail());
+		System.out.println("Designation: " + admin.getDesignation());
+		System.out.println("------------------------------------");
+	}
 
 	public void editPasswordMenu(Admin admin, Scanner scanner) {
 		// Retrieve and update admin password
@@ -145,19 +138,15 @@ public class AdminDetailsMenu {
 		} while (!newPassword.equals(confirmNewPassword));
 
 		// Update admin password
-		try {
-			boolean isPasswordUpdated = adminService.updateAdminPassword(admin.getAdminId(), enteredCurrentPassword,
-					newPassword);
+		boolean isPasswordUpdated = adminService.updateAdminPassword(admin.getAdminId(), enteredCurrentPassword,
+				newPassword);
 
-			if (isPasswordUpdated) {
-				System.out.println("Password updated successfully.");
-				System.out.println();
-			} else {
-				System.out.println("Failed to update password. Please check your current password.");
-				System.out.println();
-			}
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Error updating admin password", e);
+		if (isPasswordUpdated) {
+			System.out.println("Password updated successfully.");
+			System.out.println();
+		} else {
+			System.out.println("Failed to update password. Please check your current password.");
+			System.out.println();
 		}
 	}
 }

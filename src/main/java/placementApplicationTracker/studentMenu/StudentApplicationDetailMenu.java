@@ -15,18 +15,19 @@ import main.java.placementApplicationTracker.service.ApplicationService;
 public class StudentApplicationDetailMenu {
 	private final Logger LOGGER = Logger.getLogger(StudentApplicationDetailMenu.class.getName());
 	private VisitRepo visitRepo;
-    private FeedbackRepo feedbackRepo;
-    private AssessmentRepo assessmentRepo;
-    private InterviewRepo interviewRepo;
-    private ApplicationService applicationService;
+	private FeedbackRepo feedbackRepo;
+	private AssessmentRepo assessmentRepo;
+	private InterviewRepo interviewRepo;
+	private ApplicationService applicationService;
 
-	public StudentApplicationDetailMenu(VisitRepo visitRepo, ApplicationRepo applicationRepo, FeedbackRepo feedbackRepo, AssessmentRepo assessmentRepo, InterviewRepo interviewRepo) {
+	public StudentApplicationDetailMenu(VisitRepo visitRepo, ApplicationRepo applicationRepo, FeedbackRepo feedbackRepo,
+			AssessmentRepo assessmentRepo, InterviewRepo interviewRepo) {
 		this.visitRepo = visitRepo;
 		this.assessmentRepo = assessmentRepo;
 		this.feedbackRepo = feedbackRepo;
 		this.interviewRepo = interviewRepo;
 		applicationService = new ApplicationService(applicationRepo);
-		
+
 	}
 
 	public void displayMenu(int applicationId, Scanner scanner) {
@@ -92,17 +93,14 @@ public class StudentApplicationDetailMenu {
 						System.out.print("Enter the new Cover Letter Content: ");
 						String updatedCoverLetter = scanner.nextLine();
 
-						try {
-							boolean isUpdated = applicationService.updateApplication(applicationId, updatedResume,
-									updatedCoverLetter);
+						boolean isUpdated = applicationService.updateApplication(applicationId, updatedResume,
+								updatedCoverLetter);
+						System.out.println();
+						if (isUpdated) {
+							System.out.println("Application has been updated successfully.");
 							System.out.println();
-							if (isUpdated) {
-								System.out.println("Application has been updated successfully.");
-								System.out.println();
-							}
-						} catch (Exception e) {
-							LOGGER.log(Level.SEVERE, "Error updating application details", e);
 						}
+
 					} else {
 						System.out.println();
 						System.out.println("Application details not found.");
@@ -121,16 +119,12 @@ public class StudentApplicationDetailMenu {
 						String choice = scanner.nextLine();
 
 						if (choice.equals("Y") || choice.equals("y")) {
-							try {
-								boolean isUpdated = applicationService.withdrawApplicationByAppId(applicationId);
+							boolean isUpdated = applicationService.withdrawApplicationByAppId(applicationId);
 
+							System.out.println();
+							if (isUpdated) {
+								System.out.println("Application has been withdrawn successfully.");
 								System.out.println();
-								if (isUpdated) {
-									System.out.println("Application has been withdrawn successfully.");
-									System.out.println();
-								}
-							} catch (Exception e) {
-								LOGGER.log(Level.SEVERE, "Error updating application details", e);
 							}
 						}
 					} else {

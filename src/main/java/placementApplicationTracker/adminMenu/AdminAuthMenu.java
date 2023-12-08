@@ -108,9 +108,6 @@ public class AdminAuthMenu {
 			if (adminSignUpSuccess) {
 				System.out.println("Admin sign up successful!");
 				System.out.println();
-			} else {
-				System.out.println("Error occurred while signing up as Admin");
-				System.out.println();
 			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "An Error occured", e);

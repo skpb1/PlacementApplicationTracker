@@ -26,8 +26,8 @@ public class StudentDetailsMenu {
 			System.out.println();
 			try {
 				// Fetch and display student details
-                student = studentService.getStudentDetails(student.getStudentId());
-                displayStudentDetails(student);
+				student = studentService.getStudentDetails(student.getStudentId());
+				displayStudentDetails(student);
 
 				System.out.println("\n********************************************");
 				System.out.println("Please Choose an option:");
@@ -58,19 +58,12 @@ public class StudentDetailsMenu {
 					int updatedPassOutYear = scanner.nextInt();
 
 					// Update student details
-					try {
-						boolean isUpdated = studentService.updateStudentDetails(student.getStudentId(), updatedFullName,
-								updatedEmail, updatedCourse, updatedPassOutYear);
+					boolean isUpdated = studentService.updateStudentDetails(student.getStudentId(), updatedFullName,
+							updatedEmail, updatedCourse, updatedPassOutYear);
 
-						if (isUpdated) {
-							System.out.println("Student details updated successfully.");
-							System.out.println();
-						} else {
-							System.out.println("Failed to update student details.");
-							System.out.println();
-						}
-					} catch (Exception e) {
-						LOGGER.log(Level.SEVERE, "Error updating student details", e);
+					if (isUpdated) {
+						System.out.println("Student details updated successfully.");
+						System.out.println();
 					}
 					break;
 
@@ -103,9 +96,9 @@ public class StudentDetailsMenu {
 		}
 
 	}
-	
+
 	// Display student details
-    private void displayStudentDetails(Student student) {
+	private void displayStudentDetails(Student student) {
 		System.out.println("Current Student Details:");
 		System.out.println("------------------------------------");
 		System.out.println("Student ID: " + student.getStudentId());
@@ -114,7 +107,7 @@ public class StudentDetailsMenu {
 		System.out.println("Course: " + student.getCourse());
 		System.out.println("Pass Out Year: " + student.getPassOutYear());
 		System.out.println("------------------------------------");
-    }
+	}
 
 	public void EditPasswordMenu(Student student, Scanner scanner) {
 		// Retrieve and update student password
@@ -149,19 +142,12 @@ public class StudentDetailsMenu {
 		} while (!newPassword.equals(confirmNewPassword));
 
 		// Update student password
-		try {
-			boolean isPasswordUpdated = studentService.updateStudentPassword(student.getStudentId(),
-					enteredCurrentPassword, newPassword);
+		boolean isPasswordUpdated = studentService.updateStudentPassword(student.getStudentId(), enteredCurrentPassword,
+				newPassword);
 
-			if (isPasswordUpdated) {
-				System.out.println("Password updated successfully.");
-				System.out.println();
-			} else {
-				System.out.println("Failed to update password. Please check your current password.");
-				System.out.println();
-			}
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Error updating student password", e);
+		if (isPasswordUpdated) {
+			System.out.println("Password updated successfully.");
+			System.out.println();
 		}
 	}
 }

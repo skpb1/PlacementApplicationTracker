@@ -18,6 +18,7 @@ import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
 import main.java.placementApplicationTracker.repo.intf.PlacementRepo;
 import main.java.placementApplicationTracker.repo.intf.VisitRepo;
 import main.java.placementApplicationTracker.adminMenu.AdminMenu;
+import main.java.placementApplicationTracker.model.Admin;
 
 import java.util.Scanner;
 
@@ -90,5 +91,15 @@ public class AdminMenuTest {
     void testDisplayAdminMenuInvalidOption() {
         Scanner scanner = new Scanner("10\n5\n");
         adminMenu.displayAdminMenu(1, scanner);
+    }
+    
+    @Test
+    void testNonEmptyAdmin() {
+    	Scanner scanner = new Scanner("6\n3\n7");
+    	Admin admin = new Admin();
+    	admin.setAdminId(1);
+    	admin.setFullName("name");
+    	adminRepo.addAdmin(admin);
+    	adminMenu.displayAdminMenu(1, scanner);
     }
 }
