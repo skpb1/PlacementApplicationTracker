@@ -222,19 +222,17 @@ public class AdminInterviewMenu {
 
     public void addInterviewForApplication(int applicationId, Scanner scanner) {
         try {
-            System.out.print("Enter interview type: ");
-            String interviewType = scanner.nextLine();
-
             LocalDateTime interviewDateTime = validateTimestampInput(scanner, "Enter interview date and time (YYYY-MM-DD HH:mm:ss): ");
             Timestamp interviewTimestamp = Timestamp.valueOf(interviewDateTime);
+            
+            System.out.print("Enter interview type: ");
+            String interviewType = scanner.nextLine();
 
             Interview interview = new Interview(0, applicationId, interviewTimestamp, "Scheduled", interviewType);
             boolean isInterviewAdded = interviewService.addInterview(interview);
 
             if (isInterviewAdded) {
                 System.out.println("Interview added successfully.");
-            } else {
-                System.out.println("Failed to add interview.");
             }
         } catch (Exception e) {
             handleException("Error adding new interview for application", e);
@@ -262,8 +260,6 @@ public class AdminInterviewMenu {
 
         if (isInterviewUpdated) {
             System.out.println("Interview updated successfully.");
-        } else {
-            System.out.println("Failed to update interview.");
         }
     }
 
@@ -276,8 +272,6 @@ public class AdminInterviewMenu {
 
             if (isInterviewDeleted) {
                 System.out.println("Interview deleted successfully.");
-            } else {
-                System.out.println("Failed to delete interview.");
             }
         } else {
             System.out.println("Deletion canceled.");

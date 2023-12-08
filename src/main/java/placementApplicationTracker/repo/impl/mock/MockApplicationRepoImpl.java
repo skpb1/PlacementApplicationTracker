@@ -73,6 +73,7 @@ public class MockApplicationRepoImpl implements ApplicationRepo {
         }
 
         Application newApplication = new Application();
+        newApplication.setApplicationId(opportunityId+studentId);
         newApplication.setOpportunityId(opportunityId);
         newApplication.setStudentId(studentId);
         newApplication.setStatus("Submitted");

@@ -41,7 +41,57 @@ public class AdminApplicationProcessMenuTest {
         Scanner scanner = new Scanner("\n6");
         menu.displayMenu(1, scanner);
     }
-
+    
+    @Test
+    void testDisplayMenuOp1() {
+        Scanner scanner = new Scanner("\n1\n\na\n");
+        applicationRepo.createApplication(1, 1, "abc", "abc");
+        menu.displayMenu(2, scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1Invalid() {
+        Scanner scanner = new Scanner("\n1\n\nF\n");
+        applicationRepo.createApplication(1, 1, "abc", "abc");
+        menu.displayMenu(2, scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1Withdrwan() {
+        Scanner scanner = new Scanner("\n1\n\nr\n");
+        applicationRepo.createApplication(1, 1, "abc", "abc");
+        applicationRepo.withdrawApplicationByAppId(2);
+        menu.displayMenu(2, scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp2() {
+        Scanner scanner = new Scanner("\n2\n\nGood\n");
+        applicationRepo.createApplication(1, 1, "abc", "abc");
+        menu.displayMenu(2, scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp3() {
+        Scanner scanner = new Scanner("\n3\n");
+        applicationRepo.createApplication(1, 1, "abc", "abc");
+        menu.displayMenu(2, scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp4() {
+        Scanner scanner = new Scanner("\n4\n");
+        applicationRepo.createApplication(1, 1, "abc", "abc");
+        menu.displayMenu(2, scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp5() {
+        Scanner scanner = new Scanner("\n5\n");
+        applicationRepo.createApplication(1, 1, "abc", "abc");
+        menu.displayMenu(2, scanner);
+    }
+    
     @Test
     void testInvalidOption() {
         Scanner scanner = new Scanner("\n7\n6");

@@ -105,8 +105,6 @@ public class AdminApplicationProcessMenu {
 
 	                    if (isStatusUpdated) {
 	                        System.out.println("Application status updated successfully.");
-	                    } else {
-	                        System.out.println("Failed to update application status.");
 	                    }
 					} else {
 						System.out.println();
@@ -130,8 +128,6 @@ public class AdminApplicationProcessMenu {
 
 				        if (isFeedbackAdded) {
 				            System.out.println("Feedback added successfully.");
-				        } else {
-				            System.out.println("Failed to add feedback.");
 				        }
 				    } else {
 				        System.out.println("Application details not found.");

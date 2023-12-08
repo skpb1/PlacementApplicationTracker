@@ -141,8 +141,6 @@ public class AdminPlacementMenu {
 
 			if (isOpportunityAdded) {
 				System.out.println("Opportunity added successfully.");
-			} else {
-				System.out.println("Failed to add opportunity.");
 			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Error adding new opportunity", e);
@@ -194,8 +192,6 @@ public class AdminPlacementMenu {
 
 				if (isOpportunityUpdated) {
 					System.out.println("Opportunity updated successfully.");
-				} else {
-					System.out.println("Failed to update opportunity.");
 				}
 			} else {
 				System.out.println("Opportunity not found.");
@@ -226,8 +222,6 @@ public class AdminPlacementMenu {
 
 					if (isOpportunityDeleted) {
 						System.out.println("Opportunity deleted successfully.");
-					} else {
-						System.out.println("Failed to delete opportunity.");
 					}
 				} else {
 					System.out.println("Deletion canceled.");

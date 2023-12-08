@@ -235,8 +235,6 @@ public class AdminAssessmentMenu {
 
             if (isAssessmentAdded) {
                 System.out.println("Assessment added successfully.");
-            } else {
-                System.out.println("Failed to add assessment.");
             }
         } catch (Exception e) {
             handleException("Error adding new assessment for application", e);
@@ -262,8 +260,6 @@ public class AdminAssessmentMenu {
 
         if (isAssessmentUpdated) {
             System.out.println("Assessment updated successfully.");
-        } else {
-            System.out.println("Failed to update assessment.");
         }
     }
 
@@ -275,8 +271,6 @@ public class AdminAssessmentMenu {
             boolean isAssessmentDeleted = assessmentService.deleteAssessment(existingAssessment.getAssessmentId());
             if (isAssessmentDeleted) {
                 System.out.println("Assessment deleted successfully.");
-            } else {
-                System.out.println("Failed to delete assessment.");
             }
         } else {
             System.out.println("Deletion canceled.");
