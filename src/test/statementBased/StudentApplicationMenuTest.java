@@ -58,7 +58,7 @@ public class StudentApplicationMenuTest {
     void testValidAppWithdrawn() {
     	Scanner scanner = new Scanner("2");
     	applicationRepo.createApplication(1, 1, "abc", "abc");
-    	applicationRepo.withdrawApplicationByAppId(0);
+    	applicationRepo.withdrawApplicationByAppId(2);
     	menu.displayApplicationMenu(1, scanner);
     }
     

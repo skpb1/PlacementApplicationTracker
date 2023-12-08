@@ -58,7 +58,7 @@ public class StudentApplicationDetailMenuTest {
     void testWithdrawnApp() {
     	Scanner scanner = new Scanner("8\n7");
     	applicationRepo.createApplication(1, 1, "abc", "abc");
-    	applicationRepo.withdrawApplicationByAppId(0);
+    	applicationRepo.withdrawApplicationByAppId(2);
     	menu.displayMenu(0, scanner);
     }
     
@@ -66,14 +66,14 @@ public class StudentApplicationDetailMenuTest {
     void testException() {
     	Scanner scanner = new Scanner("1\n7");
     	applicationRepo.createApplication(1, 1, "abc", "abc");
-    	menu.displayMenu(0, scanner);
+    	menu.displayMenu(2, scanner);
     }
     
     @Test
     void testOption1() {
     	Scanner scanner = new Scanner("1\n\n7");
     	applicationRepo.createApplication(1, 1, "abc", "abc");
-    	menu.displayMenu(0, scanner);
+    	menu.displayMenu(2, scanner);
     }
     
     @Test
@@ -86,13 +86,13 @@ public class StudentApplicationDetailMenuTest {
     void testOption2() {
     	Scanner scanner = new Scanner("2\ny\n7");
     	applicationRepo.createApplication(1, 1, "abc", "abc");
-    	menu.displayMenu(0, scanner);
+    	menu.displayMenu(2, scanner);
     }
     
     @Test
     void testOption3() {
     	Scanner scanner = new Scanner("3\n2\n4\n2\n5\n2\n6\n2\n7");
     	applicationRepo.createApplication(1, 1, "abc", "abc");
-    	menu.displayMenu(0, scanner);
+    	menu.displayMenu(2, scanner);
     }
 }

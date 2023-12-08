@@ -85,4 +85,20 @@ public class AdminDetailsMenuTest {
         adminRepo.addAdmin(admin);
         detailsMenu.displayEditDetailsMenu(admin, scanner);
     }
+    
+    @Test
+    void testGoBack() {
+    	Scanner scanner = new Scanner("3\n");
+    	Admin admin = new Admin(1, "password", "Full Name", "email@example.com", "Designation");
+        adminRepo.addAdmin(admin);
+    	detailsMenu.displayEditDetailsMenu(admin, scanner);
+    }
+    
+    @Test
+    void testOption2() {
+    	Scanner scanner = new Scanner("2\npassword\npass1\npass1\n3\n");
+    	Admin admin = new Admin(1, "password", "Full Name", "email@example.com", "Designation");
+        adminRepo.addAdmin(admin);
+    	detailsMenu.displayEditDetailsMenu(admin, scanner);
+    }
 }
