@@ -222,11 +222,11 @@ public class AdminVisitMenu {
     
     public void addVisitForApplication(int applicationId, Scanner scanner) {
         try {
-            System.out.print("Enter visit details: ");
-            String visitDetails = scanner.nextLine();
-            
             LocalDateTime visitDateTime = validateTimestampInput(scanner, "Enter visit date and time (YYYY-MM-DD HH:mm:ss): ");
             Timestamp visitTimestamp = Timestamp.valueOf(visitDateTime);
+            
+            System.out.print("Enter visit details: ");
+            String visitDetails = scanner.nextLine();
 
             Visit visit = new Visit(0, applicationId, visitTimestamp, "Scheduled", visitDetails);
             boolean isVisitAdded = visitService.addVisit(visit);

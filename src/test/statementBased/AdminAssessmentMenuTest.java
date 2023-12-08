@@ -31,6 +31,93 @@ public class AdminAssessmentMenuTest {
         Scanner scanner = new Scanner("1\n2\n3\n4\n");
         assessmentMenu.displayMenu(scanner);
     }
+    
+    @Test
+    void testDisplayMenuOp1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n");
+        assessmentRepo.addAssessment(new Assessment(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass1"));
+        assessmentRepo.addAssessment(new Assessment(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass2"));
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n1\n1\n2023-12-31 12:00:00\nUpdated Status\nUpdated Details\n");
+        assessmentRepo.addAssessment(new Assessment(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass1"));
+        assessmentRepo.addAssessment(new Assessment(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass2"));
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c2() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n1\nY\n");
+        assessmentRepo.addAssessment(new Assessment(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass1"));
+        assessmentRepo.addAssessment(new Assessment(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass2"));
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c2No() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n1\nN\n");
+        assessmentRepo.addAssessment(new Assessment(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass1"));
+        assessmentRepo.addAssessment(new Assessment(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass2"));
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c3() {
+        Scanner scanner = new Scanner("1\n\n1\n\n3\n2023-12-31 12:00:00\nnew assessment\n");
+        assessmentRepo.addAssessment(new Assessment(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass1"));
+        assessmentRepo.addAssessment(new Assessment(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass2"));
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c4() {
+        Scanner scanner = new Scanner("1\n\n1\n\n4\n");
+        assessmentRepo.addAssessment(new Assessment(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass1"));
+        assessmentRepo.addAssessment(new Assessment(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass2"));
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1cInvalid() {
+        Scanner scanner = new Scanner("1\n\n1\n\n99\n");
+        assessmentRepo.addAssessment(new Assessment(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass1"));
+        assessmentRepo.addAssessment(new Assessment(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "ass2"));
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1nC1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n1\n2023-12-31 12:00:00\nnew assessment\n");
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1nC2() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n");
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    
+    @Test
+    void testDisplayMenuOp2() {
+        Scanner scanner = new Scanner("2\n");
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp3() {
+        Scanner scanner = new Scanner("3\n");
+        assessmentMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuInvalid() {
+        Scanner scanner = new Scanner("69\n");
+        assessmentMenu.displayMenu(scanner);
+    }
 
     @Test
     void testManageAssessmentForApplication() {
