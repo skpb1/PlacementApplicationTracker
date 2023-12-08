@@ -31,6 +31,98 @@ public class AdminInterviewMenuTest {
         Scanner scanner = new Scanner("1\n2\n3\n4\n");
         interviewMenu.displayMenu(scanner);
     }
+    
+    @Test
+    void testDisplayMenuOp1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n");
+        interviewRepo.addInterview(new Interview(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "Technical"));
+        interviewRepo.addInterview(new Interview(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "HR"));
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n1\n1\n2023-12-31 12:00:00\nUpdated Status\nUpdated Details\n");
+        interviewRepo.addInterview(new Interview(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "Technical"));
+        interviewRepo.addInterview(new Interview(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "HR"));
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c2() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n1\nY\n");
+        interviewRepo.addInterview(new Interview(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "Technical"));
+        interviewRepo.addInterview(new Interview(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "HR"));
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c2No() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n1\nN\n");
+        interviewRepo.addInterview(new Interview(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "Technical"));
+        interviewRepo.addInterview(new Interview(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "HR"));
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c3() {
+        Scanner scanner = new Scanner("1\n\n1\n\n3\nTech round2\n2023-12-31 12:00:00\n");
+        interviewRepo.addInterview(new Interview(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "Technical"));
+        interviewRepo.addInterview(new Interview(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "HR"));
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c4() {
+        Scanner scanner = new Scanner("1\n\n1\n\n4\n");
+        interviewRepo.addInterview(new Interview(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "Technical"));
+        interviewRepo.addInterview(new Interview(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "HR"));
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1cInvalid() {
+        Scanner scanner = new Scanner("1\n\n1\n\n99\n");
+        interviewRepo.addInterview(new Interview(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "Technical"));
+        interviewRepo.addInterview(new Interview(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "HR"));
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1nC1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n1\n2023-12-31 12:00:00\nTechnical\n");
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1nC1Invalid() {
+        Scanner scanner = new Scanner("1\n\n1\n\n1\n2023-12-31\n2023-12-31 12:00:00\nTechnical\n");
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1nC2() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n");
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp2() {
+        Scanner scanner = new Scanner("2\n");
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp3() {
+        Scanner scanner = new Scanner("3\n");
+        interviewMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuInvalid() {
+        Scanner scanner = new Scanner("69\n");
+        interviewMenu.displayMenu(scanner);
+    }
 
     @Test
     void testManageInterviewForApplication() {

@@ -31,6 +31,98 @@ public class AdminVisitMenuTest {
         Scanner scanner = new Scanner("1\n2\n3\n4\n");
         visitMenu.displayMenu(scanner);
     }
+    
+    @Test
+    void testDisplayMenuOp1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n");
+        visitRepo.addVisit(new Visit(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit1"));
+        visitRepo.addVisit(new Visit(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit2"));
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n1\n1\n2023-12-31 12:00:00\nUpdated Status\nUpdated Details\n");
+        visitRepo.addVisit(new Visit(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit1"));
+        visitRepo.addVisit(new Visit(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit2"));
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c2() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n1\nY\n");
+        visitRepo.addVisit(new Visit(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit1"));
+        visitRepo.addVisit(new Visit(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit2"));
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c2No() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n1\nN\n");
+        visitRepo.addVisit(new Visit(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit1"));
+        visitRepo.addVisit(new Visit(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit2"));
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c3() {
+        Scanner scanner = new Scanner("1\n\n1\n\n3\nnew company visit\n2023-12-31 12:00:00\n");
+        visitRepo.addVisit(new Visit(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit1"));
+        visitRepo.addVisit(new Visit(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit2"));
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1c4() {
+        Scanner scanner = new Scanner("1\n\n1\n\n4\n");
+        visitRepo.addVisit(new Visit(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit1"));
+        visitRepo.addVisit(new Visit(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit2"));
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1cInvalid() {
+        Scanner scanner = new Scanner("1\n\n1\n\n99\n");
+        visitRepo.addVisit(new Visit(1, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit1"));
+        visitRepo.addVisit(new Visit(2, 1, Timestamp.valueOf(LocalDateTime.now()), "Scheduled", "visit2"));
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1nC1() {
+        Scanner scanner = new Scanner("1\n\n1\n\n1\n2023-12-31 12:00:00\nNew company visit\n");
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1nC1Invalid() {
+        Scanner scanner = new Scanner("1\n\n1\n\n1\n2023-12-31\n2023-12-31 12:00:00\nNew company visit\n");
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp1nC2() {
+        Scanner scanner = new Scanner("1\n\n1\n\n2\n");
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp2() {
+        Scanner scanner = new Scanner("2\n");
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuOp3() {
+        Scanner scanner = new Scanner("3\n");
+        visitMenu.displayMenu(scanner);
+    }
+    
+    @Test
+    void testDisplayMenuInvalid() {
+        Scanner scanner = new Scanner("69\n");
+        visitMenu.displayMenu(scanner);
+    }
 
     @Test
     void testManageVisitForApplication() {
@@ -56,7 +148,7 @@ public class AdminVisitMenuTest {
 
     @Test
     void testAddVisitForApplication() {
-        Scanner scanner = new Scanner("Technical\n2023-12-31 12:00:00\n");
+        Scanner scanner = new Scanner("Visit details\n2023-12-31 12:00:00\n");
         visitMenu.addVisitForApplication(1, scanner);
     }
 
