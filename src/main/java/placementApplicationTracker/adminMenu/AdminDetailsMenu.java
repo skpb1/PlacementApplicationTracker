@@ -115,7 +115,7 @@ public class AdminDetailsMenu {
 
 			// Compare entered current password with the actual current password
 			if (!enteredCurrentPassword.equals(admin.getPassword())) {
-				System.out.println("Entered current password is not correct. Please try again.");
+				System.out.println("Password entered is incorrect. Please try again.");
 			}
 		} while (!enteredCurrentPassword.equals(admin.getPassword()));
 
@@ -138,15 +138,11 @@ public class AdminDetailsMenu {
 		} while (!newPassword.equals(confirmNewPassword));
 
 		// Update admin password
-		boolean isPasswordUpdated = adminService.updateAdminPassword(admin.getAdminId(), enteredCurrentPassword,
-				newPassword);
+        boolean isPasswordUpdated = adminService.updateAdminPassword(admin.getAdminId(),
+                enteredCurrentPassword, newPassword);
 
-		if (isPasswordUpdated) {
-			System.out.println("Password updated successfully.");
-			System.out.println();
-		} else {
-			System.out.println("Failed to update password. Please check your current password.");
-			System.out.println();
-		}
+        if (isPasswordUpdated) {
+            System.out.println("Password updated successfully.");
+        }
 	}
 }

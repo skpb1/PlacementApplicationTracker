@@ -47,16 +47,28 @@ public class AdminApplicationMenuTest {
         Scanner scanner = new Scanner("\n4\n3");
         menu.displayMenu(1, scanner);
     }
-
+    
     @Test
-    void testFilterByOpportunity() {
-        Scanner scanner = new Scanner("1\n1\n3");
+    void testDisplayMenuOp2() {
+        Scanner scanner = new Scanner("\n\n2\n1\n");
         menu.displayMenu(1, scanner);
     }
 
     @Test
+    void testFilterByOpportunity() {
+        Scanner scanner = new Scanner("\n\n1\n1\n3");
+        menu.displayMenu(1, scanner);
+    }
+    
+    @Test
     void testFilterByStudent() {
-        Scanner scanner = new Scanner("1\n2\n3");
+        Scanner scanner = new Scanner("\n\n1\n2\n3");
+        menu.displayMenu(1, scanner);
+    }
+    
+    @Test
+    void testFilterInvalidOption() {
+        Scanner scanner = new Scanner("\n\n1\n69\n3");
         menu.displayMenu(1, scanner);
     }
 
@@ -64,6 +76,7 @@ public class AdminApplicationMenuTest {
     void testProcessApplication() {
         Scanner scanner = new Scanner("2\n1\n3");
         applicationRepo.createApplication(1, 1, "abc", "abc");
+        applicationRepo.withdrawApplicationByAppId(2);
         menu.displayMenu(1, scanner);
     }
 

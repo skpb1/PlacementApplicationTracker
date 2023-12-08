@@ -29,7 +29,7 @@ public class AdminDetailsMenuTest {
         adminRepo.addAdmin(admin);
         detailsMenu.displayEditDetailsMenu(admin, scanner);
     }
-
+    
     @Test
     void testEditPasswordMenu() {
         Scanner scanner = new Scanner("password\nnewPassword\nnewPassword\n");
@@ -53,7 +53,7 @@ public class AdminDetailsMenuTest {
         adminRepo.addAdmin(admin);
         detailsMenu.editPasswordMenu(admin, scanner);
     }
-
+    
     @Test
     void testDisplayEditDetailsMenuInvalidOption() {
         Scanner scanner = new Scanner("4\n3");
