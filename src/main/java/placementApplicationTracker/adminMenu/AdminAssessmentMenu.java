@@ -25,15 +25,17 @@ public class AdminAssessmentMenu {
         boolean isRunning = true;
 
         while (isRunning) {
-            System.out.println("\n\n");
+            System.out.println();
+            System.out.println();
 
             try {
-                System.out.println("\nAll Available assessments are shown below\n");
+                System.out.println("All Available assessments are shown below\n");
 
                 List<Assessment> assessments = assessmentService.getAssessments();
                 displayAllAssessments(assessments);
 
-                System.out.println("\n********************************************");
+                System.out.println();
+                System.out.println("********************************************");
                 System.out.println("Please Choose an option:");
                 System.out.println("1. Manage assessment for an application");
                 System.out.println("2. Edit assessment");
@@ -91,7 +93,9 @@ public class AdminAssessmentMenu {
     	if (!assessments.isEmpty()) {
             assessments.forEach(this::displayAssessmentDetails);
         } else {
-            System.out.println("\nNo Assessments available\n");
+            System.out.println();
+            System.out.println("No Assessments available");
+            System.out.println();
         }
     }
 
@@ -149,7 +153,8 @@ public class AdminAssessmentMenu {
         System.out.println();
         displayAllAssessments(assessmentList);
 
-        System.out.println("\n********************************************");
+        System.out.println();
+        System.out.println("********************************************");
         System.out.println("Please Choose an option:");
         System.out.println("1. Edit Assessment");
         System.out.println("2. Delete Assessment");
@@ -163,19 +168,22 @@ public class AdminAssessmentMenu {
 
         switch (assessmentOption) {
             case 1:
-                System.out.println("\nSelected: Edit Assessment");
+                System.out.println();
+                System.out.println("Selected: Edit Assessment");
                 System.out.println("============================================");
                 editAssessmentOption(scanner);
                 break;
 
             case 2:
-                System.out.println("\nSelected: Delete Assessment");
+                System.out.println();
+                System.out.println("Selected: Delete Assessment");
                 System.out.println("============================================");
                 deleteAssessmentOption(scanner);
                 break;
                 
             case 3:
-                System.out.println("\nSelected: Add New Assessment");
+                System.out.println();
+                System.out.println("Selected: Add New Assessment");
                 System.out.println("============================================");
                 addAssessmentForApplication(applicationId, scanner);
                 break;
@@ -206,7 +214,8 @@ public class AdminAssessmentMenu {
 
         switch (assessmentOption) {
             case 1:
-                System.out.println("\nSelected: Schedule Assessment");
+                System.out.println();
+                System.out.println("Selected: Schedule Assessment");
                 System.out.println("============================================");
                 addAssessmentForApplication(applicationId, scanner);
                 break;
@@ -286,7 +295,8 @@ public class AdminAssessmentMenu {
             Assessment existingAssessment = assessmentService.getAssessmentById(assessmentId);
 
             if (existingAssessment != null) {
-                System.out.println("\nExisting Assessment Details:");
+                System.out.println();
+                System.out.println("Existing Assessment Details:");
                 displayAssessmentDetails(existingAssessment);
 
                 editAssessment(existingAssessment, scanner);
@@ -307,7 +317,8 @@ public class AdminAssessmentMenu {
             Assessment existingAssessment = assessmentService.getAssessmentById(assessmentId);
 
             if (existingAssessment != null) {
-                System.out.println("\nExisting Assessment Details:");
+                System.out.println();
+                System.out.println("Existing Assessment Details:");
                 displayAssessmentDetails(existingAssessment);
 
                 deleteAssessment(existingAssessment, scanner);
