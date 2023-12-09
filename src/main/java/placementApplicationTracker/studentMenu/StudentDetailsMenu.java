@@ -28,8 +28,8 @@ public class StudentDetailsMenu {
 				// Fetch and display student details
 				student = studentService.getStudentDetails(student.getStudentId());
 				displayStudentDetails(student);
-
-				System.out.println("\n********************************************");
+				System.out.println();
+				System.out.println("********************************************");
 				System.out.println("Please Choose an option:");
 				System.out.println("1. Edit Details");
 				System.out.println("2. Update Password");

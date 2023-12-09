@@ -29,10 +29,14 @@ public class StudentPlacementMenu {
         boolean isRunning = true;
 
         while (isRunning) {
-            System.out.println("\n\n\n\n");
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            System.out.println();
 
             try {
-                System.out.println("Available opportunities are shown below\n");
+                System.out.println("Available opportunities are shown below");
+                System.out.println();
 
                 if (filteredOpportunities == null) {
                     filteredOpportunities = placementService.getOpportunities();
@@ -40,7 +44,8 @@ public class StudentPlacementMenu {
 
                 displayOpportunities(filteredOpportunities);
 
-                System.out.println("\n********************************************");
+                System.out.println();
+                System.out.println("********************************************");
                 System.out.println("Please Choose an option:");
                 System.out.println("1. Apply for an opportunity");
                 System.out.println("2. Filter Opportunities");
@@ -82,7 +87,9 @@ public class StudentPlacementMenu {
         if (!opportunities.isEmpty()) {
             opportunities.forEach(opp -> displayOpportunityDetails(opp));
         } else {
-            System.out.println("\nNo Placement Opportunities available\n");
+        	System.out.println();
+            System.out.println("No Placement Opportunities available");
+            System.out.println();
         }
     }
 
