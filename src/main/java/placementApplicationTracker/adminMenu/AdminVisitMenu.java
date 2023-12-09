@@ -25,15 +25,20 @@ public class AdminVisitMenu {
         boolean isRunning = true;
 
         while (isRunning) {
-            System.out.println("\n\n");
+            System.out.println();
+            System.out.println();
+            System.out.println();
 
             try {
-                System.out.println("\nAll Available visits are shown below\n");
+                System.out.println();
+                System.out.println("All Available visits are shown below");
+                System.out.println();
 
                 List<Visit> visits = visitService.getVisits();
                 displayAllVisits(visits);
 
-                System.out.println("\n********************************************");
+                System.out.println();
+                System.out.println("********************************************");
                 System.out.println("Please Choose an option:");
                 System.out.println("1. Manage visit for an application");
                 System.out.println("2. Edit visit");
@@ -86,7 +91,9 @@ public class AdminVisitMenu {
         if (!visits.isEmpty()) {
             visits.forEach(this::displayVisitDetails);
         } else {
-            System.out.println("\nNo Visits available\n");
+            System.out.println();
+            System.out.println("No Visits available");
+            System.out.println();
         }
     }
 
@@ -149,7 +156,8 @@ public class AdminVisitMenu {
         System.out.println();
         displayAllVisits(visitList);
 
-        System.out.println("\n********************************************");
+        System.out.println();
+        System.out.println("********************************************");
         System.out.println("Please Choose an option:");
         System.out.println("1. Edit Visit");
         System.out.println("2. Delete Visit");
@@ -163,19 +171,22 @@ public class AdminVisitMenu {
 
         switch (visitOption) {
             case 1:
-                System.out.println("\nSelected: Edit Visit");
+                System.out.println();
+                System.out.println("Selected: Edit Visit");
                 System.out.println("============================================");
                 editVisitOption(scanner);
                 break;
 
             case 2:
-                System.out.println("\nSelected: Delete Visit");
+                System.out.println();
+                System.out.println("Selected: Delete Visit");
                 System.out.println("============================================");
                 deleteVisitOption(scanner);
                 break;
                 
             case 3:
-                System.out.println("\nSelected: Add new Visit");
+                System.out.println();
+                System.out.println("Selected: Add new Visit");
                 System.out.println("============================================");
                 addVisitForApplication(applicationId, scanner);
                 break;
@@ -206,7 +217,8 @@ public class AdminVisitMenu {
 
         switch (visitOption) {
             case 1:
-                System.out.println("\nSelected: Schedule Visit");
+                System.out.println();
+                System.out.println("Selected: Schedule Visit");
                 System.out.println("============================================");
                 addVisitForApplication(applicationId, scanner);
                 break;
@@ -282,7 +294,8 @@ public class AdminVisitMenu {
             Visit existingVisit = visitService.getVisitById(visitId);
 
             if (existingVisit != null) {
-                System.out.println("\nExisting Visit Details:");
+                System.out.println();
+                System.out.println("Existing Visit Details:");
                 displayVisitDetails(existingVisit);
 
                 editVisit(existingVisit, scanner);
@@ -303,7 +316,8 @@ public class AdminVisitMenu {
             Visit existingVisit = visitService.getVisitById(visitId);
 
             if (existingVisit != null) {
-                System.out.println("\nExisting Visit Details:");
+                System.out.println();
+                System.out.println("Existing Visit Details:");
                 displayVisitDetails(existingVisit);
 
                 deleteVisit(existingVisit, scanner);

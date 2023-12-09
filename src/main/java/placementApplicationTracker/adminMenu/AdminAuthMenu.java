@@ -73,7 +73,7 @@ public class AdminAuthMenu {
 	public void adminSignup(Scanner scanner) {
 		try {
 			System.out.println("Selected: Admin Signup");
-			System.out.println("=============================================");
+			System.out.println("============================================");
 
 			// Get admin ID from the user
 			System.out.print("Enter AdminId: ");

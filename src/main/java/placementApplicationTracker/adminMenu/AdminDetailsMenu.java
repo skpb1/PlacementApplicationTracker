@@ -29,7 +29,8 @@ public class AdminDetailsMenu {
 				admin = adminService.getAdminDetails(admin.getAdminId());
 				displayAdminDetails(admin);
 
-				System.out.println("\n********************************************");
+	            System.out.println();
+				System.out.println("********************************************");
 				System.out.println("Please Choose an option:");
 				System.out.println("1. Edit Details");
 				System.out.println("2. Update Password");

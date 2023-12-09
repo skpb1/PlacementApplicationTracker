@@ -25,15 +25,17 @@ public class AdminInterviewMenu {
         boolean isRunning = true;
 
         while (isRunning) {
-            System.out.println("\n\n");
+            System.out.println();
+            System.out.println();
 
             try {
-                System.out.println("\nAll Available interviews are shown below\n");
+                System.out.println("All Available interviews are shown below\n");
 
                 List<Interview> interviews = interviewService.getInterviews();
                 displayAllInterviews(interviews);
                 
-                System.out.println("\n********************************************");
+                System.out.println();
+                System.out.println("********************************************");
                 System.out.println("Please Choose an option:");
                 System.out.println("1. Manage interview for an application");
                 System.out.println("2. Edit interview");
@@ -91,7 +93,9 @@ public class AdminInterviewMenu {
     	if (!interviews.isEmpty()) {
             interviews.forEach(this::displayInterviewDetails);
         } else {
-            System.out.println("\nNo Interviews available\n");
+            System.out.println();
+            System.out.println("No Interviews available");
+            System.out.println();
         }
     }
 
@@ -99,9 +103,9 @@ public class AdminInterviewMenu {
         System.out.println("-----------------------------------------");
         System.out.println("Interview ID: " + interview.getInterviewId());
         System.out.println("Application ID: " + interview.getApplicationId());
+        System.out.println("Date and Time: " + interview.getDateTime());
         System.out.println("Status: " + interview.getStatus());
         System.out.println("Type: " + interview.getType());
-        System.out.println("Date and Time: " + interview.getDateTime());
         System.out.println("-----------------------------------------");
     }
 
@@ -149,7 +153,8 @@ public class AdminInterviewMenu {
         System.out.println();
         displayAllInterviews(interviewList);
         
-        System.out.println("\n********************************************");
+        System.out.println();
+        System.out.println("********************************************");
         System.out.println("Please Choose an option:");
         System.out.println("1. Edit Interview");
         System.out.println("2. Delete Interview");
@@ -163,19 +168,22 @@ public class AdminInterviewMenu {
 
         switch (interviewOption) {
             case 1:
-                System.out.println("\nSelected: Edit Interview");
+                System.out.println();
+                System.out.println("Selected: Edit Interview");
                 System.out.println("============================================");
                 editInterviewOption(scanner);
                 break;
 
             case 2:
-                System.out.println("\nSelected: Delete Interview");
+                System.out.println();
+                System.out.println("Selected: Delete Interview");
                 System.out.println("============================================");
                 deleteInterviewOption(scanner);
                 break;
                 
             case 3:
-                System.out.println("\nSelected: Add New Interview");
+                System.out.println();
+                System.out.println("Selected: Add New Interview");
                 System.out.println("============================================");
                 addInterviewForApplication(applicationId, scanner);
                 break;
@@ -206,7 +214,8 @@ public class AdminInterviewMenu {
 
         switch (interviewOption) {
             case 1:
-                System.out.println("\nSelected: Schedule Interview");
+                System.out.println();
+                System.out.println("Selected: Schedule Interview");
                 System.out.println("============================================");
                 addInterviewForApplication(applicationId, scanner);
                 break;
@@ -286,7 +295,8 @@ public class AdminInterviewMenu {
             Interview existingInterview = interviewService.getInterviewById(interviewId);
 
             if (existingInterview != null) {
-                System.out.println("\nExisting Interview Details:");
+                System.out.println();
+                System.out.println("Existing Interview Details:");
                 displayInterviewDetails(existingInterview);
 
                 editInterview(existingInterview, scanner);
@@ -306,7 +316,8 @@ public class AdminInterviewMenu {
             Interview existingInterview = interviewService.getInterviewById(interviewId);
 
             if (existingInterview != null) {
-                System.out.println("\nExisting Interview Details:");
+                System.out.println();
+                System.out.println("Existing Interview Details:");
                 displayInterviewDetails(existingInterview);
 
                 deleteInterview(existingInterview, scanner);

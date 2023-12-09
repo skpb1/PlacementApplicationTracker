@@ -51,7 +51,8 @@ public class AdminMenu {
 				admin = adminService.getAdminDetails(adminId);
 
 				String adminName = (admin != null) ? admin.getFullName() : "Unknown";
-
+				
+				System.out.println();
 				System.out.println("Welcome, " + adminName + "!");
 				System.out.println();
 
