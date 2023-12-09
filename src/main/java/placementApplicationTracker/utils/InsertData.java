@@ -4,39 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-//import java.util.Random;
 
 public class InsertData {
-
-//    public static void insertSampleData(Connection connection) throws Exception {
-//    	// Insert sample data for the Admin table
-//        insertAdminData(connection, 1, "admin1_password", "Admin User", "admin@example.com", "Admin Designation");
-//        insertAdminData(connection, 2, "admin2_password", "Another Admin User", "another_admin@example.com", "Senior Admin");
-//
-//        // Insert sample data for the Student table
-//        insertStudentData(connection, 1, "user1_password", "User One", "user1@example.com", "Computer Science", 2023);
-//        insertStudentData(connection, 2, "user2_password", "User Two", "user2@example.com", "Electrical Engineering", 2022);
-//
-//        // Insert sample data for the Opportunity table
-//        insertOpportunityData(connection, 1, "abc ltd", "Software Developer Intern", "Internship for software development", 35000, "CityA", "2023-01-01", "2023-03-01", 1);
-//        insertOpportunityData(connection, 2, "def ltd", "Data Scientist", "Full-time position for data science", 30000, "CityB", "2023-02-01", "2023-04-01", 2);
-//
-//        // Insert sample data for the Application table
-//        insertApplicationData(connection, 1, 1, 1, "Submitted", "2023-02-15", 0, "Cover letter for User 1, Application 1", "Resume for User 1, Application 1");
-//        insertApplicationData(connection, 2, 2, 2, "Pending", "2023-02-20", 0, "Cover letter for User 2, Application 2", "Resume for User 2, Application 2");
-//
-//        // Insert sample data for the Assessment table
-//        insertAssessmentData(connection, 1, 1, "2023-02-25", "Scheduled", "Assessment Details for User 1, Application 1");
-//        insertAssessmentData(connection, 2, 2, "2023-02-28", "Pending", "Assessment Details for User 2, Application 2");
-//
-//        // Insert sample data for the Visit table
-//        insertVisitData(connection, 1, 1, "2023-03-05", "Scheduled", "Visit Details for User 1, Application 1");
-//        insertVisitData(connection, 2, 2, "2023-03-08", "Confirmed", "Visit Details for User 2, Application 2");
-//
-//        // Insert sample data for the Feedback table
-//        insertFeedbackData(connection, 1, 1, 1, "Good performance in the assessment", "2023-03-10");
-//        insertFeedbackData(connection, 2, 2, 1, "Further improvements needed", "2023-03-12");
-//    }
 
     public static void insertAdminData(Connection connection, int adminId, String password, String fullName, String email, String designation) throws Exception {
         if (!isDataExists(connection, "Admin", "AdminId", adminId)) {
