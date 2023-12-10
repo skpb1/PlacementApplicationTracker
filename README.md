@@ -1,7 +1,8 @@
 # Placement Application Tracker
 A tool for tracking placement applications, approvals, assessments, and visits.
-Course Work Project for Module CO7095 - Software Measurement and Quality Assurance
-University of Leicester, MSc Adv.Computer Science
+Course Work Project by Group 11
+Module CO7095 - Software Measurement and Quality Assurance
+MSc Adv.Computer Science, University of Leicester.
 
 # Project Structure
 - src/main/java/placementApplicationTracker: Contains the source code of the application
