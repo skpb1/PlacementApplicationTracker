@@ -70,10 +70,11 @@ public class AdminDetailsMenu {
 					System.out.println("Selected: Update Password");
 					System.out.println("============================================");
 					System.out.println();
-					editPasswordMenu(admin, scanner);
+					editPasswordMenu(admin, scanner); //Open edit password menu
 					break;
 
 				case 3:
+					// Go back to the previous menu
 					System.out.println("Selected: Go back");
 					System.out.println("============================================");
 					System.out.println();
@@ -95,7 +96,7 @@ public class AdminDetailsMenu {
 		}
 	}
 
-	// Display admin details
+	// Display the current admin details
 	private void displayAdminDetails(Admin admin) {
 		System.out.println("Current Admin Details:");
 		System.out.println("------------------------------------");

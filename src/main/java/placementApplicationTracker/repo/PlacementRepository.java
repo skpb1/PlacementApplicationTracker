@@ -13,148 +13,141 @@ import main.java.placementApplicationTracker.utils.InsertData;
 
 public class PlacementRepository {
 
-	private static final String JDBC_URL = "jdbc:sqlite:placementApplicationTracker.db";
-	private static final Logger LOGGER = Logger.getLogger(PlacementRepository.class.getName());
+    // JDBC URL for SQLite database
+    private static final String JDBC_URL = "jdbc:sqlite:placementApplicationTracker.db";
+    private static final Logger LOGGER = Logger.getLogger(PlacementRepository.class.getName());
 
-	public static Connection connect() {
-		try {
-			return DriverManager.getConnection(JDBC_URL);
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Error connecting to the database", e);
-			throw new RuntimeException("Error connecting to the database", e);
-		}
-	}
+    // Establish a connection to the SQLite database
+    public static Connection connect() {
+        try {
+            return DriverManager.getConnection(JDBC_URL);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error connecting to the database", e);
+            throw new RuntimeException("Error connecting to the database", e);
+        }
+    }
 
-	public static void createTables(Connection connection) {
+    // Create necessary tables if they do not exist
+    public static void createTables(Connection connection) {
 
-		try {
-//			String dropStudent = "DROP TABLE Student";
-//			String dropAdmin = "DROP TABLE Admin";
-//			String dropOpp = "DROP TABLE Opportunity";
-//			String dropApplication = "DROP TABLE Application";
-//			String dropAssessment = "DROP TABLE Assessment";
-//			String dropFeedback = "DROP TABLE Feedback";
-//			String dropVisit = "DROP TABLE Visit";
-//			String dropInterview = "DROP TABLE Interview";
-//			try (Statement statement = connection.createStatement()) {
-//				statement.execute(dropStudent);
-//				statement.execute(dropAdmin);
-//				statement.execute(dropOpp);
-//				statement.execute(dropApplication);
-//				statement.execute(dropAssessment);
-//				statement.execute(dropFeedback);
-//				statement.execute(dropVisit);
-//				statement.execute(dropInterview);
-//			} catch (Exception e) {
-//				LOGGER.log(Level.SEVERE, "Error while deleting table", e);
-//				throw new RuntimeException("Error deleting table", e);
-//			}
-			
-			List<String> tablesToCreate = new ArrayList<>();
+        try {
+            // List to store the names of tables that needs to be created
+            List<String> tablesToCreate = new ArrayList<>();
 
-			if (!isTableCreated(connection, "Admin")) {
-				tablesToCreate.add("Admin");
-			}
+            // Check if each table exists; if not, add it to the list
+            if (!isTableCreated(connection, "Admin")) {
+                tablesToCreate.add("Admin");
+            }
 
-			if (!isTableCreated(connection, "Student")) {
-				tablesToCreate.add("Student");
-			}
+            if (!isTableCreated(connection, "Student")) {
+                tablesToCreate.add("Student");
+            }
 
-			if (!isTableCreated(connection, "Opportunity")) {
-				tablesToCreate.add("Opportunity");
-			}
+            if (!isTableCreated(connection, "Opportunity")) {
+                tablesToCreate.add("Opportunity");
+            }
 
-			if (!isTableCreated(connection, "Application")) {
-				tablesToCreate.add("Application");
-			}
+            if (!isTableCreated(connection, "Application")) {
+                tablesToCreate.add("Application");
+            }
 
-			if (!isTableCreated(connection, "Assessment")) {
-				tablesToCreate.add("Assessment");
-			}
+            if (!isTableCreated(connection, "Assessment")) {
+                tablesToCreate.add("Assessment");
+            }
 
-			if (!isTableCreated(connection, "Visit")) {
-				tablesToCreate.add("Visit");
-			}
-			if (!isTableCreated(connection, "Interview")) {
-				tablesToCreate.add("Interview");
-			}
+            if (!isTableCreated(connection, "Visit")) {
+                tablesToCreate.add("Visit");
+            }
 
-			if (!isTableCreated(connection, "Feedback")) {
-				tablesToCreate.add("Feedback");
-			}
+            if (!isTableCreated(connection, "Interview")) {
+                tablesToCreate.add("Interview");
+            }
 
-			for (String table : tablesToCreate) {
-				createTable(connection, table);
-			}
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Error while creating tables: " + e);
-		}
-	}
+            if (!isTableCreated(connection, "Feedback")) {
+                tablesToCreate.add("Feedback");
+            }
 
-	private static boolean isTableCreated(Connection connection, String tableName) {
-		String checkTableSQL = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "'";
-		try (Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery(checkTableSQL)) {
+            // Create tables from the list
+            for (String table : tablesToCreate) {
+                createTable(connection, table);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error while creating tables: " + e);
+        }
+    }
 
-			return resultSet.next();
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Error checking if table exists: " + tableName, e);
-			throw new RuntimeException("Error checking if table exists: " + tableName, e);
-		}
-	}
+    // Check if a table already exists
+    private static boolean isTableCreated(Connection connection, String tableName) {
+        String checkTableSQL = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "'";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(checkTableSQL)) {
 
-	private static void createTable(Connection connection, String tableName) {
-		switch (tableName) {
-		case "Admin":
-			createAdminTable(connection);
-			break;
-		case "Student":
-			createStudentTable(connection);
-			break;
-		case "Opportunity":
-			createOpportunityTable(connection);
-			break;
-		case "Application":
-			createApplicationTable(connection);
-			break;
-		case "Assessment":
-			createAssessmentTable(connection);
-			break;
-		case "Visit":
-			createVisitTable(connection);
-			break;
-		case "Interview":
-			createInterviewTable(connection);
-			break;
-		case "Feedback":
-			createFeedbackTable(connection);
-			break;
-		default:
-			break;
-		}
-	}
+            return resultSet.next();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error checking if table exists: " + tableName, e);
+            throw new RuntimeException("Error checking if table exists: " + tableName, e);
+        }
+    }
 
-	private static void createAdminTable(Connection connection) {
-		String createTableSQL = "CREATE TABLE IF NOT EXISTS Admin (" + "AdminId INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "Password TEXT NOT NULL," + "FullName TEXT," + "Email TEXT," + "Designation TEXT)";
-		try (Statement statement = connection.createStatement()) {
-			statement.execute(createTableSQL);
-			InsertData.insertAdminData(connection, 1, "admin_password", "Admin User", "admin@example.com",
-					"Admin Designation");
-			InsertData.insertAdminData(connection, 2, "another_admin_password", "Another Admin User",
-					"another_admin@example.com", "Senior Admin");
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Error creating Admin table", e);
-			throw new RuntimeException("Error creating Admin table", e);
-		}
-	}
+    // Creates table based on the name
+    private static void createTable(Connection connection, String tableName) {
+        switch (tableName) {
+            case "Admin":
+                createAdminTable(connection);
+                break;
+            case "Student":
+                createStudentTable(connection);
+                break;
+            case "Opportunity":
+                createOpportunityTable(connection);
+                break;
+            case "Application":
+                createApplicationTable(connection);
+                break;
+            case "Assessment":
+                createAssessmentTable(connection);
+                break;
+            case "Visit":
+                createVisitTable(connection);
+                break;
+            case "Interview":
+                createInterviewTable(connection);
+                break;
+            case "Feedback":
+                createFeedbackTable(connection);
+                break;
+            default:
+                break;
+        }
+    }
 
+    // Create the Admin table
+    private static void createAdminTable(Connection connection) {
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS Admin (" +
+                "AdminId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Password TEXT NOT NULL," +
+                "FullName TEXT," +
+                "Email TEXT," +
+                "Designation TEXT)";
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(createTableSQL);
+            // Insert some initial data into the Admin table
+            InsertData.insertAdminData(connection, 1, "admin_password", "Admin User", "admin@example.com", "Admin Designation");
+            InsertData.insertAdminData(connection, 2, "another_admin_password", "Another Admin User", "another_admin@example.com", "Senior Admin");
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error creating Admin table", e);
+            throw new RuntimeException("Error creating Admin table", e);
+        }
+    }
+
+    // Create the Student table
 	private static void createStudentTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Student (" + "StudentId INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "Password TEXT NOT NULL," + "FullName TEXT," + "Email TEXT," + "Course TEXT,"
 				+ "PassOutYear INTEGER)";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
+			// Insert some initial data into the Student table
 			InsertData.insertStudentData(connection, 1, "123", "User One", "user1@example.com", "Computer Science",
 					2023);
 			InsertData.insertStudentData(connection, 2, "123", "User Two", "user2@example.com",
@@ -165,6 +158,7 @@ public class PlacementRepository {
 		}
 	}
 
+	// Create the Opportunity table
 	private static void createOpportunityTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Opportunity ("
 				+ "OpportunityId INTEGER PRIMARY KEY AUTOINCREMENT," + "CompanyName TEXT NOT NULL,"
@@ -173,6 +167,7 @@ public class PlacementRepository {
 				+ "FOREIGN KEY (AdminId) REFERENCES Admin(AdminId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
+			// Insert some initial data into the Opportunity table
 			InsertData.insertOpportunityData(connection, 1, "abc ltd", "Software Developer Intern",
 					"Internship for software development", 35000, "CityA", "2023-01-01", "2023-03-01", 1);
 			InsertData.insertOpportunityData(connection, 2, "def ltd", "Data Scientist",
@@ -183,6 +178,7 @@ public class PlacementRepository {
 		}
 	}
 
+	// Create the Application table
 	private static void createApplicationTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Application ("
 				+ "ApplicationId INTEGER PRIMARY KEY AUTOINCREMENT," + "StudentId INTEGER," + "OpportunityId INTEGER,"
@@ -191,6 +187,7 @@ public class PlacementRepository {
 				+ "FOREIGN KEY (OpportunityId) REFERENCES Opportunity(OpportunityId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
+			// Insert some initial data into the Application table
 			InsertData.insertApplicationData(connection, 1, 1, 1, "Submitted", "2023-02-15", 0,
 					"Cover letter for User 1, Application 1", "Resume for User 1, Application 1");
 			InsertData.insertApplicationData(connection, 2, 2, 2, "Pending", "2023-02-20", 0,
@@ -201,6 +198,7 @@ public class PlacementRepository {
 		}
 	}
 
+	// Create the Assessment table
 	private static void createAssessmentTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Assessment ("
 				+ "AssessmentId INTEGER PRIMARY KEY AUTOINCREMENT," + "ApplicationId INTEGER," + "DateTime TIMESTAMP,"
@@ -208,6 +206,7 @@ public class PlacementRepository {
 				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
+			// Insert some initial data into the Assessment table
 			InsertData.insertAssessmentData(connection, 1, 1, "2023-02-25", "Scheduled",
 					"Assessment Details for User 1, Application 1");
 			InsertData.insertAssessmentData(connection, 2, 2, "2023-02-28", "Pending",
@@ -218,12 +217,14 @@ public class PlacementRepository {
 		}
 	}
 
+	// Create the Visit table
 	private static void createVisitTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Visit (" + "VisitId INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "ApplicationId INTEGER," + "DateTime TIMESTAMP," + "Status TEXT," + "Details TEXT,"
 				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
+			// Insert some initial data into the Visit table
 			InsertData.insertVisitData(connection, 1, 1, "2023-03-05", "Scheduled",
 					"Visit Details for User 1, Application 1");
 			InsertData.insertVisitData(connection, 2, 2, "2023-03-08", "Confirmed",
@@ -234,6 +235,7 @@ public class PlacementRepository {
 		}
 	}
 
+	// Create the Interview table
 	private static void createInterviewTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Interview ("
 				+ "InterviewId INTEGER PRIMARY KEY AUTOINCREMENT," + "ApplicationId INTEGER," + "Status TEXT,"
@@ -241,6 +243,7 @@ public class PlacementRepository {
 				+ "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
+			// Insert some initial data into the Interview table
 			InsertData.insertInterviewData(connection, 1, 1, "Scheduled", "Technical", "2023-03-10");
 			InsertData.insertInterviewData(connection, 2, 2, "Scheduled", "HR", "2023-03-12");
 		} catch (Exception e) {
@@ -249,12 +252,14 @@ public class PlacementRepository {
 		}
 	}
 
+	// Create the Feedback table
 	private static void createFeedbackTable(Connection connection) {
 		String createTableSQL = "CREATE TABLE IF NOT EXISTS Feedback ("
 				+ "FeedbackId INTEGER PRIMARY KEY AUTOINCREMENT," + "ApplicationId INTEGER," + "Comments TEXT,"
 				+ "DateTime TIMESTAMP," + "FOREIGN KEY (ApplicationId) REFERENCES Application(ApplicationId))";
 		try (Statement statement = connection.createStatement()) {
 			statement.execute(createTableSQL);
+			// Insert some initial data into the Feedback table
 			InsertData.insertFeedbackData(connection, 1, 1, "Good performance in the assessment", "2023-03-10");
 			InsertData.insertFeedbackData(connection, 2, 2, "Further improvements needed", "2023-03-12");
 		} catch (Exception e) {

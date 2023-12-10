@@ -14,13 +14,18 @@ import main.java.placementApplicationTracker.service.AssessmentService;
 
 public class AdminAssessmentMenu {
 
+    // Logger for logging exceptions
     private final Logger LOGGER = Logger.getLogger(AdminAssessmentMenu.class.getName());
+    
+    // Service for handling assessment operations
     private AssessmentService assessmentService;
 
+    // Constructor to initialize AdminAssessmentMenu with necessary service
     public AdminAssessmentMenu(AssessmentRepo assessmentRepo) {
         assessmentService = new AssessmentService(assessmentRepo);
     }
 
+    // Method to display the Admin Assessment menu and handle user input
     public void displayMenu(Scanner scanner) {
         boolean isRunning = true;
 
@@ -29,12 +34,14 @@ public class AdminAssessmentMenu {
             System.out.println();
 
             try {
+                // Display all available assessments
                 System.out.println("All Available assessments are shown below");
                 System.out.println();
 
                 List<Assessment> assessments = assessmentService.getAssessments();
                 displayAllAssessments(assessments);
 
+                // Display menu options
                 System.out.println();
                 System.out.println("********************************************");
                 System.out.println("Please Choose an option:");
@@ -47,8 +54,11 @@ public class AdminAssessmentMenu {
 
                 int option = scanner.nextInt();
                 System.out.println();
+                
+                // Switch statement to handle user's choice
                 switch (option) {
                     case 1:
+                        // Manage assessment for an application
                         System.out.println("Selected: Manage assessment for an application");
                         System.out.println("============================================");
                         System.out.println();
@@ -56,6 +66,7 @@ public class AdminAssessmentMenu {
                         break;
 
                     case 2:
+                        // Edit Assessment
                         System.out.println("Selected: Edit Assessment");
                         System.out.println("============================================");
                         System.out.println();
@@ -63,6 +74,7 @@ public class AdminAssessmentMenu {
                         break;
 
                     case 3:
+                        // Delete Assessment
                         System.out.println("Selected: Delete Assessment");
                         System.out.println("============================================");
                         System.out.println();
@@ -70,6 +82,7 @@ public class AdminAssessmentMenu {
                         break;
 
                     case 4:
+                        // Go back to the previous menu
                         System.out.println("Selected: Go back");
                         isRunning = false;
                         break;
@@ -84,14 +97,16 @@ public class AdminAssessmentMenu {
             }
         }
     }
-    
+
+    // Method to log and display error messages
     private void handleException(String message, Exception e) {
         LOGGER.log(Level.SEVERE, message, e);
         System.out.println("An unexpected error occurred. Please try again.");
     }
-    
+
+    // Method to display details of all assessments
     private void displayAllAssessments(List<Assessment> assessments) {
-    	if (!assessments.isEmpty()) {
+        if (!assessments.isEmpty()) {
             assessments.forEach(this::displayAssessmentDetails);
         } else {
             System.out.println();
@@ -100,6 +115,7 @@ public class AdminAssessmentMenu {
         }
     }
 
+    // Method to display details of a assessment
     private void displayAssessmentDetails(Assessment assessment) {
         System.out.println("-----------------------------------------");
         System.out.println("Assessment ID: " + assessment.getAssessmentId());
@@ -110,6 +126,7 @@ public class AdminAssessmentMenu {
         System.out.println("-----------------------------------------");
     }
 
+    // Method to validate timestamp input
     public LocalDateTime validateTimestampInput(Scanner scanner, String prompt) {
         LocalDateTime dateTime = null;
         boolean isValidInput = false;
@@ -128,6 +145,7 @@ public class AdminAssessmentMenu {
         return dateTime;
     }
 
+    // Method to manage assessments for an application
     public void manageAssessmentForApplication(Scanner scanner, Integer applicationId) {
         try {
             if (applicationId == null) {
@@ -148,6 +166,7 @@ public class AdminAssessmentMenu {
         }
     }
 
+    // Method to handle options when existing assessments are found for an application
     public void handleExistingAssessment(List<Assessment> assessmentList, int applicationId, Scanner scanner) {
         System.out.println();
         System.out.println("Found Assessment details for the application");
@@ -169,6 +188,7 @@ public class AdminAssessmentMenu {
 
         switch (assessmentOption) {
             case 1:
+            	// Edit assessment
                 System.out.println();
                 System.out.println("Selected: Edit Assessment");
                 System.out.println("============================================");
@@ -176,13 +196,15 @@ public class AdminAssessmentMenu {
                 break;
 
             case 2:
+            	// Delete assessment
                 System.out.println();
                 System.out.println("Selected: Delete Assessment");
                 System.out.println("============================================");
                 deleteAssessmentOption(scanner);
                 break;
-                
+
             case 3:
+            	// Add new assessment
                 System.out.println();
                 System.out.println("Selected: Add New Assessment");
                 System.out.println("============================================");
@@ -190,6 +212,7 @@ public class AdminAssessmentMenu {
                 break;
 
             case 4:
+            	// Go back
                 System.out.println("Selected: Go back");
                 break;
 
@@ -198,6 +221,7 @@ public class AdminAssessmentMenu {
         }
     }
 
+    // Method to handle options when no existing assessments are found for an application
     public void handleNoAssessment(int applicationId, Scanner scanner) {
         System.out.println();
         System.out.println("No Assessment found for this application");
@@ -215,6 +239,7 @@ public class AdminAssessmentMenu {
 
         switch (assessmentOption) {
             case 1:
+            	// Schedule assessment
                 System.out.println();
                 System.out.println("Selected: Schedule Assessment");
                 System.out.println("============================================");
@@ -222,6 +247,7 @@ public class AdminAssessmentMenu {
                 break;
 
             case 2:
+            	// Go back
                 System.out.println("Selected: Go back");
                 break;
 
@@ -230,6 +256,7 @@ public class AdminAssessmentMenu {
         }
     }
 
+    // Method to add a new assessment for an application
     public void addAssessmentForApplication(int applicationId, Scanner scanner) {
         try {
             LocalDateTime assessmentDateTime = validateTimestampInput(scanner,
@@ -251,6 +278,7 @@ public class AdminAssessmentMenu {
         }
     }
 
+    // Method to edit an existing assessment
     public void editAssessment(Assessment existingAssessment, Scanner scanner) {
         LocalDateTime updatedAssessmentDateTime = validateTimestampInput(scanner,
                 "Enter updated assessment date and time (YYYY-MM-DD HH:mm:ss): ");
@@ -273,6 +301,7 @@ public class AdminAssessmentMenu {
         }
     }
 
+    // Method to delete an existing assessment
     public void deleteAssessment(Assessment existingAssessment, Scanner scanner) {
         System.out.print("Are you sure you want to delete this assessment (Y/N): ");
         String choice = scanner.next();
@@ -286,7 +315,8 @@ public class AdminAssessmentMenu {
             System.out.println("Deletion canceled.");
         }
     }
-    
+
+    // Method to handle the option to edit an assessment
     public void editAssessmentOption(Scanner scanner) {
         try {
             System.out.print("Enter Assessment ID to edit: ");
@@ -309,6 +339,7 @@ public class AdminAssessmentMenu {
         }
     }
 
+    // Method to handle the option to delete an assessment
     public void deleteAssessmentOption(Scanner scanner) {
         try {
             System.out.print("Enter Assessment ID to delete: ");
@@ -330,5 +361,5 @@ public class AdminAssessmentMenu {
             handleException("Error deleting assessment", e);
         }
     }
-
 }
+

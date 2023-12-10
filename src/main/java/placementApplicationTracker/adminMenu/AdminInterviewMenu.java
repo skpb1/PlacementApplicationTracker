@@ -14,13 +14,18 @@ import main.java.placementApplicationTracker.service.InterviewService;
 
 public class AdminInterviewMenu {
 
+    // Logger for logging exceptions
     private final Logger LOGGER = Logger.getLogger(AdminInterviewMenu.class.getName());
+    
+    // Service for handling interview operations
     private InterviewService interviewService;
 
+    // Constructor to initialize AdminInterviewMenu with necessary service
     public AdminInterviewMenu(InterviewRepo interviewRepo) {
         interviewService = new InterviewService(interviewRepo);
     }
 
+    // Method to display the Admin Interview menu and handle user input
     public void displayMenu(Scanner scanner) {
         boolean isRunning = true;
 
@@ -29,12 +34,14 @@ public class AdminInterviewMenu {
             System.out.println();
 
             try {
+                // Display all available interviews
                 System.out.println("All Available interviews are shown below");
                 System.out.println();
 
                 List<Interview> interviews = interviewService.getInterviews();
                 displayAllInterviews(interviews);
-                
+
+                // Display menu options
                 System.out.println();
                 System.out.println("********************************************");
                 System.out.println("Please Choose an option:");
@@ -47,8 +54,11 @@ public class AdminInterviewMenu {
 
                 int option = scanner.nextInt();
                 System.out.println();
+                
+                // Switch statement to handle user's choice
                 switch (option) {
                     case 1:
+                        // Manage interview for an application
                         System.out.println("Selected: Manage interview for an application");
                         System.out.println("============================================");
                         System.out.println();
@@ -56,20 +66,23 @@ public class AdminInterviewMenu {
                         break;
 
                     case 2:
-                        System.out.println("Selected: Edit interview");
+                        // Edit Interview
+                        System.out.println("Selected: Edit Interview");
                         System.out.println("============================================");
                         System.out.println();
                         editInterviewOption(scanner);
                         break;
 
                     case 3:
-                        System.out.println("Selected: Delete interview");
+                        // Delete Interview
+                        System.out.println("Selected: Delete Interview");
                         System.out.println("============================================");
                         System.out.println();
                         deleteInterviewOption(scanner);
                         break;
 
                     case 4:
+                        // Go back to the previous menu
                         System.out.println("Selected: Go back");
                         isRunning = false;
                         break;
@@ -84,14 +97,16 @@ public class AdminInterviewMenu {
             }
         }
     }
-    
+
+    // Method to log and display error messages
     private void handleException(String message, Exception e) {
         LOGGER.log(Level.SEVERE, message, e);
         System.out.println("An unexpected error occurred. Please try again.");
     }
-    
+
+    // Method to display details of all interviews
     private void displayAllInterviews(List<Interview> interviews) {
-    	if (!interviews.isEmpty()) {
+        if (!interviews.isEmpty()) {
             interviews.forEach(this::displayInterviewDetails);
         } else {
             System.out.println();
@@ -100,6 +115,7 @@ public class AdminInterviewMenu {
         }
     }
 
+    // Method to display details of an interview
     private void displayInterviewDetails(Interview interview) {
         System.out.println("-----------------------------------------");
         System.out.println("Interview ID: " + interview.getInterviewId());
@@ -110,10 +126,10 @@ public class AdminInterviewMenu {
         System.out.println("-----------------------------------------");
     }
 
+    // Method to validate timestamp input
     public LocalDateTime validateTimestampInput(Scanner scanner, String prompt) {
         LocalDateTime dateTime = null;
         boolean isValidInput = false;
-
         do {
             try {
                 System.out.print(prompt);
@@ -128,6 +144,7 @@ public class AdminInterviewMenu {
         return dateTime;
     }
 
+    // Method to manage interviews for an application
     public void manageInterviewForApplication(Scanner scanner, Integer applicationId) {
         try {
             if (applicationId == null) {
@@ -148,12 +165,13 @@ public class AdminInterviewMenu {
         }
     }
 
+    // Method to handle options when existing interviews are found for an application
     public void handleExistingInterview(List<Interview> interviewList, int applicationId, Scanner scanner) {
         System.out.println();
         System.out.println("Found Interview details for the application");
         System.out.println();
         displayAllInterviews(interviewList);
-        
+
         System.out.println();
         System.out.println("********************************************");
         System.out.println("Please Choose an option:");
@@ -169,6 +187,7 @@ public class AdminInterviewMenu {
 
         switch (interviewOption) {
             case 1:
+            	// Edit interview
                 System.out.println();
                 System.out.println("Selected: Edit Interview");
                 System.out.println("============================================");
@@ -176,13 +195,15 @@ public class AdminInterviewMenu {
                 break;
 
             case 2:
+            	// Delete interview
                 System.out.println();
                 System.out.println("Selected: Delete Interview");
                 System.out.println("============================================");
                 deleteInterviewOption(scanner);
                 break;
-                
+
             case 3:
+            	// Add new interview
                 System.out.println();
                 System.out.println("Selected: Add New Interview");
                 System.out.println("============================================");
@@ -190,6 +211,7 @@ public class AdminInterviewMenu {
                 break;
 
             case 4:
+            	// Go back
                 System.out.println("Selected: Go back");
                 break;
 
@@ -198,6 +220,7 @@ public class AdminInterviewMenu {
         }
     }
 
+    // Method to handle options when no existing interviews are found for an application
     public void handleNoInterview(int applicationId, Scanner scanner) {
         System.out.println();
         System.out.println("No Interview found for this application");
@@ -230,11 +253,13 @@ public class AdminInterviewMenu {
         }
     }
 
+    // Method to add a new interview for an application
     public void addInterviewForApplication(int applicationId, Scanner scanner) {
         try {
-            LocalDateTime interviewDateTime = validateTimestampInput(scanner, "Enter interview date and time (YYYY-MM-DD HH:mm:ss): ");
+            LocalDateTime interviewDateTime = validateTimestampInput(scanner,
+                    "Enter interview date and time (YYYY-MM-DD HH:mm:ss): ");
             Timestamp interviewTimestamp = Timestamp.valueOf(interviewDateTime);
-            
+
             System.out.print("Enter interview type: ");
             String interviewType = scanner.nextLine();
 
@@ -249,11 +274,12 @@ public class AdminInterviewMenu {
         }
     }
 
+    // Method to edit an existing interview
     public void editInterview(Interview existingInterview, Scanner scanner) {
         LocalDateTime updatedInterviewDateTime = validateTimestampInput(scanner,
                 "Enter updated interview date and time (YYYY-MM-DD HH:mm:ss): ");
         Timestamp updatedInterviewTimestamp = Timestamp.valueOf(updatedInterviewDateTime);
-        
+
         System.out.print("Enter updated interview status: ");
         String updatedInterviewStatus = scanner.nextLine();
         System.out.print("Enter updated interview type: ");
@@ -273,6 +299,7 @@ public class AdminInterviewMenu {
         }
     }
 
+    // Method to delete an existing interview
     public void deleteInterview(Interview existingInterview, Scanner scanner) {
         System.out.print("Are you sure you want to delete this interview (Y/N): ");
         String choice = scanner.next();
@@ -288,6 +315,7 @@ public class AdminInterviewMenu {
         }
     }
 
+    // Method to handle the option to edit an interview
     public void editInterviewOption(Scanner scanner) {
         try {
             System.out.print("Enter Interview ID to edit: ");
@@ -309,6 +337,7 @@ public class AdminInterviewMenu {
         }
     }
 
+    // Method to handle the option to delete an interview
     public void deleteInterviewOption(Scanner scanner) {
         try {
             System.out.print("Enter Interview ID to delete: ");
@@ -330,3 +359,4 @@ public class AdminInterviewMenu {
         }
     }
 }
+

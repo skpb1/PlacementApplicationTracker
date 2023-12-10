@@ -71,10 +71,11 @@ public class StudentDetailsMenu {
 					System.out.println("Selected: Update Password");
 					System.out.println("============================================");
 					System.out.println();
-					EditPasswordMenu(student, scanner);
+					EditPasswordMenu(student, scanner); // Open update password menu
 					break;
 
 				case 3:
+					// Go back to the previous menu
 					System.out.println("Selected: Go back");
 					System.out.println("============================================");
 					System.out.println();
@@ -97,7 +98,7 @@ public class StudentDetailsMenu {
 
 	}
 
-	// Display student details
+	// Display the current student details
 	private void displayStudentDetails(Student student) {
 		System.out.println("Current Student Details:");
 		System.out.println("------------------------------------");
