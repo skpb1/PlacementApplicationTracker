@@ -29,7 +29,8 @@ public class AdminAssessmentMenu {
             System.out.println();
 
             try {
-                System.out.println("All Available assessments are shown below\n");
+                System.out.println("All Available assessments are shown below");
+                System.out.println();
 
                 List<Assessment> assessments = assessmentService.getAssessments();
                 displayAllAssessments(assessments);
