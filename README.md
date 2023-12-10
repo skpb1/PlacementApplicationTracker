@@ -39,4 +39,5 @@ MSc Adv.Computer Science, University of Leicester.
                         -> execute 'chmod +x bash_script.sh or bash_script.bat'
                         -> execute './bash_script.sh or .bat'
 - A report folder must be created. Now open index.html to View the coverage.
+- Please ignore the mock folder and test folder in the coverage
   
