@@ -29,7 +29,8 @@ public class AdminInterviewMenu {
             System.out.println();
 
             try {
-                System.out.println("All Available interviews are shown below\n");
+                System.out.println("All Available interviews are shown below");
+                System.out.println();
 
                 List<Interview> interviews = interviewService.getInterviews();
                 displayAllInterviews(interviews);
