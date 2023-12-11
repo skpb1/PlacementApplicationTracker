@@ -67,7 +67,7 @@ public class AdminInterviewMenu {
 
                     case 2:
                         // Edit Interview
-                        System.out.println("Selected: Edit Interview");
+                        System.out.println("Selected: Edit interview");
                         System.out.println("============================================");
                         System.out.println();
                         editInterviewOption(scanner);
@@ -75,7 +75,7 @@ public class AdminInterviewMenu {
 
                     case 3:
                         // Delete Interview
-                        System.out.println("Selected: Delete Interview");
+                        System.out.println("Selected: Delete interview");
                         System.out.println("============================================");
                         System.out.println();
                         deleteInterviewOption(scanner);

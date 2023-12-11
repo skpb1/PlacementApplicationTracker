@@ -14,190 +14,186 @@ import main.java.placementApplicationTracker.service.ApplicationService;
 import main.java.placementApplicationTracker.service.FeedbackService;
 
 public class AdminApplicationProcessMenu {
-    // Logger for logging exceptions
-    private final Logger LOGGER = Logger.getLogger(AdminApplicationProcessMenu.class.getName());
+	// Logger for logging exceptions
+	private final Logger LOGGER = Logger.getLogger(AdminApplicationProcessMenu.class.getName());
 
-    // Services for handling application and feedback operations
-    private ApplicationService applicationService;
-    private FeedbackService feedbackService;
-
-    // Menu instances for managing visit, assessment, and interview
-    private AdminVisitMenu adminVisitMenu;
-    private AdminAssessmentMenu adminAssessmentMenu;
-    private AdminInterviewMenu adminInterviewMenu;
-
-    // Constructor to initialize AdminApplicationProcessMenu with necessary services and menus
-    public AdminApplicationProcessMenu(VisitRepo repo, ApplicationRepo applicationRepo, FeedbackRepo feedbackRepo,
-                                       AssessmentRepo assessmentRepo, InterviewRepo interviewRepo) {
-        this.applicationService = new ApplicationService(applicationRepo);
-        this.feedbackService = new FeedbackService(feedbackRepo);
-
-        this.adminVisitMenu = new AdminVisitMenu(repo);
-        this.adminAssessmentMenu = new AdminAssessmentMenu(assessmentRepo);
+	private ApplicationService applicationService;
+	private FeedbackService feedbackService;
+	
+	private AdminVisitMenu adminVisitMenu;
+	private AdminAssessmentMenu adminAssessmentMenu;
+	private AdminInterviewMenu adminInterviewMenu;
+	
+	// Construct the class with required repositories
+	public AdminApplicationProcessMenu(VisitRepo repo, ApplicationRepo applicationRepo, FeedbackRepo feedbackRepo, AssessmentRepo assessmentRepo, InterviewRepo interviewRepo) {
+		
+		this.applicationService = new ApplicationService(applicationRepo);
+		this.feedbackService = new FeedbackService(feedbackRepo);
+		
+		this.adminVisitMenu = new AdminVisitMenu(repo);
+		this.adminAssessmentMenu = new AdminAssessmentMenu(assessmentRepo);
         this.adminInterviewMenu = new AdminInterviewMenu(interviewRepo);
-    }
+	}
+	
+	public void displayMenu(int applicationId, Scanner scanner) {
+		boolean isRunning = true;
 
-    // Method to display the Admin Application Process menu and handle user input
-    public void displayMenu(int applicationId, Scanner scanner) {
-        boolean isRunning = true;
+		while (isRunning) {
+			System.out.println();
+			System.out.println();
+			try {
 
-        while (isRunning) {
-            try {
-                // Retrieve application details
-                Application application = applicationService.getApplicationByAppId(applicationId);
+				// Get the application details
+				Application application = applicationService.getApplicationByAppId(applicationId);
 
-                if (application != null) {
-                    // Display application details
-                    System.out.println();
-                    System.out.println("Application Details are shown below");
-                    System.out.println();
-                    System.out.println("--------------------------------------");
-                    System.out.println("Application ID: " + application.getApplicationId());
-                    System.out.println("Opportunity ID: " + application.getOpportunityId());
-                    System.out.println("Resume: " + application.getResume());
-                    System.out.println("Cover Letter: " + application.getCoverLetter());
-                    System.out.println("Status: " + application.getStatus());
-                    System.out.println("Submitted By (Student ID): " + application.getStudentId());
-                    System.out.println("SubmissionDate: " + application.getSubmissionDate());
-                    System.out.println("Withdrawn: " + (application.getWithdrawn() == 1 ? "True" : "False"));
-                    System.out.println("--------------------------------------");
-                    System.out.println();
-                } else {
-                    System.out.println();
-                    System.out.println("Application details not found.");
-                    System.out.println();
-                }
+				if (application != null) {
+					// Display the application details
+					System.out.println();
+					System.out.println("Application Details are shown below");
+					System.out.println();
 
-                // Display menu options
-                System.out.println("********************************************");
-                System.out.println("Please Choose an option:");
-                System.out.println("1. Approve/ Reject Application");
-                System.out.println("2. Provide Feedback");
-                System.out.println("3. Manage Visit");
-                System.out.println("4. Manage Assessment");
-                System.out.println("5. Manage Interview");
-                System.out.println("6. Go back");
-                System.out.println("********************************************");
-                System.out.println();
-                System.out.print("Enter your choice: ");
+					System.out.println();
+					System.out.println("--------------------------------------");
+					System.out.println("Application ID: " + application.getApplicationId());
+					System.out.println("Opportunity ID: " + application.getOpportunityId());
+					System.out.println("Resume: " + application.getResume());
+					System.out.println("Cover Letter: " + application.getCoverLetter());
+					System.out.println("Status: " + application.getStatus());
+					System.out.println("Submitted By (Student ID): " + application.getStudentId());
+					System.out.println("SubmissionDate: " + application.getSubmissionDate());
+					System.out.println("Withdrawn: " + (application.getWithdrawn() == 1 ? "True" : "False"));
+					System.out.println("--------------------------------------");
+					System.out.println();
+				} else {
+					System.out.println();
+					System.out.println("Application details not found.");
+					System.out.println();
+				}
 
-                int option = scanner.nextInt();
+				System.out.println("********************************************");
+				System.out.println("Please Choose an option:");
+				System.out.println("1. Approve/ Reject Application");
+				System.out.println("2. Provide Feedback");
+				System.out.println("3. Manage Visit");
+				System.out.println("4. Manage Assessment");
+				System.out.println("5. Manage Interview");
+				System.out.println("6. Go back");
+				System.out.println("********************************************");
+				System.out.println();
+				System.out.print("Enter your choice: ");
 
-                // Switch statement to handle user's choice
-                switch (option) {
-                    case 1:
-                        // Approve/Reject Application
-                        System.out.println("Selected: Approve/ Reject Application");
-                        System.out.println("============================================");
-                        System.out.println();
-                        if (application != null) {
-                            scanner.nextLine();
+				int option = scanner.nextInt();
 
-                            // Loop until the user enters a valid action (approve or reject)
-                            String action;
-                            while (true) {
-                                System.out.print("Select an Action Approve(a)/ Reject(r): ");
-                                action = scanner.nextLine().toLowerCase();
+				switch (option) {
 
-                                if (action.equals("a") || action.equals("r")) {
-                                    break;
-                                } else {
-                                    System.out.println("Invalid action. Please enter either 'a' for Approve or 'r' for Reject.");
-                                }
-                            }
-                            boolean isStatusUpdated = applicationService.updateApplicationStatus(applicationId, action);
+				case 1:
+					System.out.println("Selected: Approve/ Reject Application");
+					System.out.println("============================================");
+					System.out.println();
+					if (application != null) {
+						scanner.nextLine();
 
-                            if (isStatusUpdated) {
-                                System.out.println("Application status updated successfully.");
-                            }
-                        } else {
-                            System.out.println();
-                            System.out.println("Application details not found.");
-                            System.out.println();
-                        }
-                        break;
+						// Loop until the user enters a valid action (approve or reject)
+	                    String action;
+	                    while (true) {
+	                        System.out.print("Select an Action Approve(a)/ Reject(r): ");
+	                        action = scanner.nextLine().toLowerCase();
 
-                    case 2:
-                        // Provide Feedback
-                        System.out.println("Selected: Provide Feedback");
-                        System.out.println("============================================");
-                        System.out.println();
-                        
-                        if (application != null) {
-                            scanner.nextLine();
+	                        if (action.equals("a") || action.equals("r")) {
+	                            break;
+	                        } else {
+	                            System.out.println("Invalid action. Please enter either 'a' for Approve or 'r' for Reject.");
+	                        }
+	                    }
+	                    boolean isStatusUpdated = applicationService.updateApplicationStatus(applicationId, action);
 
-                            System.out.print("Enter your feedback: ");
-                            String feedbackText = scanner.nextLine();
+	                    if (isStatusUpdated) {
+	                        System.out.println("Application status updated successfully.");
+	                    }
+					} else {
+						System.out.println();
+						System.out.println("Application details not found.");
+						System.out.println();
+					}
+					break;
 
-                            boolean isFeedbackAdded = feedbackService.addFeedback(applicationId, feedbackText);
+				case 2:
+					System.out.println("Selected: Provide Feedback");
+					System.out.println("============================================");
+					System.out.println();
+					
+					if (application != null) {
+				        scanner.nextLine();
 
-                            if (isFeedbackAdded) {
-                                System.out.println("Feedback added successfully.");
-                            }
-                        } else {
-                            System.out.println("Application details not found.");
-                        }
-                        break;
+				        System.out.print("Enter your feedback: ");
+				        String feedbackText = scanner.nextLine();
 
-                    case 3:
-                        // Manage Visit
-                        System.out.println("Selected: Manage Visit");
-                        System.out.println("============================================");
-                        System.out.println();
-                        
-                        if (application != null) {
-                            adminVisitMenu.manageVisitForApplication(scanner, applicationId); // Handle visit for application
-                        } else {
-                            System.out.println("Application details not found.");
-                        }
-                        break;
+				        boolean isFeedbackAdded = feedbackService.addFeedback(applicationId, feedbackText);
 
-                    case 4:
-                        // Manage Assessment
-                        System.out.println("Selected: Manage Assessment");
-                        System.out.println("============================================");
-                        System.out.println();
-                        
-                        if (application != null) {
-                            adminAssessmentMenu.manageAssessmentForApplication(scanner, applicationId); // Handle assessment for application
-                        } else {
-                            System.out.println("Application details not found.");
-                        }
-                        break;
+				        if (isFeedbackAdded) {
+				            System.out.println("Feedback added successfully.");
+				        }
+				    } else {
+				        System.out.println("Application details not found.");
+				    }
+					break;
+					
+				case 3:
+					System.out.println("Selected: Manage Visit");
+					System.out.println("============================================");
+					System.out.println();
+					
+					if (application != null) {
+						adminVisitMenu.manageVisitForApplication(scanner, applicationId);
+				    } else {
+				        System.out.println("Application details not found.");
+				    }
+					break;
+					
+				case 4:
+					System.out.println("Selected: Manage Assessment");
+					System.out.println("============================================");
+					System.out.println();
+					
+					if (application != null) {
+						adminAssessmentMenu.manageAssessmentForApplication(scanner, applicationId);
+				    } else {
+				        System.out.println("Application details not found.");
+				    }
+					break;
+					
+				case 5:
+					System.out.println("Selected: Manage Interview");
+					System.out.println("============================================");
+					System.out.println();
+					
+					if (application != null) {
+						adminInterviewMenu.manageInterviewForApplication(scanner, applicationId);
+				    } else {
+				        System.out.println("Application details not found.");
+				    }
+					break;
+					
+				case 6:
+					System.out.println("Selected: Go back");
+					System.out.println("============================================");
+					isRunning = false;
+					break;
+					
+				default:
+					System.out.println("Invalid option. Please choose a valid option.");
+					System.out.println("============================================");
+					System.out.println();
+					break;
+				}
 
-                    case 5:
-                        // Manage Interview
-                        System.out.println("Selected: Manage Interview");
-                        System.out.println("============================================");
-                        System.out.println();
-                        
-                        if (application != null) {
-                            adminInterviewMenu.manageInterviewForApplication(scanner, applicationId); // Handle interview for application
-                        } else {
-                            System.out.println("Application details not found.");
-                        }
-                        break;
+			} catch (Exception e) {
+				LOGGER.log(Level.SEVERE, "Error in menu option processing", e);
+				System.out.println("An unexpected error occurred. Please try again.");
+				isRunning = false;
+				break;
+			}
+		}
 
-                    case 6:
-                        // Go back to the previous menu
-                        System.out.println("Selected: Go back");
-                        System.out.println("============================================");
-                        isRunning = false;
-                        break;
-
-                    default:
-                        System.out.println("Invalid option. Please choose a valid option.");
-                        System.out.println("============================================");
-                        System.out.println();
-                        break;
-                }
-            } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "Error in menu option processing", e);
-                System.out.println("An unexpected error occurred. Please try again.");
-                isRunning = false;
-                break;
-            }
-        }
-    }
+	}
 }
-
