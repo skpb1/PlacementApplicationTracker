@@ -1,0 +1,31 @@
+User Stories:
+
+TRAC-8 As a student I should be able to view new opportunities :
+        package main.java.placementApplicationTracker.studentMenu
+        class StudentPlacementMenu
+        method: displayOpportunities
+
+TRAC-25 As an admin, I should be able to schedule an interview :
+        package main.java.placementApplicationTracker.adminMenu
+        class AdminInterviewMenu
+        method: addInterviewForApplication
+
+TRAC-27 As an admin, I should be able to edit a visit :
+        package main.java.placementApplicationTracker.adminMenu
+        class AdminVisitMenu
+        methods: displayMenu -> case2, editVisitOption
+
+TRAC-23 As a Admin, I should be able to schedule a visit :
+        package main.java.placementApplicationTracker.adminMenu
+        class AdminVisitMenu
+        method: addVisitForApplication
+
+TRAC-15 As a student, I should be able to view the details of the application :
+        package main.java.placementApplicationTracker.studentMenu
+        class StudentApplicationDetailMenu
+        nethod: displayMenu 
+
+TRAC-7 As an admin, I should be able to delete new opportunities :
+        package main.java.placementApplicationTracker.adminMenu
+        class AdminPlacementMenu
+        methods: displayMenu -> case3, deleteOpportunity
