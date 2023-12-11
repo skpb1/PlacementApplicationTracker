@@ -1,0 +1,129 @@
+User stories:
+
+TRAC-30 As an admin, As an student or admin, I should be able to signup on the application :
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminAuthMenu
+            method: adminSignup
+
+            package main.java.placementApplicationTracker.studentMenu
+            class StudentAuthMenu
+            method: studentSignup
+
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class AuthenticationService
+            methods: doesAdminIdExist, doesStudentIdExist, studentSignup, adminSignup
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface AuthenticationRepo
+            method signatures: doesAdminIdExist, doesStudentIdExist, studentSignup, adminSignup
+
+            package main.java.placementApplicationTracker.repo.impl
+            class AuthenticationRepoImpl implements AuthenticationRepo
+            methods: doesAdminIdExist, doesStudentIdExist, studentSignup, adminSignup
+
+
+TRAC-22 As an admin, I should be able to edit the interview :
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminInterviewMenu
+            methods: displayMenu -> case2, editInterviewOption
+
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class InterviewService
+            methods: updateInterview
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface InterviewRepo
+            method signature: updateInterview
+
+            package main.java.placementApplicationTracker.repo.impl
+            class InterviewRepoImpl implements InterviewRepo
+            method: updateInterview
+
+
+TRAC-19 As an admin, I should be able to edit an assessment :
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminAssessmentMenu
+            methods: displayMenu -> case2, editAssessment
+
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class AssessmentService
+            methods: updateAssessment
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface AssessmentRepo
+            method signature: updateAssessment
+
+            package main.java.placementApplicationTracker.repo.impl
+            class AssessmentRepoImpl implements AssessmentRepo
+            method: updateAssessment
+
+
+TRAC-13 As a student, I should be able to view my applications :
+        Menu:
+            package main.java.placementApplicationTracker.studentMenu
+            class StudentApplicationMenu
+            method: displayApplicationMenu
+
+        Service, repo intf, repo impl:
+             package main.java.placementApplicationTracker.service
+             class ApplicationService
+             method: getApplicationsByStudent
+
+             package main.java.placementApplicationTracker.repo.intf
+             interface ApplicationRepo
+             method signature: getApplicationsByStudent
+
+             package main.java.placementApplicationTracker.repo.impl
+             class ApplicationRepoImpl implements ApplicationRepo
+             method: getApplicationsByStudent
+
+TRAC-9 As a student I should be able to apply for placement opportunity :
+        Menu:
+            package main.java.placementApplicationTracker.studentMenu
+            class StudentPlacementMenu
+            method: displayPlacementOpportunities -> case1, applyForOpportunity
+             
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class ApplicationService
+            method: createApplication
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface ApplicationRepo
+            method signature: createApplication
+
+            package main.java.placementApplicationTracker.repo.impl
+            class ApplicationRepoImpl implements ApplicationRepo
+            method: createApplication
+
+
+TRAC-6 As an admin, I should be able to edit new opportunities :
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminPlacementMenu
+            methods: displayMenu -> case2, editOpportunity
+
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class PlacementService
+            method: updateOpportunity
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface PlacementRepo
+            method signature: updateOpportunity
+
+            package main.java.placementApplicationTracker.repo.impl
+            class PlacementRepoImpl implements PlacementRepo
+            method: updateOpportunity
+
+
+            
+
+
+

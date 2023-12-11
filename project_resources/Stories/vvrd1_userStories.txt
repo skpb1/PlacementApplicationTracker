@@ -1,0 +1,35 @@
+User Stories:
+
+TRAC-28 As a student or admin, I should be able to view my details :
+        package main.java.placementApplicationTracker.adminMenu
+        class AdminDetailsMenu
+        method displayAdminDetails
+
+        package main.java.placementApplicationTracker.studentMenu
+        class StudentDetailsMenu
+        method displayStudentDetails
+
+TRAC-26 As an admin, I should be able to edit visit details :
+        package main.java.placementApplicationTracker.adminMenu
+        class AdminVisitMenu
+        methods: displayMenu -> case2, editVisitOption
+
+TRAC-11 As a student,I should be able to withdraw an application :
+        package main.java.placementApplicationTracker.studentMenu
+        class StudentApplicationDetailMenu
+        method: displayMenu -> case2
+
+TRAC-29 As an admin, I should be able to provide feedback on the application :
+        package main.java.placementApplicationTracker.adminMenu
+        class AdminApplicationProcessMenu
+        method: displayMenu -> case2
+
+TRAC-14 As an admin, I should be able to change status of the application :
+        package main.java.placementApplicationTracker.adminMenu
+        class AdminApplicationProcessMenu
+        method: displayMenu -> case1
+
+TRAC-4 As a student, I should be able to update personal details, password:
+        package main.java.placementApplicationTracker.studentMenu
+        class StudentDetailsMenu
+        method displayEditDetailsMenu

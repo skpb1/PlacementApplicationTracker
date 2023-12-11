@@ -1,0 +1,143 @@
+User Stories:
+
+TRAC-3 As a student or admin, I should be able to login : 
+        Menu: 
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminAuthMenu
+            method adminLogin
+
+            package main.java.placementApplicationTracker.studentMenu
+            class StudentAuthMenu
+            method studentLogin
+        
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class AuthenticationService
+            methods: studentLogin, adminLogin
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface AuthenticationRepo
+            method signatures: studentLogin, adminLogin
+
+            package main.java.placementApplicationTracker.repo.impl
+            class AuthenticationRepoImpl implements AuthenticationRepo
+            methods: studentLogin, adminLogin
+
+            
+TRAC-32 As a student or admin, I should be able to filter the placement opportunities based on specific filters :
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminPlacementMenu
+            methods: filterOpportunities, handleFilterOption
+
+            package main.java.placementApplicationTracker.studentMenu
+            class StudentPlacementMenu
+            methods: filterOpportunities, handleFilterOption
+        
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class PlacementService
+            methods: getOpportunitiesByCompanyName, getOpportunitiesByRole, getOpportunitiesByLocation, getOpportunitiesBySalaryRange
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface PlacementRepo
+            method signatures: getOpportunitiesByCompanyName, getOpportunitiesByRole, getOpportunitiesByLocation, getOpportunitiesBySalaryRange
+
+            package main.java.placementApplicationTracker.repo.impl
+            class PlacementRepoImpl implements PlacementRepo
+            methods: getOpportunitiesByCompanyName, getOpportunitiesByRole, getOpportunitiesByLocation, getOpportunitiesBySalaryRange
+
+
+TRAC-24 As an admin, I should be able to filter the applications based on specific filters :
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu;
+            class AdminApplicationMenu
+            methods: displayMenu -> case1, handleFilterOption
+        
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class ApplicationService
+            methods: getApplicationsByOpportunity, getApplicationsByStudent
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface ApplicationRepo
+            method signatures: getApplicationsByOpportunity, getApplicationsByStudent
+
+            package main.java.placementApplicationTracker.repo.impl
+            class ApplicationRepoImpl implements ApplicationRepo
+            methods: getApplicationsByOpportunity, getApplicationsByStudent
+
+
+TRAC-12 As an admin, I should be able to view submitted applications and process them:
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminApplicationMenu
+            methods: displayApplications, displayMenu -> case2
+
+            class AdminApplicationProcessMenu
+            methods: displayMenu -> case3, case4, case5
+
+            class AdminVisitMenu
+            methods: displayMenu -> case1, manageVisitForApplication, handleExistingVisit, handleNoVisit
+
+            class AdminAssessmentMenu
+            methods: displayMenu -> case1, manageAssessmentForApplication, handleExistingAssessment, handleNoAssessment
+
+            class AdminInterviewMenu
+            methods: displayMenu -> case1, manageInterviewForApplication, handleExistingInterview, handleNoInterview
+
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class ApplicationService
+            method: getAllApplications
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface ApplicationRepo
+            method signatures: getAllApplications
+
+            package main.java.placementApplicationTracker.repo.impl
+            class ApplicationRepoImpl implements ApplicationRepo
+            methods: getAllApplications
+
+
+TRAC-5 As an admin, I should be able to view current opportunities and create new opportunities :
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminPlacementMenu
+            methods: displayOpportunities, displayMenu -> case1, addNewOpportunity
+        
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class PlacementService
+            methods: getOpportunities, addOpportunity
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface PlacementRepo
+            method signatures: getOpportunities, addOpportunity
+
+            package main.java.placementApplicationTracker.repo.impl
+            class PlacementRepoImpl implements PlacementRepo
+            methods: getOpportunities, addOpportunity
+
+            
+TRAC-43 As an admin, I should be able to update personal details, password :
+        Menu:
+            package main.java.placementApplicationTracker.adminMenu
+            class AdminDetailsMenu
+            method: displayEditDetailsMenu
+
+        Service, repo intf, repo impl:
+            package main.java.placementApplicationTracker.service
+            class AdminService
+            methods: updateAdminDetails, updateAdminPassword
+
+            package main.java.placementApplicationTracker.repo.intf
+            interface AdminRepo
+            method signatures: updateAdminDetails, updateAdminPassword
+
+            package main.java.placementApplicationTracker.repo.impl
+            class AdminRepoImpl implements AdminRepo
+            methods: updateAdminDetails, updateAdminPassword
+
+
+
