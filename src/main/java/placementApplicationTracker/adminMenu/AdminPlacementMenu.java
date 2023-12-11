@@ -116,7 +116,7 @@ public class AdminPlacementMenu {
     // Method to display details of all opportunities
     private void displayOpportunities(List<Opportunity> opportunities) {
         if (!opportunities.isEmpty()) {
-            opportunities.forEach(this::displayOpportunityDetails);
+            opportunities.forEach(opp -> displayOpportunityDetails(opp));
         } else {
             System.out.println();
             System.out.println("No Placement Opportunities available");
@@ -339,7 +339,7 @@ public class AdminPlacementMenu {
             int minSalary = minSalaryInput.isEmpty() ? 0 : Integer.parseInt(minSalaryInput);
 
             // Get maximum salary
-            System.out.print("Enter Maximum Salary: ");
+            System.out.print("Enter Maximum Salary : ");
             String maxSalaryInput = scanner.nextLine();
             int maxSalary = maxSalaryInput.isEmpty() ? 0 : Integer.parseInt(maxSalaryInput);
 
