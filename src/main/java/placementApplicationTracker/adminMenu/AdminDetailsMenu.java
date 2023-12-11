@@ -9,7 +9,7 @@ import main.java.placementApplicationTracker.repo.intf.AdminRepo;
 import main.java.placementApplicationTracker.service.AdminService;
 
 public class AdminDetailsMenu {
-
+	// Logger for logging exceptions
 	private final Logger LOGGER = Logger.getLogger(AdminDetailsMenu.class.getName());
 	private AdminService adminService;
 

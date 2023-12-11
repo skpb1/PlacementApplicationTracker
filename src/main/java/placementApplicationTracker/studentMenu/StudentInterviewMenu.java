@@ -10,6 +10,7 @@ import main.java.placementApplicationTracker.repo.intf.InterviewRepo;
 import main.java.placementApplicationTracker.service.InterviewService;
 
 public class StudentInterviewMenu {
+	// Logger for logging exceptions
 	private final Logger LOGGER = Logger.getLogger(StudentInterviewMenu.class.getName());
 	private InterviewService interviewService;
 
@@ -28,10 +29,12 @@ public class StudentInterviewMenu {
 			try {
 				List<Interview> interviews = null;
 
+				// Get all interviews for the application
 				interviews = interviewService.getInterviewsByApplicationId(applicationId);
 				
 
 				if (interviews.size() != 0) {
+					// Display the interviews
 					System.out.println();
 					System.out.println("Interviews List is shown below");
 					System.out.println();

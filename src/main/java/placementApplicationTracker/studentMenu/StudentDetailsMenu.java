@@ -9,7 +9,7 @@ import main.java.placementApplicationTracker.repo.intf.StudentRepo;
 import main.java.placementApplicationTracker.service.StudentService;
 
 public class StudentDetailsMenu {
-
+	// Logger for logging exceptions
 	private final Logger LOGGER = Logger.getLogger(StudentDetailsMenu.class.getName());
 	private StudentService studentService;
 
