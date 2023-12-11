@@ -13,7 +13,11 @@ MSc Adv.Computer Science, University of Leicester.
 - src/test/whitebox/mutationBased: Contains the test files for mutation based testing
 - jacoco-0.8.11/lib/: Contains all jacoco related jar files
 - jars/: contains all project related jar files
-- junit-platform-console-standalone jar: Jar file used for coverage 
+- junit-platform-console-standalone jar: Jar file used for coverage
+
+# Project Deliverables
+- project_resources: Contains the Burndown chart, COCOMO, Control Flow Graph, Function Point Count, PERT, Planning Poker
+- project_resources/stories: Contains the list of user stories along with their location of class name, method name, and file path (package) details of all the team members
 
 # Setup and Installation
 - This project contains all the jar files used in jars/ folder
