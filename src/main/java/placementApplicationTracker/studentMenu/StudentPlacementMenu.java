@@ -12,20 +12,24 @@ import main.java.placementApplicationTracker.service.ApplicationService;
 import main.java.placementApplicationTracker.service.PlacementService;
 
 public class StudentPlacementMenu {
-    private  final Logger LOGGER = Logger.getLogger(StudentPlacementMenu.class.getName());
-    private  List<Opportunity> filteredOpportunities;
+    // Logger for logging exceptions
+    private final Logger LOGGER = Logger.getLogger(StudentPlacementMenu.class.getName());
+
+    // List to store filtered opportunities
+    private List<Opportunity> filteredOpportunities;
+
+    // Services for handling placement and application-related operations
     private PlacementService placementService;
     private ApplicationService applicationService;
     
-    
-
+    // Constructor to initialize StudentPlacementMenu with the necessary repositories and services
     public StudentPlacementMenu(PlacementRepo placementRepo, ApplicationRepo applicationRepo) {
-		this.placementService = new PlacementService(placementRepo);
-		this.applicationService = new ApplicationService(applicationRepo);
-	}
+        this.placementService = new PlacementService(placementRepo);
+        this.applicationService = new ApplicationService(applicationRepo);
+    }
 
-	public  void displayPlacementOpportunities(int studentId, Scanner scanner) {
-
+    // Method to display placement opportunities and handle user input
+    public void displayPlacementOpportunities(int studentId, Scanner scanner) {
         boolean isRunning = true;
 
         while (isRunning) {
@@ -35,15 +39,18 @@ public class StudentPlacementMenu {
             System.out.println();
 
             try {
+                // Display available opportunities
                 System.out.println("Available opportunities are shown below");
                 System.out.println();
 
+                // If filtered opportunities are not set, fetch all opportunities
                 if (filteredOpportunities == null) {
                     filteredOpportunities = placementService.getOpportunities();
                 }
 
                 displayOpportunities(filteredOpportunities);
 
+                // Display menu options
                 System.out.println();
                 System.out.println("********************************************");
                 System.out.println("Please Choose an option:");
@@ -57,15 +64,18 @@ public class StudentPlacementMenu {
                 System.out.println();
                 switch (option) {
                     case 1:
+                        // Apply for an opportunity
                         applyForOpportunity(studentId, scanner);
-                        filteredOpportunities = null;
+                        filteredOpportunities = null; // Reset filtered opportunities after applying
                         break;
 
                     case 2:
+                        // Filter opportunities
                         filterOpportunities(scanner);
                         break;
 
                     case 3:
+                        // Go back
                         System.out.println();
                         System.out.println("Selected: Go back");
                         isRunning = false;
@@ -76,6 +86,7 @@ public class StudentPlacementMenu {
                         break;
                 }
             } catch (Exception e) {
+                // Handle exceptions in menu option processing
                 LOGGER.log(Level.SEVERE, "Error in menu option processing", e);
                 System.out.println("An unexpected error occurred. Please try again.");
                 isRunning = false;
@@ -83,17 +94,20 @@ public class StudentPlacementMenu {
         }
     }
 
-    private  void displayOpportunities(List<Opportunity> opportunities) {
+    // Method to display a list of opportunities
+    private void displayOpportunities(List<Opportunity> opportunities) {
         if (!opportunities.isEmpty()) {
             opportunities.forEach(opp -> displayOpportunityDetails(opp));
         } else {
-        	System.out.println();
+            // No placement opportunities available
+            System.out.println();
             System.out.println("No Placement Opportunities available");
             System.out.println();
         }
     }
 
-    private  void displayOpportunityDetails(Opportunity opportunity) {
+    // Method to display the details of an opportunity
+    private void displayOpportunityDetails(Opportunity opportunity) {
         System.out.println("------------------------------------");
         System.out.println("Placement ID: " + opportunity.getOpportunityId());
         System.out.println("Company Name: " + opportunity.getCompanyName());
@@ -106,51 +120,56 @@ public class StudentPlacementMenu {
         System.out.println("-----------------------------------------");
     }
 
-    private  void applyForOpportunity(int studentId, Scanner scanner) {
-    	try {
+    // Method to apply for an opportunity
+    private void applyForOpportunity(int studentId, Scanner scanner) {
+        try {
+        	// Capture the opportunity id
             System.out.print("Enter the ID of opportunity you want to apply: ");
             int oppId = scanner.nextInt();
             
             Opportunity existingOpportunity = placementService.getOpportunityById(oppId);
 
             if (existingOpportunity != null) {
-            	System.out.println();
+                // Display the details of the selected opportunity
+                System.out.println();
                 System.out.println("The Opportunity Details:");
                 displayOpportunityDetails(existingOpportunity);
-                
-				scanner.nextLine();
 
-	            System.out.print("Enter the Resume Content: ");
-	            String resumeContent = scanner.nextLine();
-	
-	            System.out.print("Enter the Cover Letter Content: ");
-	            String coverLetterContent = scanner.nextLine();
-	            System.out.println();
-	            System.out.println();
-	            
-	            // Apply for the opportunity
-	            
+                // Capture resume and cover letter content
+                scanner.nextLine();
+                System.out.print("Enter the Resume Content: ");
+                String resumeContent = scanner.nextLine();
+    
+                System.out.print("Enter the Cover Letter Content: ");
+                String coverLetterContent = scanner.nextLine();
+                System.out.println();
+                System.out.println();
+
+                // Create an application for the opportunity
                 boolean isCreated = applicationService.createApplication(oppId, studentId, resumeContent,
                         coverLetterContent);
+
                 if (isCreated) {
                     System.out.println("Application has been created successfully.");
                     System.out.println();
                 }
-	            
-	            System.out.println("Please press enter to continue");
-	            scanner.nextLine();
-	            System.out.println();
-	         
+
+                System.out.println("Please press enter to continue");
+                scanner.nextLine();
+                System.out.println();
             } else {
+                // The selected opportunity could not be found
                 System.out.println("The selected Opportunity could not be found.");
             }
-    	} catch (Exception e) {
+        } catch (Exception e) {
+            // Handle exceptions during the application process
             LOGGER.log(Level.SEVERE, "Error applying for opportunity", e);
             System.out.println("An error occurred while applying for the opportunity. Please try again.");
         }
     }
 
-    private  void filterOpportunities(Scanner scanner) {
+    // Method to filter opportunities based on user input
+    private void filterOpportunities(Scanner scanner) {
         System.out.println("Options to filter the Opportunities");
         System.out.println("1. Filter by Company Name");
         System.out.println("2. Filter by Role");
@@ -163,11 +182,13 @@ public class StudentPlacementMenu {
         handleFilterOption(filterOption, scanner);
     }
 
-    private  void handleFilterOption(int filterOption, Scanner scanner) {
-    	scanner.nextLine();
+    // Method to handle the user's filter option
+    private void handleFilterOption(int filterOption, Scanner scanner) {
+        scanner.nextLine();
         switch (filterOption) {
             case 1:
-            	System.out.println();
+                // Filter by Company Name
+                System.out.println();
                 System.out.println("Selected: Filter by Company Name");
                 System.out.print("Enter Company Name: ");
                 String companyName = scanner.nextLine();
@@ -175,7 +196,8 @@ public class StudentPlacementMenu {
                 break;
 
             case 2:
-            	System.out.println();
+                // Filter by Role
+                System.out.println();
                 System.out.println("Selected: Filter by Role");
                 System.out.print("Enter Role: ");
                 String role = scanner.nextLine();
@@ -183,7 +205,8 @@ public class StudentPlacementMenu {
                 break;
 
             case 3:
-            	System.out.println();
+                // Filter by Location
+                System.out.println();
                 System.out.println("Selected: Filter by Location");
                 System.out.print("Enter Location: ");
                 String location = scanner.nextLine();
@@ -191,7 +214,8 @@ public class StudentPlacementMenu {
                 break;
 
             case 4:
-            	System.out.println();
+                // Filter by Salary Range
+                System.out.println();
                 System.out.println("Selected: Filter by Salary Range");
 
                 // Get minimum salary
@@ -208,6 +232,7 @@ public class StudentPlacementMenu {
                 break;
 
             case 5:
+                // Go back
                 System.out.println();
                 break;
 
@@ -218,3 +243,4 @@ public class StudentPlacementMenu {
         }
     }
 }
+

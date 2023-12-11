@@ -20,25 +20,39 @@ import java.util.logging.Logger;
 
 public class App {
 
-	private static final Logger LOGGER = Logger.getLogger(App.class.getName());
+    // Define Logger for logging exceptions
+    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		try (Connection connection = PlacementRepository.connect()) {
+        try (Connection connection = PlacementRepository.connect()) {
 
-			// Create the tables in Database
-			PlacementRepository.createTables(connection);
+            // Create all the required tables in the SQlite Database
+            PlacementRepository.createTables(connection);
 
-			Scanner scanner = new Scanner(System.in);
+            // Initialize Scanner for user input
+            Scanner scanner = new Scanner(System.in);
 
-			ApplicationMainMenu applicationMainMenu = new ApplicationMainMenu(new VisitRepoImpl(), new AdminRepoImpl(),
-					new AssessmentRepoImpl(), new ApplicationRepoImpl(), new AuthenticationRepoImpl(),
-					new FeedbackRepoImpl(), new InterviewRepoImpl(), new PlacementRepoImpl(), new StudentRepoImpl());
-			applicationMainMenu.displayMainMenu(scanner);
+            // Create an instance of the Application main menu with all the repositories
+            ApplicationMainMenu applicationMainMenu = new ApplicationMainMenu(
+                    new VisitRepoImpl(),
+                    new AdminRepoImpl(),
+                    new AssessmentRepoImpl(),
+                    new ApplicationRepoImpl(),
+                    new AuthenticationRepoImpl(),
+                    new FeedbackRepoImpl(),
+                    new InterviewRepoImpl(),
+                    new PlacementRepoImpl(),
+                    new StudentRepoImpl()
+            );
 
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Error connecting to the database", e);
-			System.out.println("An error occurred while connecting to the database. Please check the logs.");
-		}
-	}
+            // start the application and Display the main menu
+            applicationMainMenu.displayMainMenu(scanner);
+
+        } catch (Exception e) {
+            // Log and display an error message if there is an issue connecting to the database
+            LOGGER.log(Level.SEVERE, "Error connecting to the database", e);
+            System.out.println("An error occurred while connecting to the database. Please check the logs.");
+        }
+    }
 }

@@ -10,107 +10,117 @@ import main.java.placementApplicationTracker.repo.intf.FeedbackRepo;
 import main.java.placementApplicationTracker.service.FeedbackService;
 
 public class StudentFeedbackMenu {
-	private final Logger LOGGER = Logger.getLogger(StudentFeedbackMenu.class.getName());
-	private FeedbackService feedbackService;
-	
-	public StudentFeedbackMenu(FeedbackRepo feedbackRepo) {
-		feedbackService = new FeedbackService(feedbackRepo);
-	}
+    // Logger for logging exceptions
+    private final Logger LOGGER = Logger.getLogger(StudentFeedbackMenu.class.getName());
 
-	public void displayFeedbackMenu(int applicationId, Scanner scanner) {
-		boolean isRunning = true;
+    // Service for handling feedback-related operations
+    private FeedbackService feedbackService;
+    
+    // Constructor to initialize StudentFeedbackMenu with the necessary repository and service
+    public StudentFeedbackMenu(FeedbackRepo feedbackRepo) {
+        feedbackService = new FeedbackService(feedbackRepo);
+    }
 
-		while (isRunning) {
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			try {
-				List<Feedback> feedbacks = null;
+    // Method to display the feedback menu and handle user input
+    public void displayFeedbackMenu(int applicationId, Scanner scanner) {
+        boolean isRunning = true;
 
-				feedbacks = feedbackService.getFeedbacksByApplicationId(applicationId);
-				
+        while (isRunning) {
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            try {
+                // Retrieve feedbacks by application ID
+                List<Feedback> feedbacks = feedbackService.getFeedbacksByApplicationId(applicationId);
 
-				if (feedbacks.size() != 0) {
-					System.out.println();
-					System.out.println("Feedback List is shown below");
-					System.out.println();
+                if (feedbacks.size() != 0) {
+                    // Display feedbacks list
+                    System.out.println();
+                    System.out.println("Feedback List is shown below");
+                    System.out.println();
 
-					feedbacks.forEach(feedback -> {
-						System.out.println("------------------------------------------");
-						System.out.println("Feedback Id: " + feedback.getFeedbackId());
-						System.out.println("DateTime: " + feedback.getDateTime());
-						System.out.println("------------------------------------------");
-					});
-				} else {
-					System.out.println();
-					System.out.println("No Feedbacks found");
-					System.out.println();
-				}
+                    feedbacks.forEach(feedback -> {
+                        System.out.println("------------------------------------------");
+                        System.out.println("Feedback Id: " + feedback.getFeedbackId());
+                        System.out.println("DateTime: " + feedback.getDateTime());
+                        System.out.println("------------------------------------------");
+                    });
+                } else {
+                    // No feedbacks found
+                    System.out.println();
+                    System.out.println("No Feedbacks found");
+                    System.out.println();
+                }
 
-				System.out.println();
-				System.out.println("********************************************");
-				System.out.println("1. Show Details of a Feedback");
-				System.out.println("2. Go back");
-				System.out.println("********************************************");
-				System.out.println();
-				System.out.print("Enter your choice: ");
+                System.out.println();
+                System.out.println("********************************************");
+                System.out.println("1. Show Details of a Feedback");
+                System.out.println("2. Go back");
+                System.out.println("********************************************");
+                System.out.println();
+                System.out.print("Enter your choice: ");
 
-				int option;
-				option = scanner.nextInt();
-				System.out.println();
-				switch (option) {
-				case 1:
-					System.out.println("Selected: Show Details of a Feedback");
-					System.out.println("============================================");
-					System.out.println();
-					if (feedbacks.size() != 0) {
-						System.out.println();
-						System.out.println("Enter the Feedback Id:");
-						int feedbackId = scanner.nextInt();
-						Feedback feedback = feedbackService.getFeedbackByFeedbackId(feedbackId);
-						System.out.println();
-						System.out.println("Feedback Details are shown below");
-						System.out.println();
-						System.out.println("------------------------------------------");
-						System.out.println("Feedback Id: " + feedback.getFeedbackId());
-						System.out.println("DateTime: " + feedback.getDateTime());
-						System.out.println("Comments: " + feedback.getComments());
-						System.out.println("------------------------------------------");
-						System.out.println();
-						System.out.println();
+                int option;
+                option = scanner.nextInt();
+                System.out.println();
+                switch (option) {
+                    case 1:
+                        // Show Details of a Feedback
+                        System.out.println("Selected: Show Details of a Feedback");
+                        System.out.println("============================================");
+                        System.out.println();
+                        if (feedbacks.size() != 0) {
+                            System.out.println();
+                            // Enter the Feedback Id
+                            System.out.println("Enter the Feedback Id:");
+                            int feedbackId = scanner.nextInt();
 
-						scanner.nextLine();
+                            // Retrieve feedback details
+                            Feedback feedback = feedbackService.getFeedbackByFeedbackId(feedbackId);
+                            System.out.println();
+                            System.out.println("Feedback Details are shown below");
+                            System.out.println();
+                            System.out.println("------------------------------------------");
+                            System.out.println("Feedback Id: " + feedback.getFeedbackId());
+                            System.out.println("DateTime: " + feedback.getDateTime());
+                            System.out.println("Comments: " + feedback.getComments());
+                            System.out.println("------------------------------------------");
+                            System.out.println();
+                            System.out.println();
 
-						System.out.println("Press Enter to continue");
-						scanner.nextLine();
-						System.out.println();
-					} else {
-						System.out.println();
-						System.out.println("No Feedbacks found");
-						System.out.println();
-					}
-					break;
-				case 2:
-					System.out.println("Selected: Go back");
-					System.out.println("============================================");
-					System.out.println();
-					isRunning = false;
-					break;
-				default:
-					System.out.println("Invalid option. Please choose a valid option.");
-					System.out.println("============================================");
-					System.out.println();
-					break;
-				}
+                            scanner.nextLine();
 
-			} catch (Exception e) {
-				LOGGER.log(Level.SEVERE, "Error in menu option processing", e);
-				System.out.println("An unexpected error occurred. Please try again.");
-				isRunning = false;
-				break;
-			}
-		}
+                            System.out.println("Press Enter to continue");
+                            scanner.nextLine();
+                            System.out.println();
+                        } else {
+                            System.out.println();
+                            System.out.println("No Feedbacks found");
+                            System.out.println();
+                        }
+                        break;
+                    case 2:
+                        // Go back to the previous menu
+                        System.out.println("Selected: Go back");
+                        System.out.println("============================================");
+                        System.out.println();
+                        isRunning = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option. Please choose a valid option.");
+                        System.out.println("============================================");
+                        System.out.println();
+                        break;
+                }
 
-	}
+            } catch (Exception e) {
+                // Handle exceptions in menu option processing
+                LOGGER.log(Level.SEVERE, "Error in menu option processing", e);
+                System.out.println("An unexpected error occurred. Please try again.");
+                isRunning = false;
+                break;
+            }
+        }
+    }
 }
